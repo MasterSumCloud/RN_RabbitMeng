@@ -1,23 +1,24 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, {Component} from 'react';
 import {
-    Platform,
     StyleSheet,
-    Text,
-    View
+    View,
+    Image,
+    Text
 } from 'react-native';
-import LoginUI from './js/LoginUI';
 
-export default class App extends Component<Props> {
+
+export default class WelcomeUI extends Component {
+
+    constructor(props){
+        super(props);
+        // setTimeout()
+    }
+
     render() {
         return (
             <View style={styles.container}>
-                <LoginUI/>
+                {/*<Image source={require('./icon.png')}></Image>*/}
+                <Text>这是欢迎页</Text>
             </View>
         );
     }
