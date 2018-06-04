@@ -17,7 +17,6 @@ export default class WelcomeUI extends Component {
     render() {
         return (
             <View style={styles.container}>
-                {/*<Image source={require('./icon.png')}></Image>*/}
                 <Text>这是欢迎页</Text>
             </View>
         );
