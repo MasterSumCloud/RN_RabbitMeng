@@ -11,13 +11,13 @@ import {
     Text,
     View
 } from 'react-native';
-import LoginUI from './js/LoginUI';
+import GuideUI from './js/GuideUI';
 
 export default class App extends Component<Props> {
     render() {
         return (
             <View style={styles.container}>
-                <LoginUI/>
+                <GuideUI/>
             </View>
         );
     }

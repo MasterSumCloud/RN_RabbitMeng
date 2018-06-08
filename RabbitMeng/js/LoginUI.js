@@ -16,7 +16,8 @@ export default class LoginUI extends Component {
 
     constructor(props) {
         super(props);
-        
+        this.state = {username: '', passWord: ''};
+
     }
 
     render() {

@@ -1,33 +1,55 @@
 import React, {Component} from 'react';
 import {
     StyleSheet,
-    View,
-    Image,
-    Text
+    Text,
+    View
 } from 'react-native';
 
+import Swiper from 'react-native-swiper';
 
-export default class WelcomeUI extends Component {
 
-    constructor(props){
-        super(props);
-        // setTimeout()
-    }
-
+export default class GuideUI extends Component {
     render() {
         return (
-            <View style={styles.container}>
-                <Text>引导页</Text>
-            </View>
+            <Swiper style={styles.wrapper} showsButtons={false}>
+                <View style={styles.slide1}>
+                    <Text style={styles.text}>Hello Swiper</Text>
+                </View>
+                <View style={styles.slide2}>
+                    <Text style={styles.text}>Beautiful</Text>
+                </View>
+                <View style={styles.slide3}>
+                    <Text style={styles.text}>And simple</Text>
+                </View>
+            </Swiper>
         );
     }
 }
 
+
 const styles = StyleSheet.create({
-    container: {
+    wrapper: {},
+    slide1: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#9DD6EB',
+    },
+    slide2: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#97CAE5',
+    },
+    slide3: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#92BBD9',
+    },
+    text: {
+        color: '#fff',
+        fontSize: 30,
+        fontWeight: 'bold',
     }
-});
+})
