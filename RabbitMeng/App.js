@@ -1,27 +1,28 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
+ * welcome UI
+ * https://github.com/MasterSumCloud/RN_RabbitMeng
+ * @create(PY)
  */
 
 import React, {Component} from 'react';
 import {
-    Platform,
     StyleSheet,
-    Text,
     View
 } from 'react-native';
-import GuideUI from './js/GuideUI';
+import Routes from './js/Routes';
+import MainUI from './js/MainUI';
+import WelcomeUI from './js/WelcomeUI';
 
 export default class App extends Component<Props> {
     render() {
         return (
             <View style={styles.container}>
-                <GuideUI/>
+                <Routes/>
             </View>
         );
     }
 }
+
 
 const styles = StyleSheet.create({
     container: {

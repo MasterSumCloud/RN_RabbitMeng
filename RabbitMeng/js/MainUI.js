@@ -11,13 +11,12 @@ export default class MainUI extends Component {
 
     constructor(props) {
         super(props);
-        // setTimeout()
     }
 
     render() {
         return (
             <View style={styles.container}>
-
+                <Text>主页</Text>
             </View>
         );
     }

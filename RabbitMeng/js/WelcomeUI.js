@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+
 import {
     StyleSheet,
     View,
@@ -6,20 +7,45 @@ import {
     Text
 } from 'react-native';
 
+import MainUI from "../js/MainUI";
+
 
 export default class WelcomeUI extends Component {
 
-    constructor(props){
+
+    constructor(props) {
         super(props);
-        // setTimeout()
     }
 
     render() {
         return (
             <View style={styles.container}>
-                <Text>这是欢迎页</Text>
+                <Text onPress={() => {
+                    this.gotoPage();
+                }}>这是欢迎页</Text>
             </View>
         );
+    }
+
+    gotoPage() {
+        const {navigate} = this.props.navigation;
+        navigate('MainUI', {
+            user: 'MainUI'
+        });
+    }
+
+
+    componentDidMount() {
+        this.timer = setTimeout(
+            () => {
+                this.gotoPage();
+            },
+            2000
+        );
+    }
+
+    componentWillUnmount() {
+        this.timer && clearTimeout(this.timer);
     }
 }
 
