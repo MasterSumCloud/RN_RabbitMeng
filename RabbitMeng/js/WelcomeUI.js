@@ -7,11 +7,8 @@ import {
     Text
 } from 'react-native';
 
-import MainUI from "../js/MainUI";
-
 
 export default class WelcomeUI extends Component {
-
 
     constructor(props) {
         super(props);
@@ -28,12 +25,8 @@ export default class WelcomeUI extends Component {
     }
 
     gotoPage() {
-        const {navigate} = this.props.navigation;
-        navigate('MainUI', {
-            user: 'MainUI'
-        });
+        this.props.navigation.navigate('Main');
     }
-
 
     componentDidMount() {
         this.timer = setTimeout(

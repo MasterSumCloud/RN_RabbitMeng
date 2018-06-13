@@ -16,9 +16,7 @@ import WelcomeUI from './js/WelcomeUI';
 export default class App extends Component<Props> {
     render() {
         return (
-            <View style={styles.container}>
-                <Routes/>
-            </View>
+            <Routes style={styles.container}/>
         );
     }
 }
