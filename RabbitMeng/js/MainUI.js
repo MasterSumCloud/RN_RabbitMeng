@@ -9,6 +9,10 @@ import {
 
 export default class MainUI extends Component {
 
+    static navigationOptions = {
+        header: null
+    }
+
     constructor(props) {
         super(props);
     }

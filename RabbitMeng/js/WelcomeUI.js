@@ -10,6 +10,10 @@ import {
 
 export default class WelcomeUI extends Component {
 
+    static navigationOptions = {
+        header: null
+    }
+
     constructor(props) {
         super(props);
     }
@@ -25,7 +29,7 @@ export default class WelcomeUI extends Component {
     }
 
     gotoPage() {
-        this.props.navigation.navigate('Main');
+        this.props.navigation.navigate('Login');
     }
 
     componentDidMount() {
@@ -33,7 +37,7 @@ export default class WelcomeUI extends Component {
             () => {
                 this.gotoPage();
             },
-            2000
+            500
         );
     }
 

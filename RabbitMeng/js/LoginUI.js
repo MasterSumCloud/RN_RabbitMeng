@@ -5,7 +5,8 @@ import {
     Image,
     Text,
     TextInput,
-    ImageBackground
+    ImageBackground,
+    Alert, TouchableWithoutFeedback
 } from 'react-native';
 
 var Dimensions = require('Dimensions'); //必须要写这一行，否则报错，无法找到这个变量
@@ -13,6 +14,11 @@ var ScreenWidth = Dimensions.get('window').width;
 var ScreenHeight = Dimensions.get('window').height;
 
 export default class LoginUI extends Component {
+
+    static navigationOptions = {
+        header: null
+    }
+
 
     constructor(props) {
         super(props);
@@ -33,12 +39,14 @@ export default class LoginUI extends Component {
                     <ImageBackground resizeMode='contain' style={styles.login_bg}>
 
                         {/*头像*/}
-                        <Image style={styles.image_login_head} source={require('../res/imgs/head_defoult.jpg')}/>
+                        <Image style={styles.image_login_head} roundAsCircle={true}
+                               source={require('../res/imgs/head_defoult.jpg')}/>
                         {/*登陆 - 用户输入*/}
                         <View style={styles.login_user}>
                             <Image style={styles.login_left_icon} source={require('../res/imgs/login_email.png')}/>
                             <TextInput placeholderTextColor={'white'} style={styles.login_textinput}
                                        maxLength={30}
+                                       onChangeText={(text) => this.setState({username: text})}
                                        placeholder={'E-mail address'}/>
 
                         </View>
@@ -49,32 +57,53 @@ export default class LoginUI extends Component {
                             <TextInput placeholderTextColor={'white'} placeholder={'Your password'}
                                        style={styles.login_textinput}
                                        secureTextEntry={true}
+                                       onChangeText={(text) => this.setState({passWord: text})}
                                        maxLength={16}
                             />
                         </View>
                         {/*登陆安妞*/}
-                        <ImageBackground roundAsCircle={true}
-                                         resizeMode={'stretch'} style={styles.oval_bg}>
-                            <Text style={styles.login_btn}>
-                                Sign in
-                            </Text>
-                        </ImageBackground>
+                        <TouchableWithoutFeedback onPress={() => {
+                            if (this.state.username==='Sum' && this.state.passWord==='123456'){
+                                this.props.navigation.navigate('Main');
+                            }else {
+                                Alert.alert(null, '账号或者密码错误', '确定');
+                            }
+                        }}>
+                            <ImageBackground roundAsCircle={true}
+                                             resizeMode={'stretch'} style={styles.oval_bg}>
+                                <Text style={styles.login_btn}>
+                                    登录
+                                </Text>
+                            </ImageBackground>
+                        </TouchableWithoutFeedback>
                         {/*忘记密码*/}
-                        <Text style={styles.text_stl_forgot_passworld}>
-                            Forgot password?
-                        </Text>
+                        <TouchableWithoutFeedback onPress={() => {
+                            Alert.alert(null, '抱歉，功能暂未开通', '确定');
+                        }}>
+                            <Text style={styles.text_stl_forgot_passworld}>
+                                忘记密码?
+                            </Text>
+                        </TouchableWithoutFeedback>
+
                         <View style={styles.line}/>
                         {/*注册*/}
-                        <Text style={styles.text_stl_forgot_regist}>
-                            New here?Sing Up
-                        </Text>
+                        <TouchableWithoutFeedback onPress={() => {
+                            Alert.alert(null, '抱歉，暂未开通注册', '确定');
+                        }}>
+                            <Text style={styles.text_stl_forgot_regist}>
+                                没有账号?注册
+                            </Text>
+                        </TouchableWithoutFeedback>
+
                     </ImageBackground>
                 </ImageBackground>
 
             </View>
         );
     }
+
 }
+
 
 const styles = StyleSheet.create({
     container: {
@@ -85,6 +114,7 @@ const styles = StyleSheet.create({
         width: 70,
         height: 70,
         marginBottom: 65,
+        borderRadius: 35,
     },
     login_user: {
         flexDirection: 'row',
