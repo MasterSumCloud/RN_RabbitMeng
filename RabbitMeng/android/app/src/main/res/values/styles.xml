@@ -4,5 +4,22 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
     </style>
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowAnimationStyle">@style/Anim_left_right</item>
+        <!--<item name="colorPrimary">@color/colorPrimary</item>&lt;!&ndash;标题颜色&ndash;&gt;-->
+        <!--<item name="colorPrimaryDark">@color/transparent_00000000</item>&lt;!&ndash;通知栏颜色&ndash;&gt;-->
+        <!--<item name="colorAccent">@color/colorAccent</item>&lt;!&ndash;页面上滑 通知栏突出的颜色&ndash;&gt;-->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <!-- 全局Activity 进出动画 -->
+    <style name="Anim_left_right" parent="@android:style/Animation">
+        <item name="android:activityOpenEnterAnimation">@anim/base_slide_right_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/base_slide_left_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/base_slide_left_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/base_slide_right_out</item>
+    </style>
 
 </resources>
