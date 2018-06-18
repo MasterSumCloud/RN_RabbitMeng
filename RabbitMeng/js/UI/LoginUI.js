@@ -10,7 +10,7 @@ import {
     Alert, TouchableWithoutFeedback
 } from 'react-native';
 
-let ScreenUtil = require('./uitl/ScreenUtil');
+let ScreenUtil = require('../uitl/ScreenUtil');
 
 export default class LoginUI extends Component {
 
@@ -34,16 +34,16 @@ export default class LoginUI extends Component {
                         width: ScreenUtil.screenW,
                         height: ScreenUtil.screenH
                     }}
-                                     source={require('../res/imgs/login_bg.jpg')}>
+                                     source={require('../../res/imgs/login_bg.jpg')}>
                         {/*背景透明度*/}
                         <ImageBackground resizeMode='contain' style={styles.login_bg}>
 
                             {/*头像*/}
                             <Image style={styles.image_login_head} roundAsCircle={true}
-                                   source={require('../res/imgs/head_defoult.jpg')}/>
+                                   source={require('../../res/imgs/head_defoult.jpg')}/>
                             {/*登陆 - 用户输入*/}
                             <View style={styles.login_user}>
-                                <Image style={styles.login_left_icon} source={require('../res/imgs/login_email.png')}/>
+                                <Image style={styles.login_left_icon} source={require('../../res/imgs/login_email.png')}/>
                                 <TextInput placeholderTextColor={'white'} style={styles.login_textinput}
                                            maxLength={30}
                                            underlineColorAndroid='transparent'
@@ -53,7 +53,7 @@ export default class LoginUI extends Component {
                             </View>
                             {/*登陆 - 密码输入*/}
                             <View style={styles.login_user}>
-                                <Image style={styles.login_left_icon} source={require('../res/imgs/login_password.png')}
+                                <Image style={styles.login_left_icon} source={require('../../res/imgs/login_password.png')}
                                 />
                                 <TextInput placeholderTextColor={'white'} placeholder={'Your password'}
                                            style={styles.login_textinput}

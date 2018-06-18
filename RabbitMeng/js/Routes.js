@@ -1,6 +1,6 @@
-import MainUI from '../js/MainUI';
-import WelcomeUI from '../js/WelcomeUI';
-import LoginUI from '../js/LoginUI';
+import MainUI from './UI/MainUI';
+import WelcomeUI from './UI/WelcomeUI';
+import LoginUI from './UI/LoginUI';
 import createStackNavigator from "react-navigation/src/navigators/createStackNavigator";
 
 export default Routes = createStackNavigator({
