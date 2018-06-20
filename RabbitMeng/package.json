@@ -9,10 +9,10 @@
   "dependencies": {
     "react": "16.4.0",
     "react-native": "0.55.4",
+    "react-native-navigation": "^1.1.471",
     "react-native-swiper": "^1.5.13",
     "react-navigation": "^2.3.1",
-    "res": "^0.4.0",
-    "react-native-navigation": "latest"
+    "res": "^0.4.0"
   },
   "devDependencies": {
     "babel-jest": "23.0.1",
