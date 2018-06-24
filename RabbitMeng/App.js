@@ -15,15 +15,25 @@ registerScreens();
 
 
 const tabs = [{
-    label: 'HomeUI',
+    label: '首页',
     screen: 'HomeUI',
     icon: require('./res/imgs/tab_home.png'),
-    title: 'Home',
+    title: '首页',
 }, {
-    label: 'MineUI',
+    label: '管理',
+    screen: 'ControlUI',
+    icon: require('./res/imgs/tab_control.png'),
+    title: '管理',
+}, {
+    label: '部落',
+    screen: 'CocClanUI',
+    icon: require('./res/imgs/tab_coc.png'),
+    title: '部落',
+}, {
+    label: '我的',
     screen: 'MineUI',
     icon: require('./res/imgs/tab_mine.png'),
-    title: 'Mine',
+    title: '我的',
 }];
 
 // if (Platform.OS === 'android') {
@@ -40,21 +50,19 @@ Navigation.startTabBasedApp({
     tabs,
     animationType: Platform.OS === 'ios' ? 'slide-down' : 'fade',
     tabsStyle: {
-        tabBarBackgroundColor: '#003a66',
-        tabBarButtonColor: '#ffffff',
-        tabBarSelectedButtonColor: '#ff505c',
-        tabFontFamily: 'BioRhyme-Bold',
+        tabBarBackgroundColor: '#ffffff',
+        tabBarButtonColor: '#cccccc',
+        tabBarSelectedButtonColor: '#35BB9A',
     },
     appStyle: {
-        tabBarBackgroundColor: '#003a66',
+        tabBarBackgroundColor: '#35BB9A',
         navBarButtonColor: '#ffffff',
         tabBarButtonColor: '#ffffff',
         navBarTextColor: '#ffffff',
-        tabBarSelectedButtonColor: '#ff505c',
-        navigationBarColor: '#003a66',
-        navBarBackgroundColor: '#003a66',
-        statusBarColor: '#002b4c',
-        tabFontFamily: 'BioRhyme-Bold',
+        tabBarSelectedButtonColor: '#35BB9A',
+        navigationBarColor: '#35BB9A',
+        navBarBackgroundColor: '#35BB9A',
+        statusBarColor: '#35BB9A',
     }
 });
 

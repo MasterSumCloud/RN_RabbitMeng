@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 
-export default class MineUI extends Component {
+export default class CocClanUI extends Component {
 
     static navigationOptions = {
         header: null
@@ -20,7 +20,7 @@ export default class MineUI extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>我的</Text>
+                <Text>部落</Text>
             </View>
         );
     }
