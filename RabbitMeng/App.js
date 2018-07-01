@@ -36,6 +36,7 @@ const tabs = [{
     title: '我的',
 }];
 
+
 // if (Platform.OS === 'android') {
 //     tabs.push({
 //         label: 'Transitions',
