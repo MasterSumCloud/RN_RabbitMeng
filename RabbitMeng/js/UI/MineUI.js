@@ -29,21 +29,20 @@ export default class MineUI extends Component {
                     <Image style={styles.image_login_head} roundAsCircle={true}
                            source={require('../../res/imgs/head_defoult.jpg')}/>
 
-                    <Text>
-                        认证
+                    <Text style={styles.text_white}>
+                        天使的守护
                     </Text>
                 </ImageBackground>
-                /*中间按钮*/
                 <View>
 
+                    /*中间按钮*/
                 </View>
 
-                /*底部List*/
                 <View>
 
+                    /*底部List*/
                 </View>
 
-                </View>
             </View>
         );
     }
@@ -52,13 +51,21 @@ export default class MineUI extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: '#FFFFFF',
     },
     mine_top: {
+        alignItems:'center',
         width: ScreenUtil.screenW,
         height: ScreenUtil.scaleSize(500),
-        justifyContent: 'center',
+    },
+    image_login_head: {
+        marginTop:ScreenUtil.scaleSize(100),
+        width: ScreenUtil.scaleSize(140),
+        height: ScreenUtil.scaleSize(140),
+        borderRadius: 35,
+    },
+    text_white:{
+        marginTop:ScreenUtil.scaleSize(15),
+        color:'white'
     }
 });
