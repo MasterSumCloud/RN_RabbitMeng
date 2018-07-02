@@ -26,7 +26,7 @@ export default class MineUI extends Component {
                 <ScrollView
                     style={{flex: 1, flexDirection: 'column'}}
                 >
-                    <ImageBackground resizeMode='contain' style={styles.mine_top}
+                    <ImageBackground resizeMode='stretch' style={styles.mine_top}
                                      source={require('../../res/imgs/mine_top_bg.jpg')}
                     >
                         {/*头像*/}
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     mine_top: {
         alignItems: 'center',
         width: ScreenUtil.screenW,
-        height: ScreenUtil.scaleSize(500),
+        height: ScreenUtil.scaleSize(450),
     },
     image_login_head: {
         marginTop: ScreenUtil.scaleSize(100),
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: ScreenUtil.scaleSize(30),
         position: 'absolute',
-        marginTop: ScreenUtil.scaleSize(425),
+        marginTop: ScreenUtil.scaleSize(375),
     },
     bottom_list: {
         height: ScreenUtil.scaleSize(450),
