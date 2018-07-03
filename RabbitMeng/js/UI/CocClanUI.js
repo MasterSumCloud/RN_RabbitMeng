@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import * as ScreenUtil from "../uitl/ScreenUtil";
 
+let ItemCocClan = require('./ItemCocClan');
+
 const dataAry = [];
 
 export default class CocClanUI extends Component {
@@ -83,12 +85,12 @@ export default class CocClanUI extends Component {
 
                     <FlatList
                         data={this.state.dataAry}
-                        renderItem={({item}) => <Text>{item.key}</Text>}
+                        renderItem={(item) => {
+                            return ItemCocClan.ItemCocClan(item)
+                        }}
                     />
 
                 </ScrollView>
-
-
             </View>
         );
     }

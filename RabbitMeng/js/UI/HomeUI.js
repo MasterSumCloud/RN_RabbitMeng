@@ -20,7 +20,7 @@ export default class HomeUI extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>Home</Text>
+                <Text>待开发，有好建议，找Summer</Text>
             </View>
         );
     }
