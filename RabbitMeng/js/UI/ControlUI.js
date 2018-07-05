@@ -34,6 +34,8 @@ export default class ControlUI extends Component {
         return (
             <View style={styles.container}>
                 <ScrollView
+                    showsHorizontalScrollIndicator={false}
+                    showsVerticalScrollIndicator={false}
                     style={{flex: 1, flexDirection: 'column'}}
                     stickyHeaderIndices={[1]}
                 >
@@ -60,12 +62,12 @@ export default class ControlUI extends Component {
                         </View>
                     </View>
 
-                    <FlatList
+                    {/*<FlatList
                         data={this.state.dataAry}
                         renderItem={(item) => {
                             return ItemCocClan.ItemCocClan(item)
                         }}
-                    />
+                    />*/}
 
                 </ScrollView>
             </View>

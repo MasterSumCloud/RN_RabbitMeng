@@ -41,12 +41,12 @@ export default class MineUI extends Component {
                             <Text style={{color: 'white'}}>认证</Text>
                         </View>
                     </ImageBackground>
-                    /*中间按钮*/
+                    {/*中间按钮*/}
                     <View style={styles.top_importent}>
 
                     </View>
 
-                    /*底部List*/
+                    {/*底部List*/}
                     <View style={styles.bottom_list}>
 
                     </View>
