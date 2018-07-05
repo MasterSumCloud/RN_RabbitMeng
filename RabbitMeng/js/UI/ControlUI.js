@@ -6,10 +6,10 @@ import {
     Text, ScrollView, ImageBackground, FlatList
 } from 'react-native';
 import * as ScreenUtil from "../uitl/ScreenUtil";
+import * as HttpUtil from "../uitl/HttpUtil";
 
-let ItemCocClan = require('./ItemCocClan');
+let ItemControlMember = require('./ItemControlMember');
 
-const dataAry = [];
 export default class ControlUI extends Component {
 
     static navigationOptions = {
@@ -18,17 +18,27 @@ export default class ControlUI extends Component {
 
     constructor(props) {
         super(props);
-        for (var i = 0; i < 100; i++) {
-            var obj = {}
-            obj.key = i
-            dataAry.push(obj)
-        }
-
         this.state = {
-            index: 1,
-            dataAry: dataAry,
+            isLoading: true,
+            dataAry: [],
+            clans_img: '',
+            clans_name: '部落名称',
         };
     }
+
+    componentDidMount() {
+        let self = this
+        HttpUtil.get('https://api.clashofclans.com/v1/clans/%23G02RLVG0', '', function (jsonData) {
+            console.log(jsonData.items)
+            self.setState({
+                dataAry: jsonData.memberList,
+                isLoading: false,
+                clans_img: jsonData.badgeUrls.small,
+                clans_name: jsonData.name
+            })
+        })
+    }
+
 
     render() {
         return (
@@ -40,34 +50,59 @@ export default class ControlUI extends Component {
                     stickyHeaderIndices={[1]}
                 >
                     <ImageBackground resizeMode='stretch' style={styles.mine_top}
-                                     source={require('../../res/imgs/mine_top_bg.jpg')}
+                                     source={require('../../res/imgs/control_bg.png')}
                     >
 
-
                         <Text style={styles.text_white}>
-                            天使的守护
+                            {this.state.clans_name}
                         </Text>
+
+                        <Text style={styles.text_white}>12本数量</Text>
+                        <Text style={styles.text_white}>11本数量</Text>
+                        <Text style={styles.text_white}>10本数量</Text>
+                        <Text style={styles.text_white}>9本数量</Text>
+                        <Text style={styles.text_white}>部落总人数</Text>
 
                     </ImageBackground>
 
                     <View>
                         <View style={styles.coc_sort_container}>
-                            <Text style={styles.text_tab}>序号</Text>
-                            <Text style={styles.text_tab}>大本营</Text>
-                            <Text style={styles.text_tab}>名字</Text>
-                            <Text style={styles.text_tab}>捐兵</Text>
-                            <Text style={styles.text_tab}>收兵</Text>
-                            <Text style={styles.text_tab}>比例</Text>
-                            <Text style={styles.text_tab}>星星</Text>
+                            <View style={styles.text_tab_1}>
+                                <Text style={{color: '#666666'}}>序号</Text>
+                            </View>
+                            <View style={styles.text_tab_2}>
+                                <Text style={{color: '#666666'}}>等级</Text>
+                            </View>
+                            <View style={styles.text_tab_3}>
+                                <Text style={{color: '#666666'}}>名 字</Text>
+                            </View>
+
+                            <View style={styles.text_tab_4}>
+                                <Text style={{color: '#666666'}}>收兵</Text>
+                            </View>
+
+                            <View style={styles.text_tab_5}>
+                                <Text style={{color: '#666666'}}>捐兵</Text>
+                            </View>
+
+                            <View style={styles.text_tab_6}>
+                                <Text style={{color: '#666666'}}>比例</Text>
+                            </View>
+
+                            <View style={styles.text_tab_7}>
+                                <Text style={{color: '#666666'}}>职位</Text>
+                            </View>
+
                         </View>
                     </View>
 
-                    {/*<FlatList
+                    <FlatList
                         data={this.state.dataAry}
+                        keyExtractor={(item, index) => item.tag}
                         renderItem={(item) => {
-                            return ItemCocClan.ItemCocClan(item)
+                            return ItemControlMember.ItemCocClan(item)
                         }}
-                    />*/}
+                    />
 
                 </ScrollView>
             </View>
@@ -103,4 +138,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height: ScreenUtil.scaleSize(100),
     },
+    text_tab_1: {flex: 0.8, justifyContent: 'center', alignItems: 'center'},
+    text_tab_2: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+    text_tab_3: {flex: 1.5, justifyContent: 'center', alignItems: 'center',},
+    text_tab_4: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+    text_tab_5: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+    text_tab_6: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+    text_tab_7: {flex: 1, justifyContent: 'center', alignItems: 'center'},
 });
