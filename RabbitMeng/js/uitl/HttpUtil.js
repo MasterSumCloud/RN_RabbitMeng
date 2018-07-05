@@ -1,4 +1,7 @@
-import {fetch} from "react-native";
+
+const header = {
+    Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjQyYzNmNzRjLWM2Y2QtNDM4Ny1hOTAwLTE3MWY5ZDc1NzA1ZiIsImlhdCI6MTUzMDY4MjA2MSwic3ViIjoiZGV2ZWxvcGVyL2ZjMDMxNDMzLWEzNDQtZmY3NS05OGUwLTNlZjlkNmJjZjljYSIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjExNi4yMzEuMTU5LjEwOCJdLCJ0eXBlIjoiY2xpZW50In1dfQ.D4VZAid5jrPZOY-Y1FIxCqnShRpXdoxX4UsZuLzuh-aYzR8mg3ILl5ChUtAMVRJxAGFUmiDwLwVk_GtTVGP4Kg'
+}
 
 /**
  *  get请求
@@ -20,12 +23,14 @@ export function get(url, params, callback) {
     //fetch请求
     fetch(url, {
         method: 'GET',
+        headers: header
     })
-        .then((response) => {
-            callback(response)
+        .then((response) => response.json())
+        .then((responseJSON) => {
+            callback(responseJSON)
         })
         .catch((error) => {
-            alert(error)
+            console.log('error = ' + error)
         });
 }
 
@@ -51,7 +56,7 @@ export function postJSON(url, params, callback) {
             callback(responseJSON)
         })
         .catch((error) => {
-            console.log("error = " + error)
+            console.log('error = ' + error)
         });
 }
 
@@ -76,7 +81,7 @@ export function postForm(url, params, callback) {
             callback(responseJSON)
         })
         .catch((error) => {
-            console.log("error = " + error)
+            console.log('error = ' + error)
         });
 }
 

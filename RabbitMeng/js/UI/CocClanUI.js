@@ -9,10 +9,10 @@ import {
     FlatList
 } from 'react-native';
 import * as ScreenUtil from "../uitl/ScreenUtil";
+import * as HttpUtil from "../uitl/HttpUtil";
 
 let ItemCocClan = require('./ItemCocClan');
 
-const dataAry = [];
 
 export default class CocClanUI extends Component {
 
@@ -22,16 +22,22 @@ export default class CocClanUI extends Component {
 
     constructor(props) {
         super(props);
-        for (var i = 0; i < 100; i++) {
-            var obj = {}
-            obj.key = i
-            dataAry.push(obj)
-        }
-
         this.state = {
-            index: 1,
-            dataAry: dataAry,
+            isLoading: true,
+            dataAry: [],
         };
+    }
+
+    // https://api.clashofclans.com/v1/clans/%23G02RLVG0/members
+    componentDidMount() {
+        let self = this
+        HttpUtil.get('https://api.clashofclans.com/v1/clans/%23G02RLVG0/members', '', function (jsonData) {
+            console.log(jsonData.items)
+            self.setState({
+                dataAry: jsonData.items,
+                isLoading: false
+            }).call(CocClanUI)
+        })
     }
 
 
@@ -85,8 +91,13 @@ export default class CocClanUI extends Component {
 
                     <FlatList
                         data={this.state.dataAry}
+                        keyExtractor={(item, index) => item.tag}
                         renderItem={(item) => {
-                            return ItemCocClan.ItemCocClan(item)
+                            if (this.state.isLoading) {
+                                return <Text>加载中</Text>
+                            } else {
+                                return ItemCocClan.ItemCocClan(item)
+                            }
                         }}
                     />
 
