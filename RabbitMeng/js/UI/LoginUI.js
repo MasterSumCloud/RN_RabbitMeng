@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     login_left_icon: {
         width: ScreenUtil.scaleSize(60),
         height: ScreenUtil.scaleSize(60),
-        tintColor: '#35BB9A',
+        tintColor: '#33A1FF',
         backgroundColor: null
     }, login_bg: {
         alignItems: 'center',
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
         width: ScreenUtil.scaleSize(440),
         height: ScreenUtil.scaleSize(100),
         borderRadius: 25,
-        backgroundColor: '#35BB9A',
+        backgroundColor: '#33A1FF',
         marginTop: ScreenUtil.scaleSize(40),
         justifyContent: 'center',
         alignItems: 'center'

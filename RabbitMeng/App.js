@@ -53,17 +53,17 @@ Navigation.startTabBasedApp({
     tabsStyle: {
         tabBarBackgroundColor: '#ffffff',
         tabBarButtonColor: '#cccccc',
-        tabBarSelectedButtonColor: '#35BB9A',
+        tabBarSelectedButtonColor: '#33A1FF',
     },
     appStyle: {
         tabBarBackgroundColor: '#F7F7F7',
         navBarButtonColor: '#ffffff',
         tabBarButtonColor: '#CCCCCC',
         navBarTextColor: '#ffffff',
-        tabBarSelectedButtonColor: '#35BB9A',
-        navigationBarColor: '#35BB9A',
-        navBarBackgroundColor: '#35BB9A',
-        statusBarColor: '#35BB9A',
+        tabBarSelectedButtonColor: '#33A1FF',
+        navigationBarColor: '#33A1FF',
+        navBarBackgroundColor: '#33A1FF',
+        statusBarColor: '#33A1FF',
     }
 });
 
