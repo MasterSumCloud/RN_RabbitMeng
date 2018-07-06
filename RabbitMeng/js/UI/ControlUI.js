@@ -33,7 +33,7 @@ export default class ControlUI extends Component {
             console.log(jsonData.items)
             self.setState({
                 dataAry: jsonData.memberList,
-                isLoading: false,
+                isLoading: true,
                 clans_img: jsonData.badgeUrls.small,
                 clan_tag_img_big: jsonData.badgeUrls.large,
                 clans_name: jsonData.name
@@ -43,105 +43,114 @@ export default class ControlUI extends Component {
 
 
     render() {
-        return (
-            <View style={styles.container}>
 
-                <ScrollView
-                    showsHorizontalScrollIndicator={false}
-                    showsVerticalScrollIndicator={false}
-                    style={{flex: 1, flexDirection: 'column'}}
-                    stickyHeaderIndices={[1]}
-                >
-                    <ImageBackground resizeMode='stretch' style={styles.mine_top}
-                                     source={require('../../res/imgs/coc_clan_bg.png')}
-                    >
-
-                        <Text style={styles.text_coc_name}>
-                            {this.state.clans_name}
-                        </Text>
-
-                        <View style={{flexDirection: 'row'}}>
-                            <View style={styles.text_rund_bg}>
-                                <View style={styles.bg_cir_town_12}/>
-                                <Text style={styles.text_white_12}>12本数量</Text>
-                                <Text style={styles.text_num_inner}>15个 未超标</Text>
-                            </View>
-
-                            <View style={styles.text_rund_bg}>
-                                <View style={styles.bg_cir_town_11}/>
-                                <Text style={styles.text_white_11}>11本数量</Text>
-                                <Text style={styles.text_num_inner}>15个 未超标</Text>
-                            </View>
-                        </View>
-
-                        <View style={{flexDirection: 'row'}}>
-                            <View style={styles.text_rund_bg}>
-                                <View style={styles.bg_cir_town_10}/>
-                                <Text style={styles.text_white_10}>10本数量</Text>
-                                <Text style={styles.text_num_inner}>15个 未超标</Text>
-                            </View>
-
-                            <View style={styles.text_rund_bg}>
-                                <View style={styles.bg_cir_town_9}/>
-                                <Text style={styles.text_white_9}>9本数量</Text>
-                                <Text style={styles.text_num_inner}>5个 未超标</Text>
-                            </View>
-                        </View>
-
-
-                        <View style={styles.text_rund_bg_member}>
-                            <View style={styles.bg_cir_town_member}/>
-                            <Text style={styles.text_white__member}>部落总人数</Text>
-                            <Text style={styles.text_num_inner}>50 满人</Text>
-                        </View>
-
-                        <Image style={styles.coc_clan_tag} source={{uri: this.state.clan_tag_img_big}}/>
-
-
-                    </ImageBackground>
-
-                    <View>
-                        <View style={styles.coc_sort_container}>
-                            <View style={styles.text_tab_1}>
-                                <Text style={{color: '#666666'}}>序号</Text>
-                            </View>
-                            <View style={styles.text_tab_2}>
-                                <Text style={{color: '#666666'}}>等级</Text>
-                            </View>
-                            <View style={styles.text_tab_3}>
-                                <Text style={{color: '#666666'}}>名 字</Text>
-                            </View>
-
-                            <View style={styles.text_tab_4}>
-                                <Text style={{color: '#666666'}}>收兵</Text>
-                            </View>
-
-                            <View style={styles.text_tab_5}>
-                                <Text style={{color: '#666666'}}>捐兵</Text>
-                            </View>
-
-                            <View style={styles.text_tab_6}>
-                                <Text style={{color: '#666666'}}>比例</Text>
-                            </View>
-
-                            <View style={styles.text_tab_7}>
-                                <Text style={{color: '#666666'}}>职位</Text>
-                            </View>
-
-                        </View>
-                    </View>
-
-                    <FlatList
-                        data={this.state.dataAry}
-                        keyExtractor={(item, index) => item.tag}
-                        renderItem={(item) => {
-                            return ItemControlMember.ItemCocClan(item)
-                        }}
-                    />
-
-                </ScrollView>
+        if (this.state.isLoading) {
+            return <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+                <Image source={require('../../res/imgs/ali_dance.gif')}/>
             </View>
-        );
+        } else {
+            return (
+                <View style={styles.container}>
+
+                    <ScrollView
+                        showsHorizontalScrollIndicator={false}
+                        showsVerticalScrollIndicator={false}
+                        style={{flex: 1, flexDirection: 'column'}}
+                        stickyHeaderIndices={[1]}
+                    >
+                        <ImageBackground resizeMode='stretch' style={styles.mine_top}
+                                         source={require('../../res/imgs/coc_clan_bg.png')}
+                        >
+
+                            <Text style={styles.text_coc_name}>
+                                {this.state.clans_name}
+                            </Text>
+
+                            <View style={{flexDirection: 'row'}}>
+                                <View style={styles.text_rund_bg}>
+                                    <View style={styles.bg_cir_town_12}/>
+                                    <Text style={styles.text_white_12}>12本数量</Text>
+                                    <Text style={styles.text_num_inner}>15个 未超标</Text>
+                                </View>
+
+                                <View style={styles.text_rund_bg}>
+                                    <View style={styles.bg_cir_town_11}/>
+                                    <Text style={styles.text_white_11}>11本数量</Text>
+                                    <Text style={styles.text_num_inner}>15个 未超标</Text>
+                                </View>
+                            </View>
+
+                            <View style={{flexDirection: 'row'}}>
+                                <View style={styles.text_rund_bg}>
+                                    <View style={styles.bg_cir_town_10}/>
+                                    <Text style={styles.text_white_10}>10本数量</Text>
+                                    <Text style={styles.text_num_inner}>15个 未超标</Text>
+                                </View>
+
+                                <View style={styles.text_rund_bg}>
+                                    <View style={styles.bg_cir_town_9}/>
+                                    <Text style={styles.text_white_9}>9本数量</Text>
+                                    <Text style={styles.text_num_inner}>5个 未超标</Text>
+                                </View>
+                            </View>
+
+
+                            <View style={styles.text_rund_bg_member}>
+                                <View style={styles.bg_cir_town_member}/>
+                                <Text style={styles.text_white__member}>部落总人数</Text>
+                                <Text style={styles.text_num_inner}>50 满人</Text>
+                            </View>
+
+                            <Image style={styles.coc_clan_tag} source={{uri: this.state.clan_tag_img_big}}/>
+
+
+                        </ImageBackground>
+
+                        <View>
+                            <View style={styles.coc_sort_container}>
+                                <View style={styles.text_tab_1}>
+                                    <Text style={{color: '#666666'}}>序号</Text>
+                                </View>
+                                <View style={styles.text_tab_2}>
+                                    <Text style={{color: '#666666'}}>等级</Text>
+                                </View>
+                                <View style={styles.text_tab_3}>
+                                    <Text style={{color: '#666666'}}>名 字</Text>
+                                </View>
+
+                                <View style={styles.text_tab_4}>
+                                    <Text style={{color: '#666666'}}>收兵</Text>
+                                </View>
+
+                                <View style={styles.text_tab_5}>
+                                    <Text style={{color: '#666666'}}>捐兵</Text>
+                                </View>
+
+                                <View style={styles.text_tab_6}>
+                                    <Text style={{color: '#666666'}}>比例</Text>
+                                </View>
+
+                                <View style={styles.text_tab_7}>
+                                    <Text style={{color: '#666666'}}>职位</Text>
+                                </View>
+
+                            </View>
+                        </View>
+
+                        <FlatList
+                            data={this.state.dataAry}
+                            keyExtractor={(item, index) => item.tag}
+                            renderItem={(item) => {
+                                return ItemControlMember.ItemCocClan(item)
+                            }}
+                        />
+
+                    </ScrollView>
+                </View>
+            );
+        }
+
+
     }
 }
 
