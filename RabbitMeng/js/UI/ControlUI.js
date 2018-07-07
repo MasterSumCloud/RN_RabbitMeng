@@ -33,7 +33,7 @@ export default class ControlUI extends Component {
             console.log(jsonData.items)
             self.setState({
                 dataAry: jsonData.memberList,
-                isLoading: true,
+                isLoading: false,
                 clans_img: jsonData.badgeUrls.small,
                 clan_tag_img_big: jsonData.badgeUrls.large,
                 clans_name: jsonData.name

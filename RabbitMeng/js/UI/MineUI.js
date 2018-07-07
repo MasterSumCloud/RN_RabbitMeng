@@ -5,10 +5,18 @@ import {
     Image,
     Text,
     ImageBackground,
-    ScrollView
+    ScrollView,
+    FlatList
 } from 'react-native';
 
 let ScreenUtil = require('../uitl/ScreenUtil');
+
+const listArr =
+    [{index: 1, name: '黑名单', leftIcon: require('../../res/imgs/black_list_icon.png')},
+        {index: 2, name: '我的收藏', leftIcon: require('../../res/imgs/collect_icon.png')},
+        {index: 3, name: '管理部落', leftIcon: require('../../res/imgs/manage_icon.png')},
+        {index: 4, name: '设置', leftIcon: require('../../res/imgs/setting_icon.png')},
+    ]
 
 export default class MineUI extends Component {
 
@@ -43,14 +51,44 @@ export default class MineUI extends Component {
                     </ImageBackground>
                     {/*中间按钮*/}
                     <View style={styles.top_importent}>
-
+                        <View style={styles.center_lay}>
+                            <Image style={styles.top_icon} source={require('../../res/imgs/vip_icon.png')}/>
+                            <Text>会员</Text>
+                        </View>
+                        <View style={styles.center_lay}>
+                            <Image style={styles.top_icon} source={require('../../res/imgs/message_icon.png')}/>
+                            <Text>消息</Text>
+                        </View>
                     </View>
 
                     {/*底部List*/}
                     <View style={styles.bottom_list}>
-
+                        <FlatList
+                            ItemSeparatorComponent={() => {
+                                return <View style={{
+                                    height: 1,
+                                    backgroundColor: '#EFEFEF',
+                                    marginLeft: ScreenUtil.scaleSize(30),
+                                    marginRight: ScreenUtil.scaleSize(30)
+                                }}/>
+                            }}
+                            data={listArr}
+                            keyExtractor={(item, index) => item.index}
+                            renderItem={(item) => {
+                                return this._ItemMine(item.item)
+                            }}
+                        />
                     </View>
                 </ScrollView>
+            </View>
+        );
+    }
+
+    _ItemMine(item) {
+        return (
+            <View style={styles.item_style}>
+                <Image style={styles.left_icon} source={item.leftIcon}/>
+                <Text style={styles.text_item}>{item.name}</Text>
             </View>
         );
     }
@@ -96,14 +134,38 @@ const styles = StyleSheet.create({
         borderRadius: ScreenUtil.scaleSize(30),
         position: 'absolute',
         marginTop: ScreenUtil.scaleSize(375),
+        justifyContent: 'space-around',
+        flexDirection: 'row'
     },
     bottom_list: {
-        height: ScreenUtil.scaleSize(450),
         marginTop: ScreenUtil.scaleSize(110),
         marginLeft: ScreenUtil.scaleSize(30),
         marginRight: ScreenUtil.scaleSize(30),
         width: ScreenUtil.screenW - ScreenUtil.scaleSize(60),
         backgroundColor: 'white',
         borderRadius: ScreenUtil.scaleSize(30),
+    },
+    left_icon: {
+        height: ScreenUtil.scaleSize(30),
+        width: ScreenUtil.scaleSize(30),
+    },
+    center_lay: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    top_icon: {
+        height: ScreenUtil.scaleSize(50),
+        width: ScreenUtil.scaleSize(50),
+        marginBottom: ScreenUtil.scaleSize(10),
+    },
+    item_style: {
+        flexDirection: 'row',
+        height: ScreenUtil.scaleSize(100),
+        alignItems:'center',
+        paddingLeft:ScreenUtil.scaleSize(50),
+    },
+    text_item:{
+        marginLeft:ScreenUtil.scaleSize(10),
     }
 });
