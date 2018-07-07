@@ -6,7 +6,8 @@ import {
     Text,
     ImageBackground,
     ScrollView,
-    FlatList
+    FlatList,
+    TouchableWithoutFeedback
 } from 'react-native';
 
 let ScreenUtil = require('../uitl/ScreenUtil');
@@ -15,12 +16,15 @@ const listArr =
     [{index: 1, name: '黑名单', leftIcon: require('../../res/imgs/black_list_icon.png')},
         {index: 2, name: '我的收藏', leftIcon: require('../../res/imgs/collect_icon.png')},
         {index: 3, name: '管理部落', leftIcon: require('../../res/imgs/manage_icon.png')},
-        {index: 4, name: '设置', leftIcon: require('../../res/imgs/setting_icon.png')},
+        {index: 4, name: '积分登记', leftIcon: require('../../res/imgs/registration_icon.png')},
+        {index: 5, name: '设置', leftIcon: require('../../res/imgs/setting_icon.png')},
     ]
 
 export default class MineUI extends Component {
 
-    static navigationOptions = {
+
+    static navigatorStyle = {
+        topTabTextColor: 'red',
         header: null
     }
 
@@ -75,7 +79,7 @@ export default class MineUI extends Component {
                             data={listArr}
                             keyExtractor={(item, index) => item.index}
                             renderItem={(item) => {
-                                return this._ItemMine(item.item)
+                                return this._ItemMine(this, item.item)
                             }}
                         />
                     </View>
@@ -84,14 +88,34 @@ export default class MineUI extends Component {
         );
     }
 
-    _ItemMine(item) {
+    _ItemMine(mineUi, item) {
         return (
-            <View style={styles.item_style}>
-                <Image style={styles.left_icon} source={item.leftIcon}/>
-                <Text style={styles.text_item}>{item.name}</Text>
-            </View>
+            <TouchableWithoutFeedback onPress={() => {
+                switch (item.index) {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        this.props.navigator.push({
+                            screen: 'MumberDetailUI',
+                            title: '积分管理',
+                        });
+                        break;
+                    case 5:
+                        break;
+                }
+            }}>
+                <View style={styles.item_style}>
+                    <Image style={styles.left_icon} source={item.leftIcon}/>
+                    <Text style={styles.text_item}>{item.name}</Text>
+                </View>
+            </TouchableWithoutFeedback>
         );
     }
+
 }
 
 const styles = StyleSheet.create({
@@ -162,10 +186,10 @@ const styles = StyleSheet.create({
     item_style: {
         flexDirection: 'row',
         height: ScreenUtil.scaleSize(100),
-        alignItems:'center',
-        paddingLeft:ScreenUtil.scaleSize(50),
+        alignItems: 'center',
+        paddingLeft: ScreenUtil.scaleSize(50),
     },
-    text_item:{
-        marginLeft:ScreenUtil.scaleSize(10),
+    text_item: {
+        marginLeft: ScreenUtil.scaleSize(10),
     }
 });

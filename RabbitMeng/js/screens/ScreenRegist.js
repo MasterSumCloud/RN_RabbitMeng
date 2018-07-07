@@ -9,6 +9,7 @@ import WelcomeUI from '../UI/WelcomeUI';
 import ControlUI from '../UI/ControlUI';
 import CocClanUI from '../UI/CocClanUI';
 import ClanDetailUI from '../UI/ClanDetailUI';
+import MumberDetailUI from '../UI/MumberDetailUI';
 
 export function registerScreens() {
     Navigation.registerComponent('MineUI', () => MineUI);
@@ -20,6 +21,7 @@ export function registerScreens() {
     Navigation.registerComponent('CocClanUI', () => CocClanUI);
     Navigation.registerComponent('ControlUI', () => ControlUI);
     Navigation.registerComponent('ClanDetailUI', () => ClanDetailUI);
+    Navigation.registerComponent('MumberDetailUI', () => MumberDetailUI);
 }
 
 export function registerScreenVisibilityListener() {

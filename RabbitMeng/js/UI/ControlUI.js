@@ -3,7 +3,11 @@ import {
     StyleSheet,
     View,
     Image,
-    Text, ScrollView, ImageBackground, FlatList
+    Text,
+    ScrollView,
+    ImageBackground,
+    FlatList,
+    Button
 } from 'react-native';
 import * as ScreenUtil from "../uitl/ScreenUtil";
 import * as HttpUtil from "../uitl/HttpUtil";
@@ -12,9 +16,7 @@ let ItemControlMember = require('./ItemControlMember');
 
 export default class ControlUI extends Component {
 
-    static navigationOptions = {
-        header: null,
-    }
+
 
     constructor(props) {
         super(props);
@@ -45,7 +47,7 @@ export default class ControlUI extends Component {
     render() {
 
         if (this.state.isLoading) {
-            return <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+            return <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                 <Image source={require('../../res/imgs/ali_dance.gif')}/>
             </View>
         } else {
