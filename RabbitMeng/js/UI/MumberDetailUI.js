@@ -22,7 +22,7 @@ export default class MumberDetailUI extends Component {
         return (
             <View style={styles.container}>
                 <WebView
-                    url={'http://www.cocbzlm.com/m/collocation.php'}
+                    source={'http://www.cocbzlm.com/m/collocation.php'}
                     startInLoadingState={true}
                     domStorageEnabled={true}
                     javaScriptEnabled={true}
