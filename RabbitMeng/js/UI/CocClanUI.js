@@ -124,7 +124,7 @@ export default class CocClanUI extends Component {
                             if (this.state.isLoading) {
                                 return <Text>加载中</Text>
                             } else {
-                                return ItemCocClan.ItemCocClan(item)
+                                return ItemCocClan.ItemCocClan(this,item)
                             }
                         }}
                     />
