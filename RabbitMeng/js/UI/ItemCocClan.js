@@ -14,7 +14,7 @@ let ScreenUtil = require('../uitl/ScreenUtil');
 export function ItemCocClan(self, itemData) {
 
     return (<TouchableWithoutFeedback onPress={() => {
-        self.props.navigator.push({
+        self.props.navigator.showModal({
             screen: 'ClanDetailUI',
             title: '村庄详情',
             passProps: {coc_tag: itemData.item.tag}
