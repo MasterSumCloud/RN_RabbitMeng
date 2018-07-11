@@ -12,6 +12,7 @@ import * as HttpUtil from "../uitl/HttpUtil";
 
 let ScreenUtil = require('../uitl/ScreenUtil');
 let ItemTroops = require('./ItemTroops');
+let ItemAchievements = require('./ItemAchievements');
 let mainData = {}
 
 export default class ClanDetailUI extends Component {
@@ -32,6 +33,7 @@ export default class ClanDetailUI extends Component {
             heroes_home: [],
             heroes_build: [],
             spells: [],
+            achievements:[]
         };
     }
 
@@ -49,7 +51,7 @@ export default class ClanDetailUI extends Component {
                 >
                     <ScrollView showsHorizontalScrollIndicator={false}
                                 showsVerticalScrollIndicator={false}
-                                style={{flex: 1, flexDirection: 'row'}}>
+                                style={{flex: 1, flexDirection: 'column'}}>
                         <ImageBackground resizeMode='stretch' style={styles.detail_top_bg}
                                          source={require('../../res/imgs/detail_bg_top.jpg')}
                         >
@@ -194,7 +196,8 @@ export default class ClanDetailUI extends Component {
                         <View style={{
                             flexDirection: 'row',
                             justifyContent: 'space-around',
-                            marginTop: ScreenUtil.scaleSize(30)
+                            marginTop: ScreenUtil.scaleSize(30),
+                            marginTop:ScreenUtil.scaleSize(15)
                         }}>
                             {/*部队*/}
                             <View style={{
@@ -278,6 +281,74 @@ export default class ClanDetailUI extends Component {
                             </View>
                         </View>
 
+                        {/*玩家最佳*/}
+                        <Text style={{marginTop:ScreenUtil.scaleSize(15),
+                            color: 'black', fontSize: 20, paddingLeft: ScreenUtil.scaleSize(15),
+                            paddingRight: ScreenUtil.scaleSize(15)
+                        }}>玩家最佳</Text>
+
+                        <View style={{
+                            flexDirection: 'row',
+                            paddingLeft: ScreenUtil.scaleSize(5),
+                            paddingRight: ScreenUtil.scaleSize(5)
+                        }}>
+                            <View style={styles.info_layout_cirle}>
+                                <View style={styles.bg_cir_town_10}/>
+                                <Text style={styles.text_white_10}>最佳村庄奖杯</Text>
+                                <View style={styles.inner_content}>
+                                    <Image style={styles.left_icon}
+                                           source={require('../../res/imgs/lv_bg.png')}></Image>
+                                    <Text>367</Text>
+                                </View>
+                            </View>
+
+                            <View style={styles.info_layout_cirle}>
+                                <View style={styles.bg_cir_town_10}/>
+                                <Text style={styles.text_white_10}>最佳对抗奖杯</Text>
+                                <View style={styles.inner_content}>
+                                    <Image style={styles.left_icon}
+                                           source={require('../../res/imgs/lv_bg.png')}></Image>
+                                    <Text>367</Text>
+                                </View>
+                            </View>
+
+                            <View style={styles.info_layout_cirle}>
+                                <View style={styles.bg_cir_town_10}/>
+                                <Text style={styles.text_white_10}>最佳村庄赛季</Text>
+                                <View style={styles.inner_content}>
+                                    <Image style={styles.left_icon}
+                                           source={require('../../res/imgs/lv_bg.png')}></Image>
+                                    <Text>367</Text>
+                                </View>
+                            </View>
+
+                            <View style={styles.info_layout_cirle}>
+                                <View style={styles.bg_cir_town_10}/>
+                                <Text style={styles.text_white_10}>最佳对矿赛季</Text>
+                                <View style={styles.inner_content}>
+                                    <Image style={styles.left_icon}
+                                           source={require('../../res/imgs/lv_bg.png')}></Image>
+                                    <Text>367</Text>
+                                </View>
+                            </View>
+                        </View>
+
+                        <Text style={{
+                            color: 'black', fontSize: 20, paddingLeft: ScreenUtil.scaleSize(15),
+                            paddingRight: ScreenUtil.scaleSize(15),textAlign:'center',marginTop:ScreenUtil.scaleSize(15)
+                        }}>玩家成就</Text>
+
+                        <FlatList
+                            style={{paddingLeft:ScreenUtil.scaleSize(15), paddingRight:ScreenUtil.scaleSize(15)}}
+                            showsHorizontalScrollIndicator={false}
+                            showsVerticalScrollIndicator={false}
+                            data={this.state.achievements}
+                            keyExtractor={(item, index) => item.name}
+                            renderItem={(item) => {
+                                return ItemAchievements.Achievement(item)
+                            }}
+                            numColumns={2}
+                        />
                     </ScrollView>
                 </View>
             );
@@ -328,6 +399,7 @@ export default class ClanDetailUI extends Component {
             heroes_home: heroes_h,
             heroes_build: heroes_b,
             spells: mainData.spells,
+            achievements:mainData.achievements
         }).call(ClanDetailUI)
     }
 
