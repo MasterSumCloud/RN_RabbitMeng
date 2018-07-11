@@ -20,23 +20,21 @@ export default class MumberDetailUI extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <WebView
-                    source={'http://www.cocbzlm.com/m/collocation.php'}
-                    startInLoadingState={true}
-                    domStorageEnabled={true}
-                    javaScriptEnabled={true}
-                />
-            </View>
+            <WebView
+                style={styles.webView_number}
+                // source={{uri:'https://www.cocbzlm.com/m/login.php'}}
+                source={{uri:'https://www.baidu.com'}}
+                startInLoadingState={true}
+                domStorageEnabled={true}
+                javaScriptEnabled={true}
+            />
         );
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+    webView_number:{
+        flex:1,
+        backgroundColor:'white'
     }
 });

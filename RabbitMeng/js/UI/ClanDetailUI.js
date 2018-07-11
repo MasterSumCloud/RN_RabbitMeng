@@ -189,22 +189,37 @@ export default class ClanDetailUI extends Component {
                             </View>
                         </View>
 
-                        <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+                        <View style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-around',
+                            marginTop: ScreenUtil.scaleSize(30)
+                        }}>
                             {/*部队*/}
-                            <View style={{flex: 9, backgroundColor: 'red'}}>
+                            <View style={{
+                                flex: 9,
+                                marginLeft: ScreenUtil.scaleSize(15),
+                                marginRight: ScreenUtil.scaleSize(15),
+                            }}>
+                                <Text style={{color: 'black', fontSize: 20}}>部队</Text>
                                 <FlatList
                                     showsHorizontalScrollIndicator={false}
                                     showsVerticalScrollIndicator={false}
                                     data={this.state.troops}
-                                    keyExtractor={(item, index) => item.name}
+                                    keyExtractor={(item, index) => index}
                                     renderItem={(item) => {
                                         return ItemTroops.Troops(item)
                                     }}
+                                    numColumns={6}
                                 />
                             </View>
 
                             {/*法术*/}
-                            <View style={{flex: 4, backgroundColor: 'yellow'}}>
+                            <View style={{
+                                flex: 4,
+                                marginLeft: ScreenUtil.scaleSize(15),
+                                marginRight: ScreenUtil.scaleSize(15)
+                            }}>
+                                <Text style={{color: 'black', fontSize: 20}}>法术</Text>
                                 <FlatList
                                     showsHorizontalScrollIndicator={false}
                                     showsVerticalScrollIndicator={false}
@@ -213,10 +228,16 @@ export default class ClanDetailUI extends Component {
                                     renderItem={(item) => {
                                         return ItemTroops.Troops(item)
                                     }}
+                                    numColumns={3}
                                 />
                             </View>
                             {/*英雄*/}
-                            <View style={{flex: 4, backgroundColor: 'blue'}}>
+                            <View style={{
+                                flex: 4,
+                                marginLeft: ScreenUtil.scaleSize(15),
+                                marginRight: ScreenUtil.scaleSize(15)
+                            }}>
+                                <Text style={{color: 'black', fontSize: 20}}>英雄</Text>
                                 <FlatList
                                     showsHorizontalScrollIndicator={false}
                                     showsVerticalScrollIndicator={false}
@@ -225,6 +246,7 @@ export default class ClanDetailUI extends Component {
                                     renderItem={(item) => {
                                         return ItemTroops.Troops(item)
                                     }}
+                                    numColumns={3}
                                 />
                             </View>
                         </View>
@@ -301,10 +323,9 @@ const styles = StyleSheet.create({
         height: ScreenUtil.scaleSize(30),
     },
     inner_content: {
-        flexDirection: 'row', color: '#1afa29',
+        flexDirection: 'row',
         marginTop: ScreenUtil.scaleSize(20),
         position: 'absolute',
-        fontSize: 12,
         alignItems: 'center',
         justifyContent: 'center',
         marginLeft: ScreenUtil.scaleSize(15),

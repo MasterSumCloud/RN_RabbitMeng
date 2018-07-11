@@ -11,24 +11,38 @@ import {
 
 let ScreenUtil = require('../uitl/ScreenUtil');
 
-export function Troops(self, itemData) {
+export function Troops(itemData,self) {
 
     return (
         <View style={styles.container}>
-            <Image style={styles.img}/>
-            <Text style={styles.text}>7</Text>
+            <Image style={styles.img} source={require('../../res/troops/lava_hound.png')}/>
+            <Text style={styles.text}>{itemData.item.level}</Text>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {},
+    container: {
+        flex:1,
+        width: ScreenUtil.scaleSize(50),
+        height: ScreenUtil.scaleSize(50),
+    },
     img: {
-        width: ScreenUtil.scaleSize(40),
-        height: ScreenUtil.scaleSize(40),
-        backgroundColor: 'red'
+        margin:ScreenUtil.scaleSize(1),
+        borderWidth:ScreenUtil.scaleSize(1),
+        borderColor:'blue',
+        borderRadius:ScreenUtil.scaleSize(5),
+        width: ScreenUtil.scaleSize(50),
+        height: ScreenUtil.scaleSize(50),
     },
     text: {
+        textAlign:'center',
+        borderRadius:ScreenUtil.scaleSize(5),
+        position:'absolute',
+        marginLeft:ScreenUtil.scaleSize(2),
+        marginBottom:ScreenUtil.scaleSize(2),
+        fontSize:7,
+        marginTop:ScreenUtil.scaleSize(35),
         width: ScreenUtil.scaleSize(14),
         height: ScreenUtil.scaleSize(14),
         backgroundColor: 'yellow',
