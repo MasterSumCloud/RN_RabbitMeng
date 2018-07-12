@@ -48,13 +48,15 @@ export default class ClanDetailUI extends Component {
             </View>
         } else {
             let mainData = this.state.mainData;
-
+            let role_color = '#666666';
 
             let role = '成员';
             if (mainData.role === 'coLeader') {
                 role = '副首领';
+                role_color = '#FF8C00';
             } else if (mainData.role === 'leader') {
                 role = '首领';
+                role_color = '#33A1FF';
             }
 
 
@@ -75,6 +77,50 @@ export default class ClanDetailUI extends Component {
                 }
             }
 
+            let townHall = require('../../res/imgs/home_town_9.png');
+            let buildHall = require('../../res/imgs/home_town_9.png');
+            if (mainData.townHallLevel === 9) {
+                // townHall = require('../../res/imgs/home_town_9.png');
+            } else if (mainData.townHallLevel === 10) {
+                townHall = require('../../res/imgs/home_town_10.png');
+            } else if (mainData.townHallLevel === 11) {
+                townHall = require('../../res/imgs/home_town_11.png');
+            } else if (mainData.townHallLevel === 12) {
+                if (mainData.townHallWeaponLevel === 1) {
+                    townHall = require('../../res/imgs/home_town_12_1.png');
+                } else if (mainData.townHallWeaponLevel === 2) {
+                    townHall = require('../../res/imgs/home_town_12_2.png');
+                } else if (mainData.townHallWeaponLevel === 3) {
+                    townHall = require('../../res/imgs/home_town_12_3.png');
+                } else if (mainData.townHallWeaponLevel === 4) {
+                    townHall = require('../../res/imgs/home_town_12_4.png');
+                } else if (mainData.townHallWeaponLevel === 5) {
+                    townHall = require('../../res/imgs/home_town_12_5.png');
+                }
+            } else {
+                townHall = require('../../res/imgs/question_mark.png');
+            }
+
+            if (mainData.builderHallLevel === 1) {
+
+            } else if (mainData.builderHallLevel === 2) {
+
+            } else if (mainData.builderHallLevel === 3) {
+
+            } else if (mainData.builderHallLevel === 4) {
+
+            } else if (mainData.builderHallLevel === 5) {
+
+            } else if (mainData.builderHallLevel === 6) {
+
+            } else if (mainData.builderHallLevel === 7) {
+
+            } else if (mainData.builderHallLevel === 8) {
+
+            } else {
+                townHall = require('../../res/imgs/question_mark.png');
+            }
+
 
             return (
                 <View
@@ -86,6 +132,45 @@ export default class ClanDetailUI extends Component {
                         <ImageBackground resizeMode='stretch' style={styles.detail_top_bg}
                                          source={require('../../res/imgs/detail_bg_top.jpg')}
                         >
+                            <View style={{alignItems: 'center'}}>
+                                <Text style={{
+                                    paddingLeft: ScreenUtil.scaleSize(120),
+                                    position: 'absolute',
+                                    paddingTop: ScreenUtil.scaleSize(15),
+                                    paddingBottom: ScreenUtil.scaleSize(15),
+                                    borderColor: '#666',
+                                    paddingRight: ScreenUtil.scaleSize(15),
+                                    borderRadius: ScreenUtil.scaleSize(10),
+                                    marginTop: ScreenUtil.scaleSize(35),
+                                    backgroundColor: 'rgba(255,255,255,0.7)',
+                                    fontSize: 15
+                                }}>{'大本营 ' + mainData.townHallLevel}</Text>
+                                <Image style={{width: ScreenUtil.scaleSize(100), height: ScreenUtil.scaleSize(100)}}
+                                       source={townHall}/>
+                                <Text style={{
+                                    backgroundColor: 'rgba(255,255,255,0.7)',
+                                    fontSize: 10,
+                                    marginTop: ScreenUtil.scaleSize(9)
+                                }}> {'Weapon ' + mainData.townHallWeaponLevel}</Text>
+
+                                <Text style={{
+                                    paddingLeft: ScreenUtil.scaleSize(120),
+                                    paddingTop: ScreenUtil.scaleSize(5),
+                                    paddingBottom: ScreenUtil.scaleSize(5),
+                                    borderColor: '#666',
+                                    paddingRight: ScreenUtil.scaleSize(15),
+                                    borderRadius: ScreenUtil.scaleSize(10),
+                                    backgroundColor: 'rgba(255,255,255,0.7)',
+                                    fontSize: 13
+                                }}>{'建筑基地 ' + mainData.builderHallLevel}</Text>
+                                <Image style={{
+                                    width: ScreenUtil.scaleSize(80),
+                                    height: ScreenUtil.scaleSize(80),
+                                    position: 'absolute',
+                                    marginTop: ScreenUtil.scaleSize(110)
+                                }}
+                                       source={buildHall}/>
+                            </View>
                             <Text style={styles.text_name}>
                                 {mainData.name}
                             </Text>
@@ -103,7 +188,7 @@ export default class ClanDetailUI extends Component {
                                 <View style={styles.inner_content}>
                                     <Image style={styles.left_icon}
                                            source={require('../../res/imgs/lv_bg.png')}></Image>
-                                    <Text>{mainData.expLevel}</Text>
+                                    <Text style={{color: '#215EC8'}}>{mainData.expLevel}</Text>
                                 </View>
                             </View>
 
@@ -113,7 +198,7 @@ export default class ClanDetailUI extends Component {
                                 <View style={styles.inner_content}>
                                     <Image style={styles.left_icon}
                                            source={{uri: mainData.league.iconUrls.small}}></Image>
-                                    <Text>{mainData.trophies}</Text>
+                                    <Text style={{color: '#F5981E'}}>{mainData.trophies}</Text>
                                 </View>
                             </View>
 
@@ -123,7 +208,7 @@ export default class ClanDetailUI extends Component {
                                 <View style={styles.inner_content}>
                                     <Image style={styles.left_icon}
                                            source={require('../../res/imgs/lagend_trophies.png')}></Image>
-                                    <Text>{legendTrophies}</Text>
+                                    <Text style={{color: '#6C36A4'}}>{legendTrophies}</Text>
                                 </View>
                             </View>
 
@@ -133,7 +218,7 @@ export default class ClanDetailUI extends Component {
                                 <View style={styles.inner_content}>
                                     <Image style={{width: ScreenUtil.scaleSize(55), height: ScreenUtil.scaleSize(20)}}
                                            source={require('../../res/imgs/starts_3.png')}></Image>
-                                    <Text>{mainData.warStars}</Text>
+                                    <Text style={{color: '#F7BC0A'}}>{mainData.warStars}</Text>
                                 </View>
                             </View>
                         </View>
@@ -189,12 +274,12 @@ export default class ClanDetailUI extends Component {
                                 <View style={styles.inner_content}>
                                     <Image style={styles.left_icon}
                                            source={require('../../res/imgs/versus_trophies.png')}></Image>
-                                    <Text style={{}}>{mainData.versusTrophies}</Text>
+                                    <Text style={{color: '#F5981E'}}>{mainData.versusTrophies}</Text>
                                 </View>
                             </View>
 
                             <View style={styles.info_layout_cirle}>
-                                <View style={styles.bg_cir_1c4}/>
+                                <View style={styles.bg_cir_c1}/>
                                 <Text style={styles.text_top_1a}>对抗胜利次数</Text>
                                 <View style={styles.inner_content}>
                                     <Text>{mainData.versusBattleWins}</Text>
@@ -207,12 +292,12 @@ export default class ClanDetailUI extends Component {
                                 marginTop: ScreenUtil.scaleSize(10),
                                 height: ScreenUtil.scaleSize(65),
                             }}>
-                                <View style={styles.bg_cir_1c4}/>
-                                <Text style={styles.text_top_1a}>所属部落</Text>
+                                <View style={styles.bg_cir_c1}/>
+                                <Text style={styles.text_top_f59}>所属部落</Text>
                                 <View style={styles.inner_content}>
                                     <Image style={styles.left_icon}
                                            source={{uri: mainData.clan.badgeUrls.small}}></Image>
-                                    <Text>{mainData.clan.name}</Text>
+                                    <Text style={{color: '#F5981E', fontSize: 13}}>{mainData.clan.name}</Text>
                                 </View>
                             </View>
 
@@ -225,10 +310,10 @@ export default class ClanDetailUI extends Component {
                             width: ScreenUtil.scaleSize(185),
                             marginLeft: ScreenUtil.scaleSize(5),
                         }}>
-                            <View style={styles.bg_cir_1c4}/>
+                            <View style={styles.bg_cir_c1}/>
                             <Text style={styles.text_top_1a}>部落角色</Text>
                             <View style={styles.inner_content}>
-                                <Text>{role}</Text>
+                                <Text style={{fontSize: 13, color: role_color}}>{role}</Text>
                             </View>
                         </View>
 
@@ -423,14 +508,14 @@ export default class ClanDetailUI extends Component {
         }
 
         if (troop_h.length % 6 !== 0) {
-            let additem = 6-troop_h.length % 6;
+            let additem = 6 - troop_h.length % 6;
             for (let i = 0; i < additem; i++) {
                 troop_h.push({troop_img: null})
             }
         }
 
         if (troop_b.length % 6 !== 0) {
-            let additem = 6-troop_b.length % 6;
+            let additem = 6 - troop_b.length % 6;
             for (let i = 0; i < additem; i++) {
                 troop_b.push({troop_img: null})
             }
@@ -445,8 +530,23 @@ export default class ClanDetailUI extends Component {
                 heroes_b.push(item)
             }
         }
+
+        if (heroes_h.length % 6 !== 0) {
+            let additem = 6 - heroes_h.length % 6;
+            for (let i = 0; i < additem; i++) {
+                heroes_h.push({troop_img: null})
+            }
+        }
+
         for (let item of mainData.spells) {
             item.troop_img = self._setSpellImg(item.name);
+        }
+
+        if (mainData.spells.length % 6 !== 0) {
+            let additem = 6 - mainData.spells.length % 6;
+            for (let i = 0; i < additem; i++) {
+                mainData.spells.push({troop_img: null})
+            }
         }
 
 
@@ -523,6 +623,8 @@ export default class ClanDetailUI extends Component {
             return require('../../res/imgs/question_mark.png');
         } else if (name === 'Electro Dragon') {
             return require('../../res/troops/electro_dragon.png');
+        } else if (name === 'Battle Blimp') {
+            return require('../../res/imgs/question_mark.png');
         } else {
             return null;
         }
@@ -577,13 +679,14 @@ const styles = StyleSheet.create({
     },
     detail_top_bg: {
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
         width: ScreenUtil.screenW,
         height: ScreenUtil.scaleSize(450),
     },
     text_name: {
         color: 'white',
-        fontSize: 15
+        fontSize: 20,
+        marginBottom: 10
     },
     info_layout_cirle: {
         flex: 1,
