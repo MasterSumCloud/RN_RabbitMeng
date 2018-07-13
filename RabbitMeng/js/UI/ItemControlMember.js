@@ -2,15 +2,16 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     View,
-    Image,
     Text,
     ImageBackground,
-    ScrollView
+    TouchableWithoutFeedback
 } from 'react-native';
 
 let ScreenUtil = require('../uitl/ScreenUtil');
 
-export function ItemCocClan(itemData) {
+export function ItemCocClan(self, itemData) {
+
+
     let role = '成员';
     if (itemData.item.role === 'coLeader') {
         role = '副首领';
@@ -18,7 +19,14 @@ export function ItemCocClan(itemData) {
         role = '首领';
     }
 
-    return <View style={{
+    return <TouchableWithoutFeedback
+        onPress={() => {
+            self.props.navigator.showModal({
+                screen: 'ClanDetailUI',
+                title: '村庄详情',
+                passProps: {coc_tag: itemData.item.tag}
+            });
+        }}><View style={{
         flex: 1,
         flexDirection: 'row',
         backgroundColor: itemData.index % 2 === 0 ? 'white' : '#F7F7F7',
@@ -59,6 +67,7 @@ export function ItemCocClan(itemData) {
         </View>
 
     </View>
+    </TouchableWithoutFeedback>
 }
 
 const styles = StyleSheet.create({

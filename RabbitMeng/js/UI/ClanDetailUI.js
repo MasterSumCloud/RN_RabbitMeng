@@ -142,7 +142,7 @@ export default class ClanDetailUI extends Component {
                                     position: 'absolute',
                                     paddingTop: ScreenUtil.scaleSize(12),
                                     paddingBottom: ScreenUtil.scaleSize(12),
-                                    borderColor: '#666',
+                                    borderColor: '#333',
                                     paddingRight: ScreenUtil.scaleSize(15),
                                     borderRadius: ScreenUtil.scaleSize(10),
                                     marginTop: ScreenUtil.scaleSize(35),
@@ -154,14 +154,14 @@ export default class ClanDetailUI extends Component {
                                 <Text style={{
                                     backgroundColor: 'rgba(255,255,255,0.7)',
                                     fontSize: 10,
-                                    marginTop: ScreenUtil.scaleSize(2)
+                                    color:'#333'
                                 }}> {'Weapon ' + townHallWeaponLevel}</Text>
 
                                 <Text style={{
                                     paddingLeft: ScreenUtil.scaleSize(90),
                                     paddingTop: ScreenUtil.scaleSize(5),
                                     paddingBottom: ScreenUtil.scaleSize(5),
-                                    borderColor: '#666',
+                                    borderColor: '#333',
                                     paddingRight: ScreenUtil.scaleSize(15),
                                     borderRadius: ScreenUtil.scaleSize(10),
                                     backgroundColor: 'rgba(255,255,255,0.7)',

@@ -79,7 +79,7 @@ export function Achievement(itemData) {
                 width: ScreenUtil.scaleSize(65),
                 height: ScreenUtil.scaleSize(25),
                 position: 'absolute',
-                marginTop: ScreenUtil.scaleSize(45),
+                marginTop: ScreenUtil.scaleSize(35),
                 marginLeft: ScreenUtil.scaleSize(260)
             }} source={starts}/>
         </View>

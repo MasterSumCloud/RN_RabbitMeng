@@ -14,8 +14,13 @@ import * as HttpUtil from "../uitl/HttpUtil";
 
 let ItemControlMember = require('./ItemControlMember');
 
-export default class ControlUI extends Component {
+let townhall_12_color = '#1E90FF';
+let townhall_11_color = '#FA8072';
+let townhall_10_color = '#DC143C';
+let townhall_9_color = '#33333E';
+let townhall_clan_color = '#9400D3';
 
+export default class ControlUI extends Component {
 
 
     constructor(props) {
@@ -46,11 +51,31 @@ export default class ControlUI extends Component {
 
     render() {
 
+
         if (this.state.isLoading) {
             return <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                 <Image source={require('../../res/imgs/ali_dance.gif')}/>
             </View>
         } else {
+            // #F7B22F  警告颜色
+            // #3FEB04  正常颜色
+            // #BE0004  超标颜色
+
+            let coc_num = this.state.dataAry.length;
+            let coc_num_suggest = ' 满人';
+            if (coc_num === 50) {
+            } else if (coc_num > 48) {
+                townhall_clan_color = '#3FEB04';
+                coc_num_suggest = ' 缺' + (50 - coc_num);
+            } else if (coc_num > 45) {
+                townhall_clan_color = '#F7B22F';
+                coc_num_suggest = ' 缺' + (50 - coc_num);
+            } else {
+                townhall_clan_color = '#BE0004';
+                coc_num_suggest = ' 缺' + (50 - coc_num);
+            }
+
+
             return (
                 <View style={styles.container}>
 
@@ -72,13 +97,13 @@ export default class ControlUI extends Component {
                                 <View style={styles.text_rund_bg}>
                                     <View style={styles.bg_cir_town_12}/>
                                     <Text style={styles.text_white_12}>12本数量</Text>
-                                    <Text style={styles.text_num_inner}>15个 未超标</Text>
+                                    <Text style={styles.text_num_inner_12}>加载中...</Text>
                                 </View>
 
                                 <View style={styles.text_rund_bg}>
                                     <View style={styles.bg_cir_town_11}/>
                                     <Text style={styles.text_white_11}>11本数量</Text>
-                                    <Text style={styles.text_num_inner}>15个 未超标</Text>
+                                    <Text style={styles.text_num_inner_11}>加载中...</Text>
                                 </View>
                             </View>
 
@@ -86,13 +111,13 @@ export default class ControlUI extends Component {
                                 <View style={styles.text_rund_bg}>
                                     <View style={styles.bg_cir_town_10}/>
                                     <Text style={styles.text_white_10}>10本数量</Text>
-                                    <Text style={styles.text_num_inner}>15个 未超标</Text>
+                                    <Text style={styles.text_num_inner_10}>加载中...</Text>
                                 </View>
 
                                 <View style={styles.text_rund_bg}>
                                     <View style={styles.bg_cir_town_9}/>
                                     <Text style={styles.text_white_9}>9本数量</Text>
-                                    <Text style={styles.text_num_inner}>5个 未超标</Text>
+                                    <Text style={styles.text_num_inner_9}>加载中...</Text>
                                 </View>
                             </View>
 
@@ -100,7 +125,7 @@ export default class ControlUI extends Component {
                             <View style={styles.text_rund_bg_member}>
                                 <View style={styles.bg_cir_town_member}/>
                                 <Text style={styles.text_white__member}>部落总人数</Text>
-                                <Text style={styles.text_num_inner}>50 满人</Text>
+                                <Text style={styles.text_num_inner_clan}>{coc_num + coc_num_suggest}</Text>
                             </View>
 
                             <Image style={styles.coc_clan_tag} source={{uri: this.state.clan_tag_img_big}}/>
@@ -143,7 +168,7 @@ export default class ControlUI extends Component {
                             data={this.state.dataAry}
                             keyExtractor={(item, index) => item.tag}
                             renderItem={(item) => {
-                                return ItemControlMember.ItemCocClan(item)
+                                return ItemControlMember.ItemCocClan(this,item)
                             }}
                         />
 
@@ -158,7 +183,7 @@ export default class ControlUI extends Component {
 
 
 // #F7B22F  警告颜色
-// #1afa29  正常颜色
+// #3FEB04  正常颜色
 // #BE0004  超标颜色
 const styles = StyleSheet.create({
     container: {
@@ -173,35 +198,35 @@ const styles = StyleSheet.create({
         marginLeft: ScreenUtil.scaleSize(20),
         fontSize: 10,
         color: '#1E90FF',
-        backgroundColor: '#E8F4F6',
+        backgroundColor: 'white',
         position: 'absolute'
     },
     text_white_11: {
         marginLeft: ScreenUtil.scaleSize(20),
         fontSize: 10,
         color: '#FA8072',
-        backgroundColor: '#E8F4F6',
+        backgroundColor: 'white',
         position: 'absolute'
     },
     text_white_10: {
         marginLeft: ScreenUtil.scaleSize(20),
         fontSize: 10,
         color: '#DC143C',
-        backgroundColor: '#E8F4F6',
+        backgroundColor: 'white',
         position: 'absolute'
     },
     text_white_9: {
         marginLeft: ScreenUtil.scaleSize(20),
         fontSize: 10,
         color: '#33333E',
-        backgroundColor: '#E8F4F6',
+        backgroundColor: 'white',
         position: 'absolute'
     },
     text_white__member: {
         marginLeft: ScreenUtil.scaleSize(20),
         fontSize: 10,
-        color: '#FF00FF',
-        backgroundColor: '#E8F4F6',
+        color: '#9400D3',
+        backgroundColor: 'white',
         position: 'absolute'
     },
     text_coc_name: {
@@ -234,7 +259,7 @@ const styles = StyleSheet.create({
         marginTop: ScreenUtil.scaleSize(15),
         borderRadius: 5,
         borderWidth: ScreenUtil.scaleSize(1),
-        borderColor: '#1afa29',
+        borderColor: '#1E90FF',
         height: ScreenUtil.scaleSize(40),
         paddingLeft: 1,
         paddingRight: 1,
@@ -243,7 +268,7 @@ const styles = StyleSheet.create({
         marginTop: ScreenUtil.scaleSize(15),
         borderRadius: 5,
         borderWidth: ScreenUtil.scaleSize(1),
-        borderColor: '#1afa29',
+        borderColor: '#FA8072',
         height: ScreenUtil.scaleSize(40),
         paddingLeft: 1,
         paddingRight: 1,
@@ -252,7 +277,7 @@ const styles = StyleSheet.create({
         marginTop: ScreenUtil.scaleSize(15),
         borderRadius: 5,
         borderWidth: ScreenUtil.scaleSize(1),
-        borderColor: '#1afa29',
+        borderColor: '#DC143C',
         height: ScreenUtil.scaleSize(40),
         paddingLeft: 1,
         paddingRight: 1,
@@ -261,7 +286,7 @@ const styles = StyleSheet.create({
         marginTop: ScreenUtil.scaleSize(15),
         borderRadius: 5,
         borderWidth: ScreenUtil.scaleSize(1),
-        borderColor: '#1afa29',
+        borderColor: '#33333E',
         height: ScreenUtil.scaleSize(40),
         paddingLeft: 1,
         paddingRight: 1,
@@ -270,7 +295,7 @@ const styles = StyleSheet.create({
         marginTop: ScreenUtil.scaleSize(15),
         borderRadius: 5,
         borderWidth: ScreenUtil.scaleSize(1),
-        borderColor: '#1afa29',
+        borderColor: '#9400D3',
         height: ScreenUtil.scaleSize(40),
         paddingLeft: 1,
         paddingRight: 1,
@@ -282,8 +307,36 @@ const styles = StyleSheet.create({
         width: ScreenUtil.scaleSize(200),
         height: ScreenUtil.scaleSize(50),
     },
-    text_num_inner: {
-        color: '#1afa29',
+    text_num_inner_12: {
+        color: townhall_12_color,
+        marginTop: ScreenUtil.scaleSize(20),
+        position: 'absolute',
+        fontSize: 12,
+        marginLeft: ScreenUtil.scaleSize(15),
+    },
+    text_num_inner_11: {
+        color: townhall_11_color,
+        marginTop: ScreenUtil.scaleSize(20),
+        position: 'absolute',
+        fontSize: 12,
+        marginLeft: ScreenUtil.scaleSize(15),
+    },
+    text_num_inner_10: {
+        color: townhall_10_color,
+        marginTop: ScreenUtil.scaleSize(20),
+        position: 'absolute',
+        fontSize: 12,
+        marginLeft: ScreenUtil.scaleSize(15),
+    },
+    text_num_inner_9: {
+        color: townhall_9_color,
+        marginTop: ScreenUtil.scaleSize(20),
+        position: 'absolute',
+        fontSize: 12,
+        marginLeft: ScreenUtil.scaleSize(15),
+    },
+    text_num_inner_clan: {
+        color: townhall_clan_color,
         marginTop: ScreenUtil.scaleSize(20),
         position: 'absolute',
         fontSize: 12,
