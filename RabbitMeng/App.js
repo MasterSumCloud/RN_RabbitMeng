@@ -54,6 +54,7 @@ Navigation.startTabBasedApp({
         tabBarBackgroundColor: '#ffffff',
         tabBarButtonColor: '#cccccc',
         tabBarSelectedButtonColor: '#33A1FF',
+        tabFontFamily: 'BioRhyme-Bold',
     },
     appStyle: {
         tabBarBackgroundColor: '#F7F7F7',
@@ -64,6 +65,8 @@ Navigation.startTabBasedApp({
         navigationBarColor: '#33A1FF',
         navBarBackgroundColor: '#33A1FF',
         statusBarColor: '#33A1FF',
+        tabFontFamily: 'BioRhyme-Bold',
+        forceTitlesDisplay: true
     }
 });
 

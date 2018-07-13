@@ -23,11 +23,6 @@ const listArr =
 export default class MineUI extends Component {
 
 
-    static navigatorStyle = {
-        topTabTextColor: 'red',
-        header: null
-    }
-
     constructor(props) {
         super(props);
     }
@@ -122,6 +117,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#EDF1F4',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     mine_top: {
         alignItems: 'center',
@@ -185,7 +182,7 @@ const styles = StyleSheet.create({
     },
     item_style: {
         flexDirection: 'row',
-        height: ScreenUtil.scaleSize(100),
+        height: ScreenUtil.scaleSize(90),
         alignItems: 'center',
         paddingLeft: ScreenUtil.scaleSize(50),
     },

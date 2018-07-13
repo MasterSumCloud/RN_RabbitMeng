@@ -22,6 +22,14 @@ let townhall_clan_color = '#9400D3';
 
 export default class ControlUI extends Component {
 
+    static navigatorButtons = {
+        rightButtons: [
+            {
+                title: '配置',
+                id: 'setting',
+            }
+        ],
+    };
 
     constructor(props) {
         super(props);
@@ -46,6 +54,18 @@ export default class ControlUI extends Component {
                 clans_name: jsonData.name
             })
         })
+
+        this.props.navigator.setStyle({
+            navBarComponentAlignment: 'center',
+        });
+
+        this.props.navigator.setOnNavigatorEvent((e) => {
+            if (e.type == 'NavBarButtonPress') {
+                if (e.id == 'setting') {
+                    alert('Hello right btn');
+                }
+            }
+        });
     }
 
 
@@ -169,6 +189,10 @@ export default class ControlUI extends Component {
                             keyExtractor={(item, index) => item.tag}
                             renderItem={(item) => {
                                 return ItemControlMember.ItemCocClan(this,item)
+                            }}
+                            onEndReachedThreshold={1}
+                            onEndReached={()=>{
+                                console.log('aaaaaaaaaaa')
                             }}
                         />
 

@@ -10,9 +10,14 @@ import {
 
 export default class MumberDetailUI extends Component {
 
-    static navigationOptions = {
-        header: null
-    }
+    static navigatorButtons = {
+        leftButtons: [
+            {
+                title: '←',
+                id: 'back',
+            }
+        ]
+    };
 
     constructor(props) {
         super(props);
@@ -29,6 +34,17 @@ export default class MumberDetailUI extends Component {
                 javaScriptEnabled={true}
             />
         );
+    }
+
+    componentDidMount(){
+        this.props.navigator.setOnNavigatorEvent((e) => {
+            if (e.type == 'NavBarButtonPress') {
+                if (e.id == 'back') {
+                    this.props.navigator.dismissModal();
+                }
+
+            }
+        });
     }
 }
 
