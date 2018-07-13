@@ -102,25 +102,29 @@ export default class ClanDetailUI extends Component {
             }
 
             if (mainData.builderHallLevel === 1) {
-
+                buildHall = require('../../res/buildbase/buildhall_1.png');
             } else if (mainData.builderHallLevel === 2) {
-
+                buildHall = require('../../res/buildbase/buildhall_2.png');
             } else if (mainData.builderHallLevel === 3) {
-
+                buildHall = require('../../res/buildbase/buildhall_3.png');
             } else if (mainData.builderHallLevel === 4) {
-
+                buildHall = require('../../res/buildbase/buildhall_4.png');
             } else if (mainData.builderHallLevel === 5) {
-
+                buildHall = require('../../res/buildbase/buildhall_5.png');
             } else if (mainData.builderHallLevel === 6) {
-
+                buildHall = require('../../res/buildbase/buildhall_6.png');
             } else if (mainData.builderHallLevel === 7) {
-
+                buildHall = require('../../res/buildbase/buildhall_7.png');
             } else if (mainData.builderHallLevel === 8) {
-
+                buildHall = require('../../res/buildbase/buildhall_8.png');
             } else {
                 townHall = require('../../res/imgs/question_mark.png');
             }
 
+            let townHallWeaponLevel = '无';
+            if (mainData.townHallWeaponLevel!==undefined){
+                townHallWeaponLevel = mainData.townHallWeaponLevel;
+            }
 
             return (
                 <View
@@ -136,8 +140,8 @@ export default class ClanDetailUI extends Component {
                                 <Text style={{
                                     paddingLeft: ScreenUtil.scaleSize(120),
                                     position: 'absolute',
-                                    paddingTop: ScreenUtil.scaleSize(15),
-                                    paddingBottom: ScreenUtil.scaleSize(15),
+                                    paddingTop: ScreenUtil.scaleSize(12),
+                                    paddingBottom: ScreenUtil.scaleSize(12),
                                     borderColor: '#666',
                                     paddingRight: ScreenUtil.scaleSize(15),
                                     borderRadius: ScreenUtil.scaleSize(10),
@@ -145,16 +149,16 @@ export default class ClanDetailUI extends Component {
                                     backgroundColor: 'rgba(255,255,255,0.7)',
                                     fontSize: 15
                                 }}>{'大本营 ' + mainData.townHallLevel}</Text>
-                                <Image style={{width: ScreenUtil.scaleSize(100), height: ScreenUtil.scaleSize(100)}}
+                                <Image style={{width: ScreenUtil.scaleSize(100), height: ScreenUtil.scaleSize(100),marginRight:ScreenUtil.scaleSize(140)}}
                                        source={townHall}/>
                                 <Text style={{
                                     backgroundColor: 'rgba(255,255,255,0.7)',
                                     fontSize: 10,
-                                    marginTop: ScreenUtil.scaleSize(9)
-                                }}> {'Weapon ' + mainData.townHallWeaponLevel}</Text>
+                                    marginTop: ScreenUtil.scaleSize(2)
+                                }}> {'Weapon ' + townHallWeaponLevel}</Text>
 
                                 <Text style={{
-                                    paddingLeft: ScreenUtil.scaleSize(120),
+                                    paddingLeft: ScreenUtil.scaleSize(90),
                                     paddingTop: ScreenUtil.scaleSize(5),
                                     paddingBottom: ScreenUtil.scaleSize(5),
                                     borderColor: '#666',
@@ -164,10 +168,12 @@ export default class ClanDetailUI extends Component {
                                     fontSize: 13
                                 }}>{'建筑基地 ' + mainData.builderHallLevel}</Text>
                                 <Image style={{
-                                    width: ScreenUtil.scaleSize(80),
-                                    height: ScreenUtil.scaleSize(80),
-                                    position: 'absolute',
-                                    marginTop: ScreenUtil.scaleSize(110)
+                                    width: ScreenUtil.scaleSize(65),
+                                    height: ScreenUtil.scaleSize(65),
+                                    position:'absolute',
+                                    marginTop:ScreenUtil.scaleSize(109),
+                                    alignSelf:'flex-start',
+                                    marginLeft:ScreenUtil.scaleSize(15),
                                 }}
                                        source={buildHall}/>
                             </View>
@@ -418,8 +424,8 @@ export default class ClanDetailUI extends Component {
                             paddingRight: ScreenUtil.scaleSize(5)
                         }}>
                             <View style={styles.info_layout_cirle}>
-                                <View style={styles.bg_cir_1c4}/>
-                                <Text style={styles.text_white_10}>最佳村庄奖杯</Text>
+                                <View style={styles.bg_cir_f59}/>
+                                <Text style={styles.text_top_f59}>最佳村庄奖杯</Text>
                                 <View style={styles.inner_content}>
                                     <Image style={styles.left_icon}
                                            source={require('../../res/imgs/war_trophies.png')}></Image>
@@ -428,8 +434,8 @@ export default class ClanDetailUI extends Component {
                             </View>
 
                             <View style={styles.info_layout_cirle}>
-                                <View style={styles.bg_cir_1c4}/>
-                                <Text style={styles.text_white_10}>最佳对抗奖杯</Text>
+                                <View style={styles.bg_cir_f59}/>
+                                <Text style={styles.text_top_f59}>最佳对抗奖杯</Text>
                                 <View style={styles.inner_content}>
                                     <Image style={styles.left_icon}
                                            source={require('../../res/imgs/versus_trophies.png')}></Image>
@@ -438,8 +444,8 @@ export default class ClanDetailUI extends Component {
                             </View>
 
                             <View style={styles.info_layout_cirle}>
-                                <View style={styles.bg_cir_1c4}/>
-                                <Text style={styles.text_white_10}>历史最高赛季</Text>
+                                <View style={styles.bg_cir_6c3}/>
+                                <Text style={styles.text_top_6c3}>历史最高赛季</Text>
                                 <View style={styles.inner_content}>
                                     <Image style={styles.left_icon}
                                            source={require('../../res/imgs/tree_trophies.png')}></Image>
@@ -448,8 +454,8 @@ export default class ClanDetailUI extends Component {
                             </View>
 
                             <View style={styles.info_layout_cirle}>
-                                <View style={styles.bg_cir_1c4}/>
-                                <Text style={styles.text_white_10}>最佳对抗赛季</Text>
+                                <View style={styles.bg_cir_6c3}/>
+                                <Text style={styles.text_top_6c3}>最佳对抗赛季</Text>
                                 <View style={styles.inner_content}>
                                     <Image style={styles.left_icon}
                                            source={require('../../res/imgs/shield.png')}></Image>

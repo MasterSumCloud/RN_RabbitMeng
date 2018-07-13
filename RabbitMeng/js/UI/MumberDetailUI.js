@@ -22,8 +22,8 @@ export default class MumberDetailUI extends Component {
         return (
             <WebView
                 style={styles.webView_number}
-                // source={{uri:'https://www.cocbzlm.com/m/login.php'}}
-                source={{uri:'https://www.baidu.com'}}
+                source={{uri:'http://www.cocbzlm.com/m/login.php?prevUrl=%2Fm%2FchangeAm.php%3F'}}
+                // source={{uri:'https://www.baidu.com'}}
                 startInLoadingState={true}
                 domStorageEnabled={true}
                 javaScriptEnabled={true}

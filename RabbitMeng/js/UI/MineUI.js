@@ -99,7 +99,7 @@ export default class MineUI extends Component {
                     case 3:
                         break;
                     case 4:
-                        this.props.navigator.push({
+                        this.props.navigator.showModal({
                             screen: 'MumberDetailUI',
                             title: '积分管理',
                         });
