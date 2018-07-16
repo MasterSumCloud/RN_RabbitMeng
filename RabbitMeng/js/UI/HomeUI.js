@@ -6,6 +6,7 @@ import {
     Text
 } from 'react-native';
 
+let SPUtil = require('../uitl/SPUtil')
 
 export default class HomeUI extends Component {
 
@@ -16,6 +17,13 @@ export default class HomeUI extends Component {
     constructor(props) {
         super(props);
     }
+
+    _login = (result) => {
+        this.props.navigator.resetTo({
+            screen: 'LoginUI'
+        });
+    }
+
 
     render() {
         return (

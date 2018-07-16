@@ -7,7 +7,7 @@
 import {Platform} from 'react-native';
 import {Navigation} from 'react-native-navigation';
 import {registerScreens, registerScreenVisibilityListener} from './js/screens/ScreenRegist';
-
+let SPUtil = require('./js/uitl/SPUtil')
 
 // screen related book keeping
 registerScreens();
@@ -36,6 +36,63 @@ const tabs = [{
     title: '我的',
 }];
 
+SPUtil.getAsyncStorage('LoginState',(value)=>{
+    if (value==='true') {
+
+        Navigation.startTabBasedApp({
+            tabs,
+            animationType: Platform.OS === 'ios' ? 'slide-down' : 'fade',
+            tabsStyle: {
+                tabBarBackgroundColor: '#ffffff',
+                tabBarButtonColor: '#cccccc',
+                tabBarSelectedButtonColor: '#33A1FF',
+                tabFontFamily: 'BioRhyme-Bold',
+            },
+            appStyle: {
+                tabBarBackgroundColor: '#F7F7F7',
+                navBarButtonColor: '#ffffff',
+                tabBarButtonColor: '#CCCCCC',
+                navBarTextColor: '#ffffff',
+                tabBarSelectedButtonColor: '#33A1FF',
+                navigationBarColor: '#33A1FF',
+                navBarBackgroundColor: '#33A1FF',
+                statusBarColor: '#33A1FF',
+                tabFontFamily: 'BioRhyme-Bold',
+                forceTitlesDisplay: true
+            }
+        });
+    } else {
+        Navigation.startSingleScreenApp({
+            screen: {
+                screen: 'LoginUI',
+                title: null,
+                navigatorButtons: {},
+                navigatorStyle: {
+                    navBarHidden: true
+                }
+            },
+            animationType: 'slide-down',
+
+
+        });
+    }
+},()=>{
+    Navigation.startSingleScreenApp({
+        screen: {
+            screen: 'LoginUI',
+            title: null,
+            navigatorButtons: {},
+            navigatorStyle: {
+                navBarHidden: true
+            }
+        },
+        animationType: 'slide-down',
+    });
+})
+
+
+
+
 
 // if (Platform.OS === 'android') {
 //     tabs.push({
@@ -46,29 +103,12 @@ const tabs = [{
 //     });
 // }
 
-// this will start our app
-Navigation.startTabBasedApp({
-    tabs,
-    animationType: Platform.OS === 'ios' ? 'slide-down' : 'fade',
-    tabsStyle: {
-        tabBarBackgroundColor: '#ffffff',
-        tabBarButtonColor: '#cccccc',
-        tabBarSelectedButtonColor: '#33A1FF',
-        tabFontFamily: 'BioRhyme-Bold',
-    },
-    appStyle: {
-        tabBarBackgroundColor: '#F7F7F7',
-        navBarButtonColor: '#ffffff',
-        tabBarButtonColor: '#CCCCCC',
-        navBarTextColor: '#ffffff',
-        tabBarSelectedButtonColor: '#33A1FF',
-        navigationBarColor: '#33A1FF',
-        navBarBackgroundColor: '#33A1FF',
-        statusBarColor: '#33A1FF',
-        tabFontFamily: 'BioRhyme-Bold',
-        forceTitlesDisplay: true
-    }
-});
+// if (Platform.OS === 'android') {
+//
+// }
+
+
+
 
 
 

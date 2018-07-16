@@ -7,10 +7,13 @@ import {
     TextInput,
     ImageBackground,
     SafeAreaView,
-    Alert, TouchableWithoutFeedback
+    Alert, TouchableWithoutFeedback, Platform
 } from 'react-native';
 
 let ScreenUtil = require('../uitl/ScreenUtil');
+let SPUtil = require('../uitl/SPUtil');
+import Toast, {DURATION} from 'react-native-easy-toast'
+import {Navigation} from "react-native-navigation";
 
 export default class LoginUI extends Component {
 
@@ -43,7 +46,8 @@ export default class LoginUI extends Component {
                                    source={require('../../res/imgs/head_defoult.jpg')}/>
                             {/*登陆 - 用户输入*/}
                             <View style={styles.login_user}>
-                                <Image style={styles.login_left_icon} source={require('../../res/imgs/login_email.png')}/>
+                                <Image style={styles.login_left_icon}
+                                       source={require('../../res/imgs/login_email.png')}/>
                                 <TextInput placeholderTextColor={'white'} style={styles.login_textinput}
                                            maxLength={30}
                                            underlineColorAndroid='transparent'
@@ -53,7 +57,8 @@ export default class LoginUI extends Component {
                             </View>
                             {/*登陆 - 密码输入*/}
                             <View style={styles.login_user}>
-                                <Image style={styles.login_left_icon} source={require('../../res/imgs/login_password.png')}
+                                <Image style={styles.login_left_icon}
+                                       source={require('../../res/imgs/login_password.png')}
                                 />
                                 <TextInput placeholderTextColor={'white'} placeholder={'Your password'}
                                            style={styles.login_textinput}
@@ -64,23 +69,22 @@ export default class LoginUI extends Component {
                                 />
                             </View>
                             {/*登陆安妞*/}
-                            <TouchableWithoutFeedback onPress={() => {
-                                if (this.state.username === 'Sum' && this.state.passWord === '123456') {
-                                    this.props.navigation.navigate('Main');
-                                } else {
-                                    Alert.alert(null, '账号或者密码错误', '确定');
-                                }
-                            }}>
-                                <ImageBackground roundAsCircle={true}
-                                                 resizeMode={'stretch'} style={styles.oval_bg}>
-                                    <Text style={styles.login_btn}>
-                                        登录
-                                    </Text>
-                                </ImageBackground>
-                            </TouchableWithoutFeedback>
+                            <ImageBackground roundAsCircle={true}
+                                             resizeMode={'stretch'} style={styles.oval_bg}
+                            >
+                                <Text style={styles.login_btn} onPress={() => {
+                                    if (this.state.username === '111' && this.state.passWord === '111') {
+                                        this._saveLoginState();
+                                    } else {
+                                        this.refs.toast.show('账号或者密码错误');
+                                    }
+                                }}>
+                                    登录
+                                </Text>
+                            </ImageBackground>
                             {/*忘记密码*/}
                             <Text style={styles.text_stl_forgot_passworld} onPress={() => {
-                                Alert.alert(null, '抱歉，功能暂未开通', '确定');
+                                this.refs.toast.show('抱歉，功能暂未开通');
                             }}>
                                 忘记密码?
                             </Text>
@@ -88,17 +92,77 @@ export default class LoginUI extends Component {
                             <View style={styles.line}/>
                             {/*注册*/}
                             <Text style={styles.text_stl_forgot_regist} onPress={() => {
-                                Alert.alert(null, '抱歉，暂未开通注册', '确定');
+                                this.refs.toast.show('抱歉，暂未开通注册');
                             }}>
                                 没有账号?注册
                             </Text>
 
                         </ImageBackground>
                     </ImageBackground>
-
                 </View>
+                <Toast ref="toast"/>
             </SafeAreaView>
         );
+    }
+
+
+    _gotoMain = ()=>{
+        const tabs = [{
+            label: '首页',
+            screen: 'HomeUI',
+            icon: require('../../res/imgs/tab_home.png'),
+            title: '首页',
+        }, {
+            label: '管理',
+            screen: 'ControlUI',
+            icon: require('../../res/imgs/tab_control.png'),
+            title: '管理',
+        }, {
+            label: '部落',
+            screen: 'CocClanUI',
+            icon: require('../../res/imgs/tab_coc.png'),
+            title: '部落',
+        }, {
+            label: '我的',
+            screen: 'MineUI',
+            icon: require('../../res/imgs/tab_mine.png'),
+            title: '我的',
+        }];
+
+        Navigation.startTabBasedApp({
+            tabs,
+            animationType: Platform.OS === 'ios' ? 'slide-down' : 'fade',
+            tabsStyle: {
+                tabBarBackgroundColor: '#ffffff',
+                tabBarButtonColor: '#cccccc',
+                tabBarSelectedButtonColor: '#33A1FF',
+                tabFontFamily: 'BioRhyme-Bold',
+            },
+            appStyle: {
+                tabBarBackgroundColor: '#F7F7F7',
+                navBarButtonColor: '#ffffff',
+                tabBarButtonColor: '#CCCCCC',
+                navBarTextColor: '#ffffff',
+                tabBarSelectedButtonColor: '#33A1FF',
+                navigationBarColor: '#33A1FF',
+                navBarBackgroundColor: '#33A1FF',
+                statusBarColor: '#33A1FF',
+                tabFontFamily: 'BioRhyme-Bold',
+                forceTitlesDisplay: true
+            }
+        });
+
+
+
+    }
+
+    _saveLoginState=()=>{
+        SPUtil.saveAsyncStorage('LoginState','true',()=>{
+            this.refs.toast.show('登陆成功');
+            this._gotoMain();
+        },()=>{
+            this.refs.toast.show('状态异常，请稍后再试');
+        })
     }
 
 }
