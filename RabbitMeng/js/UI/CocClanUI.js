@@ -7,6 +7,7 @@ import {
     TextInput,
     ScrollView,
     FlatList,
+    Modal,
     TouchableHighlight
 } from 'react-native';
 import * as ScreenUtil from "../uitl/ScreenUtil";
@@ -15,6 +16,7 @@ import * as Constant from "../uitl/Constant";
 
 let ItemCocClan = require('../item/ItemCocClan');
 let SPUtil = require('../uitl/SPUtil')
+import ModalDropdown from 'react-native-modal-dropdown';
 
 export default class CocClanUI extends Component {
 
@@ -29,14 +31,24 @@ export default class CocClanUI extends Component {
             dataAry: [],
             clans_img: '',
             clans_name: '部落名称',
-            control_clan_list: []
+            control_clan_list: [
+                {name: '不打部落战只做捐兵狂26部', tag: '#P2YPYLJ', isControl: false},
+                {name: 'Extreme丶神', tag: '#JOROUL9J', isControl: false},
+                {name: '精英部队', tag: '#20CYRU98', isControl: false},
+                {name: '追着幸福跑', tag: '#VVCUVQ2', isControl: false},
+                {name: '轩皇', tag: '#PLJL2V0V', isControl: false},
+                {name: '天使的守护', tag: '#G02RLVG0', isControl: true},
+                {name: 'c.z.s2', tag: '#P0YJQ8UL', isControl: false},
+                {name: '我珍惜的时光 ♡ 可已不在了', tag: '#JQQYVUJJ', isControl: false},
+                {name: '天使的等待', tag: '#LQR8L9VP', isControl: false}],
         };
     }
 
     //  https://api.clashofclans.com/v1/clans/%23G02RLVG0/members
     //  https://api.clashofclans.com/v1/clans/%23G02RLVG0
+    //  ▵▿
     componentDidMount() {
-        let self = this
+        let self = this;
         HttpUtil.get('https://api.clashofclans.com/v1/clans/%23G02RLVG0', '', function (jsonData) {
             console.log(jsonData.items)
             self.setState({
@@ -48,12 +60,13 @@ export default class CocClanUI extends Component {
         })
 
         SPUtil.getAsyncStorage(Constant.ControlClan, (value) => {
-            self.state.control_clan_list = value;
+            self.setState({
+                // control_clan_list: JSON.parse(value)
+            })
         }, () => {
         })
 
     }
-
 
 
     render() {
@@ -69,7 +82,30 @@ export default class CocClanUI extends Component {
                     <View style={styles.head_container}>
                         <Image style={styles.coc_img} source={{uri: this.state.clans_img}}/>
 
-                        <Text style={styles.coc_clan_name}>天使的守护 ▼</Text>
+                        {/*<Text style={styles.coc_clan_name}>{this.state.clans_name + ' ▿'}</Text>*/}
+                        <ModalDropdown
+                            options={this.state.control_clan_list}
+                            defaultValue={'部落名称'}
+                            dropdownStyle={styles.dropdown}
+                            renderButtonText={(rowData) => {
+                                return rowData.name
+                            }}
+                            adjustFrame={style => {
+                                style.top += ScreenUtil.scaleSize(150);
+                                style.left -= ScreenUtil.scaleSize(40);
+                                return style;
+                            }}
+                            renderRow={(rowData, rowID, highlighted) => {
+                                return (
+                                    <TouchableHighlight underlayColor='cornflowerblue'>
+                                        <View style={{width:ScreenUtil.scaleSize(400),height:ScreenUtil.scaleSize(50),justifyContent:'center',}}>
+                                            <Text>{rowData.name}</Text>
+                                        </View>
+                                    </TouchableHighlight>
+                                );
+                            }}
+                        />
+
                         <View style={styles.text_input_search}>
                             <Image style={{
                                 width: ScreenUtil.scaleSize(30),
@@ -129,7 +165,7 @@ export default class CocClanUI extends Component {
                     <FlatList
                         // ItemSeparatorComponent={()=>{return <View style={{height:1,backgroundColor:'#EFEFEF'}}/>}}
                         data={this.state.dataAry}
-                        keyExtractor={(item, index) => item.tag}
+                        keyExtractor={(item, index) => item.index}
                         renderItem={(item) => {
                             if (this.state.isLoading) {
                                 return <Text>加载中</Text>
@@ -138,7 +174,6 @@ export default class CocClanUI extends Component {
                             }
                         }}
                     />
-
                 </ScrollView>
             </View>
         );
@@ -219,5 +254,11 @@ const styles = StyleSheet.create({
 
     text_tab_t: {
         color: '#333333'
+    },
+    dropdown: {
+        height: ScreenUtil.scaleSize(300),
+        borderColor: '#EFEFEF',
+        borderWidth: 2,
+        borderRadius: 3,
     }
 });

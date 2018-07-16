@@ -72,9 +72,6 @@ export default class SelectClanPop extends Component {
             </Modal>
         );
     }
-
-    componentDidMount(){
-    }
 }
 
 const styles = StyleSheet.create({
