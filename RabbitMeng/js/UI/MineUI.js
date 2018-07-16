@@ -92,6 +92,10 @@ export default class MineUI extends Component {
                     case 2:
                         break;
                     case 3:
+                        this.props.navigator.push({
+                            screen: 'SettingControlClansUI',
+                            title: '部落管理',
+                        });
                         break;
                     case 4:
                         this.props.navigator.showModal({

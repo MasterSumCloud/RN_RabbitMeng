@@ -11,8 +11,8 @@ import {
 import * as HttpUtil from "../uitl/HttpUtil";
 
 let ScreenUtil = require('../uitl/ScreenUtil');
-let ItemTroops = require('./ItemTroops');
-let ItemAchievements = require('./ItemAchievements');
+let ItemTroops = require('../item/ItemTroops');
+let ItemAchievements = require('../item/ItemAchievements');
 
 let text_color = -1;
 let border_color = -1;

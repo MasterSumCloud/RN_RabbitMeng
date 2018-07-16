@@ -6,7 +6,6 @@ import {
     Text
 } from 'react-native';
 
-let SPUtil = require('../uitl/SPUtil')
 
 export default class HomeUI extends Component {
 

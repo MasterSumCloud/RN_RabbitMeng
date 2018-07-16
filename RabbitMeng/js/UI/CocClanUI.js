@@ -6,13 +6,15 @@ import {
     Text,
     TextInput,
     ScrollView,
-    FlatList
+    FlatList,
+    TouchableHighlight
 } from 'react-native';
 import * as ScreenUtil from "../uitl/ScreenUtil";
 import * as HttpUtil from "../uitl/HttpUtil";
+import * as Constant from "../uitl/Constant";
 
-let ItemCocClan = require('./ItemCocClan');
-
+let ItemCocClan = require('../item/ItemCocClan');
+let SPUtil = require('../uitl/SPUtil')
 
 export default class CocClanUI extends Component {
 
@@ -25,8 +27,9 @@ export default class CocClanUI extends Component {
         this.state = {
             isLoading: true,
             dataAry: [],
-            clans_img:'',
-            clans_name:'部落名称',
+            clans_img: '',
+            clans_name: '部落名称',
+            control_clan_list: []
         };
     }
 
@@ -39,11 +42,18 @@ export default class CocClanUI extends Component {
             self.setState({
                 dataAry: jsonData.memberList,
                 isLoading: false,
-                clans_img:jsonData.badgeUrls.small,
-                clans_name:jsonData.name
+                clans_img: jsonData.badgeUrls.small,
+                clans_name: jsonData.name
             }).call(CocClanUI)
         })
+
+        SPUtil.getAsyncStorage(Constant.ControlClan, (value) => {
+            self.state.control_clan_list = value;
+        }, () => {
+        })
+
     }
+
 
 
     render() {
@@ -59,8 +69,7 @@ export default class CocClanUI extends Component {
                     <View style={styles.head_container}>
                         <Image style={styles.coc_img} source={{uri: this.state.clans_img}}/>
 
-                        <Text style={styles.coc_clan_name}>天使的守护</Text>
-
+                        <Text style={styles.coc_clan_name}>天使的守护 ▼</Text>
                         <View style={styles.text_input_search}>
                             <Image style={{
                                 width: ScreenUtil.scaleSize(30),
@@ -70,18 +79,19 @@ export default class CocClanUI extends Component {
                             <TextInput placeholderTextColor={'#999999'} style={styles.serarch}
                                        maxLength={30}
                                        underlineColorAndroid='transparent'
-                                       placeholder={'请输入要查找的部落名称'}/>
+                                       placeholder={'请输入要查找的村庄名称'}/>
                         </View>
                     </View>
 
                     <View style={styles.line}/>
 
                     <View style={styles.coc_sort_container_sore}>
-                        <Text style={styles.text_tab_t}>部落 升</Text>
-                        <Text style={styles.text_tab_t}>部落 升</Text>
-                        <Text style={styles.text_tab_t}>部落 升</Text>
-                        <Text style={styles.text_tab_t}>部落 升</Text>
-                        <Text style={styles.text_tab_t}>部落 升</Text>
+                        {/*△▽▲▼*/}
+                        <Text style={styles.text_tab_t}>等级 ▼</Text>
+                        <Text style={styles.text_tab_t}>捐兵 ▼</Text>
+                        <Text style={styles.text_tab_t}>收兵 ▼</Text>
+                        <Text style={styles.text_tab_t}>比例 ▼</Text>
+                        <Text style={styles.text_tab_t}>段位 ▼</Text>
                     </View>
 
                     <View>
@@ -124,7 +134,7 @@ export default class CocClanUI extends Component {
                             if (this.state.isLoading) {
                                 return <Text>加载中</Text>
                             } else {
-                                return ItemCocClan.ItemCocClan(this,item)
+                                return ItemCocClan.ItemCocClan(this, item)
                             }
                         }}
                     />
@@ -156,9 +166,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'white'
     },
     serarch: {
-        flex:1,
+        flex: 1,
         alignItems: 'center',
-        justifyContent:'center',
+        justifyContent: 'center',
         paddingLeft: ScreenUtil.scaleSize(10),
         paddingRight: ScreenUtil.scaleSize(30),
         color: '#999999',

@@ -12,7 +12,7 @@ import {
 import * as ScreenUtil from "../uitl/ScreenUtil";
 import * as HttpUtil from "../uitl/HttpUtil";
 
-let ItemControlMember = require('./ItemControlMember');
+let ItemControlMember = require('../item/ItemControlMember');
 
 let townhall_12_color = '#1E90FF';
 let townhall_11_color = '#FA8072';
