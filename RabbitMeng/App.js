@@ -49,7 +49,7 @@ SPUtil.getAsyncStorage('LoginState',(value)=>{
                 tabFontFamily: 'BioRhyme-Bold',
             },
             appStyle: {
-                tabBarBackgroundColor: '#F7F7F7',
+                tabBarBackgroundColor: '#FFFFFF',
                 navBarButtonColor: '#ffffff',
                 tabBarButtonColor: '#CCCCCC',
                 navBarTextColor: '#ffffff',

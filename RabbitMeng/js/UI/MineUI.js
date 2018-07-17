@@ -104,6 +104,10 @@ export default class MineUI extends Component {
                         });
                         break;
                     case 5:
+                        this.props.navigator.push({
+                            screen: 'SettingUI',
+                            title: '设置',
+                        });
                         break;
                 }
             }}>

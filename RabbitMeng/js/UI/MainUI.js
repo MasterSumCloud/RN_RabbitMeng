@@ -5,7 +5,7 @@ import {
     Image,
     Text
 } from 'react-native';
-
+let ScreenUtil = require('../uitl/ScreenUtil');
 
 export default class MainUI extends Component {
 
