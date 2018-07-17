@@ -52,11 +52,11 @@ export default class MineUI extends Component {
                     <View style={styles.top_importent}>
                         <View style={styles.center_lay}>
                             <Image style={styles.top_icon} source={require('../../res/imgs/vip_icon.png')}/>
-                            <Text>会员</Text>
+                            <Text>竞赛统计</Text>
                         </View>
                         <View style={styles.center_lay}>
-                            <Image style={styles.top_icon} source={require('../../res/imgs/message_icon.png')}/>
-                            <Text>消息</Text>
+                            <Image style={styles.top_icon} source={require('../../res/imgs/tongji.png')}/>
+                            <Text>部落战统计</Text>
                         </View>
                     </View>
 
