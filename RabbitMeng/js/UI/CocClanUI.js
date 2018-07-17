@@ -49,16 +49,7 @@ export default class CocClanUI extends Component {
     //  ▵▿
     componentDidMount() {
         let self = this;
-        HttpUtil.get('https://api.clashofclans.com/v1/clans/%23G02RLVG0', '', function (jsonData) {
-            console.log(jsonData.items)
-            self.setState({
-                dataAry: jsonData.memberList,
-                isLoading: false,
-                clans_img: jsonData.badgeUrls.small,
-                clans_name: jsonData.name
-            }).call(CocClanUI)
-        })
-
+        this._getClanData();
         SPUtil.getAsyncStorage(Constant.ControlClan, (value) => {
             self.setState({
                 // control_clan_list: JSON.parse(value)
@@ -67,6 +58,20 @@ export default class CocClanUI extends Component {
         })
 
     }
+
+
+    _getClanData = () => {
+        let self = this;
+        HttpUtil.get('https://api.clashofclans.com/v1/clans/%23G02RLVG0', '', function (jsonData) {
+            console.log(jsonData.items);
+            self.setState({
+                dataAry: jsonData.memberList,
+                isLoading: false,
+                clans_img: jsonData.badgeUrls.small,
+                clans_name: jsonData.name
+            }).call(CocClanUI)
+        })
+    };
 
 
     render() {
@@ -85,20 +90,27 @@ export default class CocClanUI extends Component {
                         {/*<Text style={styles.coc_clan_name}>{this.state.clans_name + ' ▿'}</Text>*/}
                         <ModalDropdown
                             options={this.state.control_clan_list}
-                            defaultValue={'部落名称'}
+                            defaultValue={this.state.clans_name+' ▿'}
                             dropdownStyle={styles.dropdown}
                             renderButtonText={(rowData) => {
-                                return rowData.name
+                                this.setState({isLoading: true});
+                                this._getClanData();
+                                return rowData.name + ' ▿'
                             }}
                             adjustFrame={style => {
                                 style.top += ScreenUtil.scaleSize(150);
-                                style.left -= ScreenUtil.scaleSize(40);
+                                style.left -= ScreenUtil.scaleSize(5);
                                 return style;
                             }}
                             renderRow={(rowData, rowID, highlighted) => {
                                 return (
                                     <TouchableHighlight underlayColor='cornflowerblue'>
-                                        <View style={{width:ScreenUtil.scaleSize(400),height:ScreenUtil.scaleSize(50),justifyContent:'center',}}>
+                                        <View style={{
+                                            width: ScreenUtil.scaleSize(400),
+                                            height: ScreenUtil.scaleSize(50),
+                                            marginLeft: ScreenUtil.scaleSize(10),
+                                            justifyContent: 'center',
+                                        }}>
                                             <Text>{rowData.name}</Text>
                                         </View>
                                     </TouchableHighlight>
@@ -123,11 +135,11 @@ export default class CocClanUI extends Component {
 
                     <View style={styles.coc_sort_container_sore}>
                         {/*△▽▲▼*/}
-                        <Text style={styles.text_tab_t}>等级 ▼</Text>
-                        <Text style={styles.text_tab_t}>捐兵 ▼</Text>
-                        <Text style={styles.text_tab_t}>收兵 ▼</Text>
-                        <Text style={styles.text_tab_t}>比例 ▼</Text>
-                        <Text style={styles.text_tab_t}>段位 ▼</Text>
+                        <Text style={styles.text_tab_t}>等级 ▿</Text>
+                        <Text style={styles.text_tab_t}>捐兵 ▿</Text>
+                        <Text style={styles.text_tab_t}>收兵 ▿</Text>
+                        <Text style={styles.text_tab_t}>比例 ▿</Text>
+                        <Text style={styles.text_tab_t}>段位 ▿</Text>
                     </View>
 
                     <View>
@@ -162,21 +174,37 @@ export default class CocClanUI extends Component {
                         </View>
                     </View>
 
-                    <FlatList
-                        // ItemSeparatorComponent={()=>{return <View style={{height:1,backgroundColor:'#EFEFEF'}}/>}}
-                        data={this.state.dataAry}
-                        keyExtractor={(item, index) => item.index}
-                        renderItem={(item) => {
-                            if (this.state.isLoading) {
-                                return <Text>加载中</Text>
-                            } else {
-                                return ItemCocClan.ItemCocClan(this, item)
-                            }
-                        }}
-                    />
+                    {this._viewFlatList()}
                 </ScrollView>
             </View>
         );
+    }
+
+    _viewFlatList = () => {
+        if (this.state.isLoading) {
+            return (<View style={{
+                width: ScreenUtil.screenW,
+                height: ScreenUtil.scaleSize(300),
+                justifyContent: 'center',
+                alignItems: 'center'
+            }}>
+                <Image style={{width: 30, height: 30}} source={require('../../res/imgs/ali_look_around.gif')}/>
+            </View>)
+        } else {
+            return (<FlatList
+                // ItemSeparatorComponent={()=>{return <View style={{height:1,backgroundColor:'#EFEFEF'}}/>}}
+                data={this.state.dataAry}
+                keyExtractor={(item, index) => item.index}
+                renderItem={(item) => {
+                    if (this.state.isLoading) {
+                        return <Text>加载中</Text>
+                    } else {
+                        return ItemCocClan.ItemCocClan(this, item)
+                    }
+                }}
+            />)
+        }
+
     }
 }
 

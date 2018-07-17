@@ -21,9 +21,14 @@ export default class ClanDetailUI extends Component {
 
     //https://api.clashofclans.com/v1/players/%232Q808J2G
 
-    static navigationOptions = {
-        header: null
-    }
+    static navigatorButtons = {
+        leftButtons: [
+            {
+                title: '←',
+                id: 'back',
+            }
+        ]
+    };
 
     constructor(props) {
         super(props);
@@ -492,10 +497,18 @@ export default class ClanDetailUI extends Component {
     }
 
     componentDidMount() {
-        let self = this
+        let self = this;
         HttpUtil.get('https://api.clashofclans.com/v1/players/' + self.props.coc_tag.replace(/#/, '%23'), '', function (jsonData) {
             self._handle_data(self, jsonData);
-        })
+        });
+        this.props.navigator.setOnNavigatorEvent((e) => {
+            if (e.type == 'NavBarButtonPress') {
+                if (e.id == 'back') {
+                    this.props.navigator.dismissModal();
+                }
+
+            }
+        });
     }
 
     _handle_data = (self, mainData) => {
