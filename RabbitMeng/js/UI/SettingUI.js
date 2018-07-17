@@ -73,7 +73,7 @@ export default class SettingUI extends Component {
                         })
 
                     }}  style={styles.login_out} >
-                        <View>
+                        <View style={styles.login_out_view}>
                             <Text style={{color: '#33A1FF'}}>退出登录</Text>
                         </View>
                     </TouchableWithoutFeedback>
@@ -113,8 +113,6 @@ const styles = StyleSheet.create({
         fontSize: 15
     },
     login_out: {
-        position: 'absolute',
-        marginTop: ScreenUtil.screenH * 0.6,
         height: ScreenUtil.scaleSize(100),
         width: ScreenUtil.scaleSize(480),
         borderColor: '#EFEFEF',
@@ -122,5 +120,16 @@ const styles = StyleSheet.create({
         borderRadius: ScreenUtil.scaleSize(5),
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    login_out_view:{
+        position: 'absolute',
+        height: ScreenUtil.scaleSize(100),
+        width: ScreenUtil.scaleSize(480),
+        borderColor: '#EFEFEF',
+        borderWidth: ScreenUtil.scaleSize(1),
+        borderRadius: ScreenUtil.scaleSize(5),
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop:ScreenUtil.screenH*0.65
     }
 });

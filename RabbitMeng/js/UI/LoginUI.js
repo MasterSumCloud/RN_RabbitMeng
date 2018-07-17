@@ -69,19 +69,25 @@ export default class LoginUI extends Component {
                                 />
                             </View>
                             {/*登陆安妞*/}
-                            <ImageBackground roundAsCircle={true}
-                                             resizeMode={'stretch'} style={styles.oval_bg}
-                            >
-                                <Text style={styles.login_btn} onPress={() => {
-                                    if (this.state.username === '111' && this.state.passWord === '111') {
-                                        this._saveLoginState();
-                                    } else {
-                                        this.refs.toast.show('账号或者密码错误');
-                                    }
-                                }}>
-                                    登录
-                                </Text>
-                            </ImageBackground>
+                            <TouchableWithoutFeedback style={{
+                                width: ScreenUtil.scaleSize(440),
+                                height: ScreenUtil.scaleSize(100)
+                            }} onPress={() => {
+                                if (this.state.username === '111' && this.state.passWord === '111') {
+                                    this._saveLoginState();
+                                } else {
+                                    this.refs.toast.show('账号或者密码错误');
+                                }
+                            }}><View>
+                                <ImageBackground roundAsCircle={true}
+                                                 resizeMode={'stretch'} style={styles.oval_bg}
+                                >
+                                    <Text style={styles.login_btn}>
+                                        登录
+                                    </Text>
+                                </ImageBackground>
+                            </View>
+                            </TouchableWithoutFeedback>
                             {/*忘记密码*/}
                             <Text style={styles.text_stl_forgot_passworld} onPress={() => {
                                 this.refs.toast.show('抱歉，功能暂未开通');
@@ -106,7 +112,7 @@ export default class LoginUI extends Component {
     }
 
 
-    _gotoMain = ()=>{
+    _gotoMain = () => {
         const tabs = [{
             label: '首页',
             screen: 'HomeUI',
@@ -153,14 +159,13 @@ export default class LoginUI extends Component {
         });
 
 
-
     }
 
-    _saveLoginState=()=>{
-        SPUtil.saveAsyncStorage('LoginState','true',()=>{
+    _saveLoginState = () => {
+        SPUtil.saveAsyncStorage('LoginState', 'true', () => {
             this.refs.toast.show('登陆成功');
             this._gotoMain();
-        },()=>{
+        }, () => {
             this.refs.toast.show('状态异常，请稍后再试');
         })
     }
