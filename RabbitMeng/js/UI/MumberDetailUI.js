@@ -25,18 +25,20 @@ export default class MumberDetailUI extends Component {
 
     render() {
         return (
-            <WebView
-                style={styles.webView_number}
-                source={{uri:'http://www.cocbzlm.com/m/login.php?prevUrl=%2Fm%2FchangeAm.php%3F'}}
-                // source={{uri:'https://www.baidu.com'}}
-                startInLoadingState={true}
-                domStorageEnabled={true}
-                javaScriptEnabled={true}
-            />
+            <View style={{flex:1,backgroundColor:'white'}}>
+                <WebView
+                    style={styles.webView_number}
+                    source={{uri: 'http://www.cocbzlm.com/m/login.php?prevUrl=%2Fm%2FchangeAm.php%3F'}}
+                    // source={{uri:'https://www.baidu.com'}}
+                    startInLoadingState={true}
+                    domStorageEnabled={true}
+                    javaScriptEnabled={true}
+                />
+            </View>
         );
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.navigator.setOnNavigatorEvent((e) => {
             if (e.type == 'NavBarButtonPress') {
                 if (e.id == 'back') {
@@ -49,8 +51,8 @@ export default class MumberDetailUI extends Component {
 }
 
 const styles = StyleSheet.create({
-    webView_number:{
-        flex:1,
-        backgroundColor:'white'
+    webView_number: {
+        flex: 1,
+        backgroundColor: 'white'
     }
 });

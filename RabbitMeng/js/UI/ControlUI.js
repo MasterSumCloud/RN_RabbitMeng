@@ -39,6 +39,7 @@ export default class ControlUI extends Component {
             clans_img: '',
             clan_tag_img_big: '',
             clans_name: '部落名称',
+            clan_tag:''
         };
     }
 
@@ -51,7 +52,8 @@ export default class ControlUI extends Component {
                 isLoading: false,
                 clans_img: jsonData.badgeUrls.small,
                 clan_tag_img_big: jsonData.badgeUrls.large,
-                clans_name: jsonData.name
+                clans_name: jsonData.name,
+                clan_tag:jsonData.tag
             })
         })
 
@@ -62,7 +64,11 @@ export default class ControlUI extends Component {
         this.props.navigator.setOnNavigatorEvent((e) => {
             if (e.type == 'NavBarButtonPress') {
                 if (e.id == 'setting') {
-                    alert('Hello right btn');
+                    this.props.navigator.showModal({
+                        screen: 'ConfigClanUI',
+                        title: '配置部落',
+                        passProps: {coc_tag: this.state.clan_tag}
+                    })
                 }
             }
         });
@@ -188,10 +194,10 @@ export default class ControlUI extends Component {
                             data={this.state.dataAry}
                             keyExtractor={(item, index) => item.tag}
                             renderItem={(item) => {
-                                return ItemControlMember.ItemCocClan(this,item)
+                                return ItemControlMember.ItemCocClan(this, item)
                             }}
                             onEndReachedThreshold={1}
-                            onEndReached={()=>{
+                            onEndReached={() => {
                                 console.log('aaaaaaaaaaa')
                             }}
                         />

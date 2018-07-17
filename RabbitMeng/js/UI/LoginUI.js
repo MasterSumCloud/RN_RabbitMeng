@@ -154,7 +154,8 @@ export default class LoginUI extends Component {
                 navBarBackgroundColor: '#33A1FF',
                 statusBarColor: '#33A1FF',
                 tabFontFamily: 'BioRhyme-Bold',
-                forceTitlesDisplay: true
+                forceTitlesDisplay: true,
+                navBarTitleTextCentered: true,
             }
         });
 

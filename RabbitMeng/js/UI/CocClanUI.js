@@ -194,7 +194,7 @@ export default class CocClanUI extends Component {
             return (<FlatList
                 // ItemSeparatorComponent={()=>{return <View style={{height:1,backgroundColor:'#EFEFEF'}}/>}}
                 data={this.state.dataAry}
-                keyExtractor={(item, index) => item.index}
+                keyExtractor={(item, index) => index}
                 renderItem={(item) => {
                     if (this.state.isLoading) {
                         return <Text>加载中</Text>

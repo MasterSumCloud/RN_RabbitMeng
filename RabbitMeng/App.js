@@ -58,7 +58,8 @@ SPUtil.getAsyncStorage('LoginState',(value)=>{
                 navBarBackgroundColor: '#33A1FF',
                 statusBarColor: '#33A1FF',
                 tabFontFamily: 'BioRhyme-Bold',
-                forceTitlesDisplay: true
+                forceTitlesDisplay: true,
+                navBarTitleTextCentered: true,
             }
         });
     } else {
@@ -88,7 +89,7 @@ SPUtil.getAsyncStorage('LoginState',(value)=>{
         },
         animationType: 'slide-down',
     });
-})
+});
 
 
 
