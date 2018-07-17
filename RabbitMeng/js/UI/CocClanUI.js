@@ -49,7 +49,7 @@ export default class CocClanUI extends Component {
     //  ▵▿
     componentDidMount() {
         let self = this;
-        this._getClanData();
+        this._getClanData('#G02RLVG0');
         SPUtil.getAsyncStorage(Constant.ControlClan, (value) => {
             self.setState({
                 // control_clan_list: JSON.parse(value)
@@ -60,9 +60,9 @@ export default class CocClanUI extends Component {
     }
 
 
-    _getClanData = () => {
+    _getClanData = (tag) => {
         let self = this;
-        HttpUtil.get('https://api.clashofclans.com/v1/clans/%23G02RLVG0', '', function (jsonData) {
+        HttpUtil.get('https://api.clashofclans.com/v1/clans/'+tag.replace(/#/, '%23'), '', function (jsonData) {
             console.log(jsonData.items);
             self.setState({
                 dataAry: jsonData.memberList,
@@ -94,7 +94,7 @@ export default class CocClanUI extends Component {
                             dropdownStyle={styles.dropdown}
                             renderButtonText={(rowData) => {
                                 this.setState({isLoading: true});
-                                this._getClanData();
+                                this._getClanData(rowData.tag);
                                 return rowData.name + ' ▿'
                             }}
                             adjustFrame={style => {
@@ -184,11 +184,11 @@ export default class CocClanUI extends Component {
         if (this.state.isLoading) {
             return (<View style={{
                 width: ScreenUtil.screenW,
-                height: ScreenUtil.scaleSize(300),
+                height: ScreenUtil.scaleSize(600),
                 justifyContent: 'center',
                 alignItems: 'center'
             }}>
-                <Image style={{width: 30, height: 30}} source={require('../../res/imgs/ali_look_around.gif')}/>
+                <Image style={{width: 80, height: 80}} source={require('../../res/imgs/ali_look_around.gif')}/>
             </View>)
         } else {
             return (<FlatList
