@@ -197,6 +197,16 @@ export default class ConfigClanUI extends Component {
                             marginLeft: ScreenUtil.scaleSize(15),
                             marginRight: ScreenUtil.scaleSize(15)
                         }}>部落战统计说明：在部落战结束前，需要手动去我的页面，部落战统计点一下，记录当前所有成员进攻次数！！！</Text>
+
+                        <Text style={{
+                            color: '#999999',
+                            fontSize: 12,
+                            marginLeft: ScreenUtil.scaleSize(15),
+                            marginRight: ScreenUtil.scaleSize(15),
+                            marginTop:ScreenUtil.scaleSize(15),
+                        }}>活跃度统计说明：活跃度计算公式=》收兵*0.1(满分10) + 捐兵*0.2(满分20) + 竞赛*0.3(低于1000级0分，高于1000得15分，+超过1000部分/3000*15) + 部落战1次进攻10分(每次保留上次分数) + (长老+5  副手+10  首领加15) + 收兵超过5w+5分，捐兵超过要求部分 每超过1W每1得1分。
+                        小于60分(红色表示-活跃度不合格，不活跃分子),60~80（黄色表示-活跃度合格，活跃一般）,80+(绿色表示-活跃度非常好，可以提拔)
+                        </Text>
                     </View>
 
                 </ScrollView>
@@ -257,6 +267,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white',
+        paddingBottom:ScreenUtil.scaleSize(30)
     },
     item_container: {
         flexDirection: 'row',

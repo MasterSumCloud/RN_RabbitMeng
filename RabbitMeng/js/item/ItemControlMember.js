@@ -9,7 +9,7 @@ import {
 
 let ScreenUtil = require('../uitl/ScreenUtil');
 
-export function ItemCocClan(self, itemData) {
+export function ItemCocClan(self, itemData,clan_config) {
 
 
     //#BBEDC2
@@ -22,7 +22,23 @@ export function ItemCocClan(self, itemData) {
         role = '副首领';
     } else if (itemData.item.role === 'leader') {
         role = '首领';
+    } else if (itemData.item.role === 'admin') {
+        role = '长老';
     }
+
+    let backBgColor = itemData.index % 2 === 0 ? 'white' : '#F7F7F7';
+
+    //竞赛判断
+
+
+    //部落战判断
+
+
+    //捐兵判断
+
+
+    //黑名单判断
+
 
     return <TouchableWithoutFeedback
         onPress={() => {
@@ -34,7 +50,7 @@ export function ItemCocClan(self, itemData) {
         }}><View style={{
         flex: 1,
         flexDirection: 'row',
-        backgroundColor: itemData.index % 2 === 0 ? 'white' : '#F7F7F7',
+        backgroundColor: backBgColor,
         height: ScreenUtil.scaleSize(120),
     }} id={itemData.index}>
         <View style={styles.text_index}>
