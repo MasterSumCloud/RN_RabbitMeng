@@ -7,7 +7,7 @@
 import {Platform} from 'react-native';
 import {Navigation} from 'react-native-navigation';
 import {registerScreens, registerScreenVisibilityListener} from './js/screens/ScreenRegist';
-let SPUtil = require('./js/uitl/SPUtil')
+let SPUtil = require('./js/uitl/SPUtil');
 
 // screen related book keeping
 registerScreens();

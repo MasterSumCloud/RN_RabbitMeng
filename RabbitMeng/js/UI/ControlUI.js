@@ -12,6 +12,9 @@ import {
 import * as ScreenUtil from "../uitl/ScreenUtil";
 import * as HttpUtil from "../uitl/HttpUtil";
 
+let SPUtil = require('../uitl/SPUtil');
+import * as Constant from '../uitl/Constant'
+
 let ItemControlMember = require('../item/ItemControlMember');
 
 let townhall_12_color = '#1E90FF';
@@ -39,31 +42,16 @@ export default class ControlUI extends Component {
             clans_img: '',
             clan_tag_img_big: '',
             clans_name: '部落名称',
-            clan_tag:''
+            clan_tag: '',
+            isError: false
         };
     }
 
     componentDidMount() {
-        let self = this
-        HttpUtil.get('https://api.clashofclans.com/v1/clans/%23G02RLVG0', '', function (jsonData) {
-            console.log(jsonData.items)
-            self.setState({
-                dataAry: jsonData.memberList,
-                isLoading: false,
-                clans_img: jsonData.badgeUrls.small,
-                clan_tag_img_big: jsonData.badgeUrls.large,
-                clans_name: jsonData.name,
-                clan_tag:jsonData.tag
-            })
-        })
-
-        this.props.navigator.setStyle({
-            navBarComponentAlignment: 'center',
-        });
 
         this.props.navigator.setOnNavigatorEvent((e) => {
-            if (e.type == 'NavBarButtonPress') {
-                if (e.id == 'setting') {
+            if (e.type === 'NavBarButtonPress') {
+                if (e.id === 'setting') {
                     this.props.navigator.showModal({
                         screen: 'ConfigClanUI',
                         title: '配置部落',
@@ -72,15 +60,55 @@ export default class ControlUI extends Component {
                 }
             }
         });
+
+
+        SPUtil.getAsyncStorage(Constant.ControlClan, (listClan) => {
+            let controlTag = '';
+            if (listClan != null && listClan !== undefined) {
+                let jsonData = JSON.parse(listClan);
+                for (let item of jsonData) {
+                    if (item.isControl) {
+                        controlTag = item.tag;
+                    }
+                }
+            }
+
+            if (controlTag===''){
+                this.setState({isLoading:false,isError:true});
+            }else {
+                this._getData(controlTag);
+            }
+        });
     }
+
+    _getData = (tag) => {
+        let self = this;
+        HttpUtil.get('https://api.clashofclans.com/v1/clans/' + tag.replace(/#/, '%23'), '', function (jsonData) {
+            self.setState({
+                dataAry: jsonData.memberList,
+                isLoading: false,
+                clans_img: jsonData.badgeUrls.small,
+                clan_tag_img_big: jsonData.badgeUrls.large,
+                clans_name: jsonData.name,
+                clan_tag: jsonData.tag
+            })
+        }, function (error) {
+            self.setState({isError: true})
+        });
+    };
 
 
     render() {
 
-
-        if (this.state.isLoading) {
+        if (this.state.isError) {
+            return (<View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <Image source={require('../../res/imgs/error_no_control_clan.gif')}/>
+                <Text>诶！没有管理的部落</Text>
+            </View>)
+        } else if (this.state.isLoading) {
             return <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                 <Image source={require('../../res/imgs/ali_dance.gif')}/>
+                <Text>数据加载中...</Text>
             </View>
         } else {
             // #F7B22F  警告颜色
@@ -195,10 +223,6 @@ export default class ControlUI extends Component {
                             keyExtractor={(item, index) => item.tag}
                             renderItem={(item) => {
                                 return ItemControlMember.ItemCocClan(this, item)
-                            }}
-                            onEndReachedThreshold={1}
-                            onEndReached={() => {
-                                console.log('aaaaaaaaaaa')
                             }}
                         />
 

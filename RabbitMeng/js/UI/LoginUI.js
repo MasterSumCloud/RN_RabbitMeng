@@ -14,6 +14,7 @@ let ScreenUtil = require('../uitl/ScreenUtil');
 let SPUtil = require('../uitl/SPUtil');
 import Toast, {DURATION} from 'react-native-easy-toast'
 import {Navigation} from "react-native-navigation";
+import * as Constant from "../uitl/Constant";
 
 export default class LoginUI extends Component {
 
@@ -24,8 +25,32 @@ export default class LoginUI extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {username: '', passWord: ''};
+        this.state = {
+            username: '',
+            passWord: '',
+            clan_list: [
+                {name: '不打部落战只做捐兵狂26部', tag: '#P2YPYLJ', isControl: false},
+                {name: 'Extreme丶神', tag: '#JOROUL9J', isControl: false},
+                {name: '精英部队', tag: '#20CYRU98', isControl: false},
+                {name: '追着幸福跑', tag: '#VVCUVQ2', isControl: false},
+                {name: '轩皇', tag: '#PLJL2V0V', isControl: false},
+                {name: '天使的守护', tag: '#G02RLVG0', isControl: false},
+                {name: 'c.z.s2', tag: '#P0YJQ8UL', isControl: false},
+                {name: '我珍惜的时光 ♡ 可已不在了', tag: '#JQQYVUJJ', isControl: false},
+                {name: '天使的等待', tag: '#LQR8L9VP', isControl: false}]
+        };
 
+    }
+
+    componentDidMount() {
+
+        //初始化部落管理
+
+        SPUtil.saveAsyncStorage(Constant.ControlClan, JSON.stringify(this.state.clan_list), () => {
+            console.log('数据储存成功，在登录页')
+        }, () => {
+            console.log('数据储存失败，在登录页')
+        })
     }
 
     render() {

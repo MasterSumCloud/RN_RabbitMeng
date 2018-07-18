@@ -8,9 +8,10 @@ import {
     TextInput
 } from 'react-native';
 
-let isEditting = false;
-
+import Toast, {DURATION} from 'react-native-easy-toast'
 import * as ScreenUtil from "../uitl/ScreenUtil";
+let SPUtil = require('../uitl/SPUtil');
+import * as Constant from '../uitl/Constant'
 
 export default class ConfigClanUI extends Component {
 
@@ -33,9 +34,23 @@ export default class ConfigClanUI extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isEdit: false
-        }
+            isEdit: false,
+            donations: 3000,
+            receiveTroop: -1,
+            townhall12_min: 15,
+            townhall12_max: 20,
+            townhall11_min: 15,
+            townhall11_max: 20,
+            townhall10_min: 15,
+            townhall10_max: 20,
+            townhall9_min: 15,
+            townhall9_max: 20,
+            clan_game: -1,
+            clan_war_artack: 2,
+        };
     }
+
+
 
     componentDidMount() {
         this.props.navigator.setOnNavigatorEvent((e) => {
@@ -57,10 +72,17 @@ export default class ConfigClanUI extends Component {
                 }
             }
         });
+
+        SPUtil.getAsyncStorage(Constant.ControlClan_Config+this.props.clan_tag,(value)=>{
+
+        },()=>{})
     }
 
 
     render() {
+
+
+
         return (
             <View style={{flex: 1, backgroundColor: 'white'}}>
                 <ScrollView
@@ -70,84 +92,106 @@ export default class ConfigClanUI extends Component {
                 >
                     <View style={styles.container}>
                         <Text style={{color: '#999999', marginRight: 5, fontSize: 12, marginTop: 5}}>Tip:-1表示无要求</Text>
-                        {this._EditSingleView('捐兵数量要求(每个赛季)', 3000)}
-                        {this._EditSingleView('收兵数量要求(每个赛季)', 3000)}
-                        {this._EditDoubleView('12本数量控制', 15,20)}
-                        {this._EditDoubleView('11本数量控制', 15,20)}
-                        {this._EditDoubleView('10本数量控制', 15,20)}
-                        {this._EditDoubleView('9本数量控制', 4,6)}
-                        {this._EditSingleView('竞赛最低要求', 1000)}
-                        <Text style={{color: '#999999', marginRight: 5, fontSize: 12, marginTop: 5,marginLeft: ScreenUtil.scaleSize(15),
-                            marginRight: ScreenUtil.scaleSize(15)}}>竞赛统计说明:竞赛开始时，需要手动去我的页面，竞赛积分统计点一下，记录本次竞赛积分开始分数(最后分数以竞赛开始统计积分为准)！！！！</Text>
-                        {this._EditSingleView('部落战出战次数要求', 1000)}
-                        <Text style={{color: '#999999', marginRight: 5, fontSize: 12, marginTop: 5,marginLeft: ScreenUtil.scaleSize(15),
-                            marginRight: ScreenUtil.scaleSize(15)}}>部落战统计说明：在部落战结束前，需要手动去我的页面，部落战统计点一下，记录当前所有成员进攻次数！！！</Text>
+                        {this._EditSingleView('捐兵数量要求(每个赛季)', this.state.donations, (text) => {
+                            this.setState({donations:parseInt(text)});
+                        })}
+
+                        {this._EditSingleView('收兵数量要求(每个赛季)', this.state.receiveTroop, (text) => {
+                            this.setState({receiveTroop:parseInt(text)});
+                        })}
+
+                        {this._EditDoubleView('12本数量控制', this.state.townhall12_min, this.state.townhall12_max, (text) => {
+                            this.setState({townhall12_min:parseInt(text)});
+                        }, (text) => {
+                            this.setState({townhall12_max:parseInt(text)});
+                        })}
+
+                        {this._EditDoubleView('11本数量控制', this.state.townhall11_min, this.state.townhall11_max, (text) => {
+                            this.setState({townhall11_min:parseInt(text)});
+                        }, (text) => {
+                            this.setState({townhall11_max:parseInt(text)});
+                        })}
+
+                        {this._EditDoubleView('10本数量控制', this.state.townhall10_min, this.state.townhall10_max, (text) => {
+                            this.setState({townhall10_min:parseInt(text)});
+                        }, (text) => {
+                            this.setState({townhall10_max:parseInt(text)});
+                        })}
+                        {this._EditDoubleView('9本数量控制', this.state.townhall9_min, this.state.townhall9_max, (text) => {
+                            this.setState({townhall9_min:parseInt(text)});
+                        }, (text) => {
+                            this.setState({townhall9_max:parseInt(text)});
+                        })}
+                        {this._EditSingleView('竞赛最低要求', this.state.clan_game, (text) => {
+                            this.setState({clan_game:parseInt(text)});
+                        })}
+                        <Text style={{
+                            color: '#999999',
+                            fontSize: 12,
+                            marginTop: 5,
+                            marginLeft: ScreenUtil.scaleSize(15),
+                            marginRight: ScreenUtil.scaleSize(15)
+                        }}>竞赛统计说明:竞赛开始时，需要手动去我的页面，竞赛积分统计点一下，记录本次竞赛积分开始分数(最后分数以竞赛开始统计积分为准)！！！！</Text>
+                        {this._EditSingleView('部落战出战次数要求', this.state.clan_war_artack, (text) => {
+                            this.setState({clan_war_artack:parseInt(text)});
+                        })}
+                        <Text style={{
+                            color: '#999999',
+                            fontSize: 12,
+                            marginTop: 5,
+                            marginLeft: ScreenUtil.scaleSize(15),
+                            marginRight: ScreenUtil.scaleSize(15)
+                        }}>部落战统计说明：在部落战结束前，需要手动去我的页面，部落战统计点一下，记录当前所有成员进攻次数！！！</Text>
                     </View>
 
                 </ScrollView>
+                <Toast ref="toast"/>
             </View>
         );
     }
 
-    _EditDoubleView(leftNeedContent, minnum, maxnum) {
-        if (!this.state.isEdit) {
-            return (
-                <View style={styles.item_container}>
-                    <Text style={{color: '#999999', marginRight: 5}}>{leftNeedContent}</Text>
-                    <Text style={styles.text_min_input}>{minnum}</Text>
-                    <Text style={{color: '#666666'}}> ~ </Text>
-                    <Text style={styles.text_max_input}>{maxnum}</Text>
-                </View>
-            )
-        } else {
-            return (
-                <View style={styles.item_container}>
-                    <Text style={{color: '#999999', marginRight: 5}}>{leftNeedContent}</Text>
-                    <TextInput placeholderTextColor={'#EFEFEF'} placeholder={'最小限制'}
-                               style={styles.min_input}
-                               underlineColorAndroid='transparent'
-                               onChangeText={(text) => this.setState({passWord: text})}
-                               maxLength={9}
-                               keyboardType={'numeric'}
-                               value={String(minnum)}
-                    />
-                    <Text style={{color: '#666666'}}> ~ </Text>
-                    <TextInput placeholderTextColor={'#EFEFEF'} placeholder={'最大限制'}
-                               style={styles.max_input}
-                               underlineColorAndroid='transparent'
-                               onChangeText={(text) => this.setState({passWord: text})}
-                               maxLength={9}
-                               keyboardType={'numeric'}
-                               value={String(maxnum)}
-                    />
-                </View>
-            )
-        }
+    _EditDoubleView(leftNeedContent, minnum, maxnum, onMinTextChange, onMaxTextChange) {
+        return (
+            <View style={styles.item_container}>
+                <Text style={{color: '#999999', marginRight: 5}}>{leftNeedContent}</Text>
+                <TextInput placeholderTextColor={'#EFEFEF'} placeholder={'最小限制'}
+                           style={styles.min_input}
+                           underlineColorAndroid='transparent'
+                           onChangeText={onMinTextChange}
+                           maxLength={9}
+                           keyboardType={'numeric'}
+                           defaultValue={String(minnum)}
+                           editable={this.state.isEdit}
+                />
+                <Text style={{color: '#666666'}}> ~ </Text>
+                <TextInput placeholderTextColor={'#EFEFEF'} placeholder={'最大限制'}
+                           style={styles.max_input}
+                           underlineColorAndroid='transparent'
+                           onChangeText={onMaxTextChange}
+                           maxLength={9}
+                           keyboardType={'numeric'}
+                           defaultValue={String(maxnum)}
+                           editable={this.state.isEdit}
+                />
+            </View>
+        )
     }
 
-    _EditSingleView(leftNeedContent, num) {
-        if (!this.state.isEdit) {
-            return (
-                <View style={styles.item_container}>
-                    <Text style={{color: '#999999', marginRight: 5}}>{leftNeedContent}</Text>
-                    <Text style={styles.text_min_input}>{num}</Text>
-                </View>
-            )
-        } else {
-            return (
-                <View style={styles.item_container}>
-                    <Text style={{color: '#999999', marginRight: 5}}>{leftNeedContent}</Text>
-                    <TextInput placeholderTextColor={'#EFEFEF'} placeholder={'最小限制'}
-                               style={styles.min_input}
-                               underlineColorAndroid='transparent'
-                               onChangeText={(text) => this.setState({passWord: text})}
-                               maxLength={9}
-                               keyboardType={'numeric'}
-                               value={String(num)}
-                    />
-                </View>
-            )
-        }
+    _EditSingleView(leftNeedContent, num, onTextChange) {
+        return (
+            <View style={styles.item_container}>
+                <Text style={{color: '#999999', marginRight: 5}}>{leftNeedContent}</Text>
+                <TextInput placeholderTextColor={'#EFEFEF'} placeholder={'最小限制'}
+                           style={styles.min_input}
+                           underlineColorAndroid='transparent'
+                           onChangeText={onTextChange}
+                           maxLength={9}
+                           keyboardType={'numeric'}
+                           defaultValue={String(num)}
+                           editable={this.state.isEdit}
+                />
+            </View>
+        )
     }
 
 }

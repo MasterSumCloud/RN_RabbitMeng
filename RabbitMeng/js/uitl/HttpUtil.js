@@ -11,7 +11,7 @@ const header = {
  *  callback:回调函数
  * */
 export function get(url, params, callback) {
-    console.log('url='+url)
+    console.log('url='+url);
     if (params) {
         let paramsArray = [];
         //拼接参数
