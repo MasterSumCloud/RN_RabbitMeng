@@ -10,6 +10,7 @@ import {
 
 import Toast, {DURATION} from 'react-native-easy-toast'
 import * as ScreenUtil from "../uitl/ScreenUtil";
+
 let SPUtil = require('../uitl/SPUtil');
 import * as Constant from '../uitl/Constant'
 
@@ -35,21 +36,20 @@ export default class ConfigClanUI extends Component {
         super(props);
         this.state = {
             isEdit: false,
-            donations: 3000,
-            receiveTroop: -1,
+            donations: 3500,
+            receiveTroop: 10000,
             townhall12_min: 15,
             townhall12_max: 20,
             townhall11_min: 15,
             townhall11_max: 20,
             townhall10_min: 15,
             townhall10_max: 20,
-            townhall9_min: 15,
-            townhall9_max: 20,
-            clan_game: -1,
+            townhall9_min: 4,
+            townhall9_max: 6,
+            clan_game: 1000,
             clan_war_artack: 2,
         };
     }
-
 
 
     componentDidMount() {
@@ -73,14 +73,69 @@ export default class ConfigClanUI extends Component {
             }
         });
 
-        SPUtil.getAsyncStorage(Constant.ControlClan_Config+this.props.clan_tag,(value)=>{
-
-        },()=>{})
+        SPUtil.getAsyncStorage(Constant.ControlClan_Config + this.props.clan_tag, (value) => {
+            let configData = JSON.parse(value);
+            if (configData != null && configData !== undefined) {
+                this.setState({
+                    donations: configData.donations,
+                    receiveTroop: configData.receiveTroop,
+                    townhall12_min: configData.townhall12_min,
+                    townhall12_max: configData.townhall12_max,
+                    townhall11_min: configData.townhall11_min,
+                    townhall11_max: configData.townhall11_max,
+                    townhall10_min: configData.townhall10_min,
+                    townhall10_max: configData.townhall10_max,
+                    townhall9_min: configData.townhall9_min,
+                    townhall9_max: configData.townhall9_max,
+                    clan_game: configData.clan_game,
+                    clan_war_artack: configData.clan_war_artack,
+                });
+                console.log('获取配置数据成功-配置页');
+            }
+        }, () => {
+            console.log('获取配置数据失败-配置页');
+        })
     }
 
+    componentWillUnmount() {
+
+        let clanData = {
+            donations: 3500,
+            receiveTroop: -1,
+            townhall12_min: 15,
+            townhall12_max: 20,
+            townhall11_min: 15,
+            townhall11_max: 20,
+            townhall10_min: 15,
+            townhall10_max: 20,
+            townhall9_min: 15,
+            townhall9_max: 20,
+            clan_game: -1,
+            clan_war_artack: 2
+        };
+
+        clanData.donations = this.state.donations;
+        clanData.receiveTroop = this.state.receiveTroop;
+        clanData.townhall12_min = this.state.townhall12_min;
+        clanData.townhall12_max = this.state.townhall12_max;
+        clanData.townhall11_min = this.state.townhall11_min;
+        clanData.townhall11_max = this.state.townhall11_max;
+        clanData.townhall10_min = this.state.townhall10_min;
+        clanData.townhall10_max = this.state.townhall10_max;
+        clanData.townhall9_min = this.state.townhall9_min;
+        clanData.townhall9_max = this.state.townhall9_max;
+        clanData.clan_game = this.state.clan_game;
+        clanData.clan_war_artack = this.state.clan_war_artack;
+
+        console.log('配置名A'+Constant.ControlClan_Config + this.props.clan_tag);
+        SPUtil.saveAsyncStorage(Constant.ControlClan_Config + this.props.clan_tag, JSON.stringify(clanData), () => {
+            console.log('数据配置成功')
+        }, () => {
+            console.log('数据配置失败')
+        })
+    }
 
     render() {
-
 
 
         return (
@@ -93,37 +148,37 @@ export default class ConfigClanUI extends Component {
                     <View style={styles.container}>
                         <Text style={{color: '#999999', marginRight: 5, fontSize: 12, marginTop: 5}}>Tip:-1表示无要求</Text>
                         {this._EditSingleView('捐兵数量要求(每个赛季)', this.state.donations, (text) => {
-                            this.setState({donations:parseInt(text)});
+                            this.setState({donations: parseInt(text)});
                         })}
 
                         {this._EditSingleView('收兵数量要求(每个赛季)', this.state.receiveTroop, (text) => {
-                            this.setState({receiveTroop:parseInt(text)});
+                            this.setState({receiveTroop: parseInt(text)});
                         })}
 
                         {this._EditDoubleView('12本数量控制', this.state.townhall12_min, this.state.townhall12_max, (text) => {
-                            this.setState({townhall12_min:parseInt(text)});
+                            this.setState({townhall12_min: parseInt(text)});
                         }, (text) => {
-                            this.setState({townhall12_max:parseInt(text)});
+                            this.setState({townhall12_max: parseInt(text)});
                         })}
 
                         {this._EditDoubleView('11本数量控制', this.state.townhall11_min, this.state.townhall11_max, (text) => {
-                            this.setState({townhall11_min:parseInt(text)});
+                            this.setState({townhall11_min: parseInt(text)});
                         }, (text) => {
-                            this.setState({townhall11_max:parseInt(text)});
+                            this.setState({townhall11_max: parseInt(text)});
                         })}
 
                         {this._EditDoubleView('10本数量控制', this.state.townhall10_min, this.state.townhall10_max, (text) => {
-                            this.setState({townhall10_min:parseInt(text)});
+                            this.setState({townhall10_min: parseInt(text)});
                         }, (text) => {
-                            this.setState({townhall10_max:parseInt(text)});
+                            this.setState({townhall10_max: parseInt(text)});
                         })}
                         {this._EditDoubleView('9本数量控制', this.state.townhall9_min, this.state.townhall9_max, (text) => {
-                            this.setState({townhall9_min:parseInt(text)});
+                            this.setState({townhall9_min: parseInt(text)});
                         }, (text) => {
-                            this.setState({townhall9_max:parseInt(text)});
+                            this.setState({townhall9_max: parseInt(text)});
                         })}
                         {this._EditSingleView('竞赛最低要求', this.state.clan_game, (text) => {
-                            this.setState({clan_game:parseInt(text)});
+                            this.setState({clan_game: parseInt(text)});
                         })}
                         <Text style={{
                             color: '#999999',
@@ -133,7 +188,7 @@ export default class ConfigClanUI extends Component {
                             marginRight: ScreenUtil.scaleSize(15)
                         }}>竞赛统计说明:竞赛开始时，需要手动去我的页面，竞赛积分统计点一下，记录本次竞赛积分开始分数(最后分数以竞赛开始统计积分为准)！！！！</Text>
                         {this._EditSingleView('部落战出战次数要求', this.state.clan_war_artack, (text) => {
-                            this.setState({clan_war_artack:parseInt(text)});
+                            this.setState({clan_war_artack: parseInt(text)});
                         })}
                         <Text style={{
                             color: '#999999',

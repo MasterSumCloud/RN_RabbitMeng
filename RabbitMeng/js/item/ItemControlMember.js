@@ -12,6 +12,11 @@ let ScreenUtil = require('../uitl/ScreenUtil');
 export function ItemCocClan(self, itemData) {
 
 
+    //#BBEDC2
+    //#FBE88B
+    //#F8B9C3
+    //#949494
+
     let role = '成员';
     if (itemData.item.role === 'coLeader') {
         role = '副首领';
