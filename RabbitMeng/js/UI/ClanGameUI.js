@@ -5,11 +5,14 @@ import {
     Image,
     Text,
     TextInput,
-    ScrollView
+    ScrollView,
+    ImageBackground
 } from 'react-native';
 
 let ScreenUtil = require('../uitl/ScreenUtil');
 import * as Constant from '../uitl/Constant'
+
+
 import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button'
 
 
@@ -21,7 +24,11 @@ export default class ClanGameUI extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            isCollectting: false
+        }
     }
+
 
     render() {
         return (
@@ -76,9 +83,32 @@ export default class ClanGameUI extends Component {
 
                     <Text style={{marginTop: ScreenUtil.scaleSize(100), color: 'red'}}>重置会清空部落成员所有积分，慎重选择！</Text>
                     <Text style={styles.text_start_clangame}>重置</Text>
+
+
+                    {this._loadView()}
                 </View>
             </ScrollView>
         );
+    }
+
+    _loadView = () => {
+        if (this.state.isCollectting) {
+            return (
+                <View style={{position: 'absolute', alignSelf: 'center', marginTop: (ScreenUtil.screenH - 300) / 2}}>
+                    <ImageBackground resizeMode='stretch' style={{
+                        width: ScreenUtil.scaleSize(400),
+                        height: ScreenUtil.scaleSize(200)
+                    }}
+                                     source={require('../../res/imgs/wite_loading.gif')}>
+                        <Text style={{
+                            marginTop: ScreenUtil.scaleSize(150),
+                            marginLeft: ScreenUtil.scaleSize(30),
+                            color: '#467fe7'
+                        }}>正在统计中，请勿关闭页面</Text>
+                    </ImageBackground>
+                </View>
+            )
+        }
     }
 }
 
