@@ -4,7 +4,8 @@ import {
     View,
     Image,
     Text,
-    ImageBackground
+    ImageBackground,
+    Alert
 } from 'react-native';
 
 let ScreenUtil = require('../uitl/ScreenUtil');
@@ -33,7 +34,9 @@ export default class ClanWarUI extends Component {
             last_war_opponent: '无',
             last_war_start_time: '无',
             last_war_end_time: '无',
-            last_war_state: '无'
+            last_war_state: '无',
+            delete_tag_success:false
+
         };
     }
 
@@ -68,10 +71,12 @@ export default class ClanWarUI extends Component {
                     this.setState({isCollect: true});
                     this._collectData();
                 }}>进行登记</Text>
-                <Text style={{marginTop: ScreenUtil.scaleSize(200),}}>重置会清空所有部落成员进攻次数</Text>
-                <Text style={styles.text_start_war}>重置</Text>
-
+                <Text style={{marginTop: ScreenUtil.scaleSize(200), color: 'red'}}>重置会清空所有部落成员进攻次数,慎重选择！</Text>
+                <Text style={styles.text_start_war} onPress={() => {
+                    this._resetWarClan(this);
+                }}>重置</Text>
                 {this.state.isCollect ? this._loadView() : null}
+                {this.state.delete_tag_success?<Text style={{marginTop:ScreenUtil.scaleSize(15),color:'red'}}>重置成功</Text>:null}
                 <Toast ref="toast"/>
             </View>
         );
@@ -135,6 +140,19 @@ export default class ClanWarUI extends Component {
         }, function (error) {
             // this.refs.toast.show('统计出错，请稍后再试');
         });
+    };
+
+    _resetWarClan = () => {
+        SPUtil.removeAsyncStorage(Constant.War_Attacts + this.state.clan_tag, () => {
+            this.setState({
+                delete_tag_success:true
+            });
+            // Alert.alert('提示','删除成功','确定');
+            console.log('删除成功');
+        },()=>{});
+        SPUtil.removeAsyncStorage(Constant.CollectWarTime + this.state.clan_tag,()=>{
+            console.log('删除成功');
+        },()=>{});
     };
 
 

@@ -65,7 +65,7 @@ export default class MineUI extends Component {
                         <TouchableWithoutFeedback onPress={()=>{
                             this.props.navigator.push({
                                 screen: 'ClanWarUI',
-                                title: '部落站登记',
+                                title: '部落战登记',
                             });
                         }}>
                             <View style={styles.center_lay}>
