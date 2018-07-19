@@ -235,10 +235,10 @@ export default class ControlUI extends Component {
                         <View>
                             <View style={styles.coc_sort_container}>
                                 <View style={styles.text_tab_1}>
-                                    <Text style={{color: '#666666'}}>序号</Text>
+                                    <Text style={{color: '#666666'}}>{this.state.isActiveUI ? '序号' : '进攻'}</Text>
                                 </View>
                                 <View style={styles.text_tab_2}>
-                                    <Text style={{color: '#666666'}}>{this.state.isActiveUI ? '活跃度' : '等级'}</Text>
+                                    <Text style={{color: '#666666'}}>{this.state.isActiveUI ? '活跃度' : '竞赛'}</Text>
                                 </View>
                                 <View style={styles.text_tab_3}>
                                     <Text style={{color: '#666666'}}>名 字</Text>

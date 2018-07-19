@@ -13,6 +13,8 @@ import MumberDetailUI from '../UI/MumberDetailUI';
 import SettingControlClansUI from '../UI/SettingControlClansUI';
 import SettingUI from '../UI/SettingUI';
 import ConfigClanUI from '../UI/ConfigClanUI';
+import ClanGameUI from '../UI/ClanGameUI';
+import ClanWarUI from '../UI/ClanWarUI';
 
 export function registerScreens() {
     Navigation.registerComponent('MineUI', () => MineUI);
@@ -28,6 +30,8 @@ export function registerScreens() {
     Navigation.registerComponent('SettingControlClansUI', () => SettingControlClansUI);
     Navigation.registerComponent('SettingUI', () => SettingUI);
     Navigation.registerComponent('ConfigClanUI', () => ConfigClanUI);
+    Navigation.registerComponent('ClanGameUI', () => ClanGameUI);
+    Navigation.registerComponent('ClanWarUI', () => ClanWarUI);
 }
 
 export function registerScreenVisibilityListener() {

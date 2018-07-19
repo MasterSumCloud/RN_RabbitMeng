@@ -49,15 +49,30 @@ export default class MineUI extends Component {
                         </View>
                     </ImageBackground>
                     {/*中间按钮*/}
+
+
                     <View style={styles.top_importent}>
-                        <View style={styles.center_lay}>
-                            <Image style={styles.top_icon} source={require('../../res/imgs/vip_icon.png')}/>
-                            <Text>竞赛统计</Text>
-                        </View>
-                        <View style={styles.center_lay}>
-                            <Image style={styles.top_icon} source={require('../../res/imgs/tongji.png')}/>
-                            <Text>部落战统计</Text>
-                        </View>
+                        <TouchableWithoutFeedback onPress={()=>{
+                            this.props.navigator.push({
+                                screen: 'ClanGameUI',
+                                title: '竞赛登记',
+                            });
+                        }}>
+                            <View style={styles.center_lay}>
+                                <Image style={styles.top_icon} source={require('../../res/imgs/vip_icon.png')}/>
+                                <Text>竞赛登记</Text>
+                            </View></TouchableWithoutFeedback>
+                        <TouchableWithoutFeedback onPress={()=>{
+                            this.props.navigator.push({
+                                screen: 'ClanWarUI',
+                                title: '部落站登记',
+                            });
+                        }}>
+                            <View style={styles.center_lay}>
+                                <Image style={styles.top_icon} source={require('../../res/imgs/tongji.png')}/>
+                                <Text>部落战登记</Text>
+                            </View>
+                        </TouchableWithoutFeedback>
                     </View>
 
                     {/*底部List*/}

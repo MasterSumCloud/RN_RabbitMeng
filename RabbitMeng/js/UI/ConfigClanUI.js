@@ -219,7 +219,7 @@ export default class ConfigClanUI extends Component {
         return (
             <View style={styles.item_container}>
                 <Text style={{color: '#999999', marginRight: 5}}>{leftNeedContent}</Text>
-                <TextInput placeholderTextColor={'#EFEFEF'} placeholder={'最小限制'}
+                <TextInput placeholderTextColor={'#CCCCCC'} placeholder={'最小限制'}
                            style={styles.min_input}
                            underlineColorAndroid='transparent'
                            onChangeText={onMinTextChange}
@@ -229,7 +229,7 @@ export default class ConfigClanUI extends Component {
                            editable={this.state.isEdit}
                 />
                 <Text style={{color: '#666666'}}> ~ </Text>
-                <TextInput placeholderTextColor={'#EFEFEF'} placeholder={'最大限制'}
+                <TextInput placeholderTextColor={'#CCCCCC'} placeholder={'最大限制'}
                            style={styles.max_input}
                            underlineColorAndroid='transparent'
                            onChangeText={onMaxTextChange}
@@ -246,7 +246,7 @@ export default class ConfigClanUI extends Component {
         return (
             <View style={styles.item_container}>
                 <Text style={{color: '#999999', marginRight: 5}}>{leftNeedContent}</Text>
-                <TextInput placeholderTextColor={'#EFEFEF'} placeholder={'最小限制'}
+                <TextInput placeholderTextColor={'#CCCCCC'} placeholder={'最小限制'}
                            style={styles.min_input}
                            underlineColorAndroid='transparent'
                            onChangeText={onTextChange}
