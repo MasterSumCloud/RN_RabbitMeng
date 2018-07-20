@@ -12,7 +12,10 @@ import {
 let ScreenUtil = require('../uitl/ScreenUtil');
 import * as Constant from '../uitl/Constant'
 
+let SPUtil = require('../uitl/SPUtil');
+import * as HttpUtil from "../uitl/HttpUtil";
 
+import * as TimeUtil from '../uitl/TimeUtil'
 import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button'
 
 
@@ -25,10 +28,17 @@ export default class ClanGameUI extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isCollectting: false
-        }
+            isCollectting: false,
+            clanGameStartTime: '无',
+            clanGameEndTime: '无',
+            isSettingNewMember: false,
+            updata_single_clan_tag: '',
+            clan_tag: '',
+            memberList: [],
+            currentControlClanName: '无',
+            clanGameMemberInfos: []
+        };
     }
-
 
     render() {
         return (
@@ -38,12 +48,20 @@ export default class ClanGameUI extends Component {
 
                     <Text>使用说明：请在竞赛开始前进行开始登记，这时候会记录当前部落的所有成员积分，兵在赛季竞赛结束后进行结束登记，系统会计算两次登记时间中成员的竞赛积分差来算出对应成员在本次竞赛中所得积分！</Text>
 
-                    <Text style={{marginTop: ScreenUtil.scaleSize(15), color: '#8EC31E'}}>登记竞赛开始时间：2018-7-16</Text>
+                    <Text style={{
+                        marginTop: ScreenUtil.scaleSize(15),
+                        color: 'purple'
+                    }}>{'当前管理部落：' + this.state.currentControlClanName}</Text>
+
+                    <Text style={{
+                        marginTop: ScreenUtil.scaleSize(15),
+                        color: '#8EC31E'
+                    }}>{'登记竞赛开始时间：' + this.state.clanGameStartTime}</Text>
 
                     <Text style={{
                         marginTop: ScreenUtil.scaleSize(15),
                         color: '#FFA500'
-                    }}>按钮是针对部落新成员，勾选是，只记录新成员的竞赛积分，勾选否，更新所有成员</Text>
+                    }}>按钮是针对部落新成员，勾选是，只记录所有新成员的竞赛积分，勾选否，更新所有成员</Text>
 
 
                     <Text style={{marginTop: ScreenUtil.scaleSize(15), color: '#33A1FF'}}>是否只针对新成员</Text>
@@ -51,6 +69,9 @@ export default class ClanGameUI extends Component {
                         selectedIndex={1}
                         style={{flexDirection: 'row'}}
                         onSelect={(index, value) => {
+                            this.setState({
+                                isSettingNewMember: value
+                            });
                         }}
                     >
                         <RadioButton value={true}>
@@ -63,9 +84,14 @@ export default class ClanGameUI extends Component {
                     </RadioGroup>
 
 
-                    <Text style={styles.text_start_clangame}>竞赛开始</Text>
+                    <Text style={styles.text_start_clangame} onPress={() => {
+                        this._collectAllMemberClanGameScrol();
+                    }}>竞赛开始</Text>
 
-                    <Text style={{marginTop: ScreenUtil.scaleSize(15), color: 'red'}}>登记竞赛结束时间：2018-7-16</Text>
+                    <Text style={{
+                        marginTop: ScreenUtil.scaleSize(15),
+                        color: 'red'
+                    }}>{'登记竞赛结束时间：' + this.state.clanGameEndTime}</Text>
 
                     <Text style={styles.text_start_clangame}>竞赛结束</Text>
 
@@ -82,13 +108,17 @@ export default class ClanGameUI extends Component {
 
 
                     <Text style={{marginTop: ScreenUtil.scaleSize(100), color: 'red'}}>重置会清空部落成员所有积分，慎重选择！</Text>
-                    <Text style={styles.text_start_clangame}>重置</Text>
+                    <Text style={styles.text_start_clangame} onPress={() => {
+
+                    }}>重置</Text>
 
 
                     {this._loadView()}
                 </View>
             </ScrollView>
         );
+
+
     }
 
     _loadView = () => {
@@ -109,6 +139,98 @@ export default class ClanGameUI extends Component {
                 </View>
             )
         }
+    };
+
+
+    componentDidMount() {
+        SPUtil.getAsyncStorage(Constant.ControlClan, (listClan) => {
+            let controlTag = '';
+            let controlname = '无';
+            if (listClan != null && listClan !== undefined) {
+                let jsonData = JSON.parse(listClan);
+                for (let item of jsonData) {
+                    if (item.isControl) {
+                        controlTag = item.tag;
+                        controlname = item.name;
+                    }
+                }
+            }
+
+            if (controlTag === '') {
+                // this.refs.toast.show('没有管理中的部落');
+            } else {
+
+                this.setState({
+                    clan_tag: controlTag,
+                    currentControlClanName: controlname
+                });
+
+                SPUtil.getAsyncStorage(Constant.CollectClanGameTime + controlTag, (lastClanGameTime) => {
+
+                    if (lastClanGameTime != null && lastClanGameTime !== undefined) {
+                        let timeData = JSON.parse(lastClanGameTime);
+                        this.setState({
+                            clanGameStartTime: timeData.clanGameStartTime,
+                            clanGameEndTime: timeData.clanGameEndTime,
+                        });
+                    }
+                });
+
+                this._getMemberList();
+            }
+        });
+    }
+
+
+    _getMemberList = () => {
+        let self = this;
+        HttpUtil.get('https://api.clashofclans.com/v1/clans/' + this.state.clan_tag.replace(/#/, '%23'), '', function (jsonData) {
+            self.setState({memberList: jsonData.memberList});
+        })
+    };
+
+
+    _collectAllMemberClanGameScrol = () => {
+        let self = this;
+        if (this.state.memberList.length > 0) {
+            this.setState({
+                isCollectting: true
+            });
+            let pushList = [];
+            for (let item of this.state.memberList) {
+                HttpUtil.get('https://api.clashofclans.com/v1/players/' + item.tag.replace(/#/, '%23'), '', function (jsonData) {
+                    self._handleMemberDetailData(jsonData, pushList);
+                });
+            }
+        }
+    };
+
+    _handleMemberDetailData = (jsonData, pushList) => {
+        let chievementList = jsonData.achievements;
+        for (let chieve of chievementList) {
+            if (chieve.name === 'Games Champion') {
+                let memberClanGame = {tag: jsonData.tag, clanGameValue: chieve.value};
+                pushList.push(memberClanGame);
+            }
+        }
+        if (pushList.length === chievementList.length) {
+            this.setState({
+                isCollectting: false,
+                clanGameStartTime: TimeUtil.getNowFormatDate(),
+                clanGameMemberInfos:pushList
+            });
+        }
+
+    };
+
+    componentWillUnmount() {
+        //保存统计的信息
+        SPUtil.saveAsyncStorage(Constant.Clan_games + this.state.clan_tag, JSON.stringify(this.state.clanGameMemberInfos), () => {
+            console.log('储存竞赛积分成功');
+        }, () => {
+            console.log('储存竞赛积分失败');
+        });
+        console.log(JSON.stringify(this.state.clanGameMemberInfos))
     }
 }
 

@@ -35,8 +35,8 @@ export default class ClanWarUI extends Component {
             last_war_start_time: '无',
             last_war_end_time: '无',
             last_war_state: '无',
-            delete_tag_success:false
-
+            delete_tag_success: false,
+            currentControlClanName: '无'
         };
     }
 
@@ -45,6 +45,11 @@ export default class ClanWarUI extends Component {
         return (
             <View style={styles.container}>
                 <Text>使用说明：请在部落完成结束后到下次部落开战前等级，系统会记录最近一次落站所有成员的进攻次数！</Text>
+
+                <Text style={{
+                    marginTop: ScreenUtil.scaleSize(15),
+                    color: 'purple'
+                }}>{'当前管理部落：' + this.state.currentControlClanName}</Text>
 
                 <Text style={{
                     marginTop: ScreenUtil.scaleSize(15),
@@ -76,7 +81,8 @@ export default class ClanWarUI extends Component {
                     this._resetWarClan(this);
                 }}>重置</Text>
                 {this.state.isCollect ? this._loadView() : null}
-                {this.state.delete_tag_success?<Text style={{marginTop:ScreenUtil.scaleSize(15),color:'red'}}>重置成功</Text>:null}
+                {this.state.delete_tag_success ?
+                    <Text style={{marginTop: ScreenUtil.scaleSize(15), color: 'red'}}>重置成功</Text> : null}
                 <Toast ref="toast"/>
             </View>
         );
@@ -145,25 +151,29 @@ export default class ClanWarUI extends Component {
     _resetWarClan = () => {
         SPUtil.removeAsyncStorage(Constant.War_Attacts + this.state.clan_tag, () => {
             this.setState({
-                delete_tag_success:true
+                delete_tag_success: true
             });
             // Alert.alert('提示','删除成功','确定');
             console.log('删除成功');
-        },()=>{});
-        SPUtil.removeAsyncStorage(Constant.CollectWarTime + this.state.clan_tag,()=>{
+        }, () => {
+        });
+        SPUtil.removeAsyncStorage(Constant.CollectWarTime + this.state.clan_tag, () => {
             console.log('删除成功');
-        },()=>{});
+        }, () => {
+        });
     };
 
 
     componentDidMount() {
         SPUtil.getAsyncStorage(Constant.ControlClan, (listClan) => {
             let controlTag = '';
+            let controlName = '无';
             if (listClan != null && listClan !== undefined) {
                 let jsonData = JSON.parse(listClan);
                 for (let item of jsonData) {
                     if (item.isControl) {
                         controlTag = item.tag;
+                        controlName = item.name;
                     }
                 }
             }
@@ -172,7 +182,8 @@ export default class ClanWarUI extends Component {
                 // this.refs.toast.show('没有管理中的部落');
             } else {
                 this.setState({
-                    clan_tag: controlTag
+                    clan_tag: controlTag,
+                    currentControlClanName: controlName
                 });
 
                 SPUtil.getAsyncStorage(Constant.CollectWarTime + controlTag, (lastWarTime) => {
