@@ -42,6 +42,14 @@ export default class ClanWarUI extends Component {
 
     render() {
         console.log('统计等待图render');
+        let warState = '无';
+        if (this.state.last_war_state === 'preparation') {
+            warState = '准备中'
+        } else if (this.state.last_war_state === 'warEnded') {
+            warState = '已结束'
+        }else {
+            warState = '战争中'
+        }
         return (
             <View style={styles.container}>
                 <Text>使用说明：请在部落完成结束后到下次部落开战前等级，系统会记录最近一次落站所有成员的进攻次数！</Text>
@@ -67,11 +75,11 @@ export default class ClanWarUI extends Component {
                 <Text style={{
                     marginTop: ScreenUtil.scaleSize(15),
                     color: '#33A1FF'
-                }}>{'部落站结束时间：' + this.state.last_war_start_time}</Text>
+                }}>{'部落站结束时间：' + this.state.last_war_end_time}</Text>
                 <Text style={{
                     marginTop: ScreenUtil.scaleSize(15),
                     color: '#FF8C00'
-                }}>{'部落站状态：' + this.state.last_war_state}</Text>
+                }}>{'部落站状态：' + warState}</Text>
                 <Text style={styles.text_start_war} onPress={() => {
                     this.setState({isCollect: true});
                     this._collectData();
