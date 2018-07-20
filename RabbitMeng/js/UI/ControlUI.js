@@ -59,7 +59,12 @@ export default class ControlUI extends Component {
                 townhall9_max: 6,
                 clan_game: 1000,
                 clan_war_artack: 2,
-            }
+            },
+            num_of_town12:'加载中',
+            num_of_town11:'加载中',
+            num_of_town10:'加载中',
+            num_of_town9:'加载中'
+
         };
     }
 
@@ -126,11 +131,21 @@ export default class ControlUI extends Component {
                 clans_name: jsonData.name,
                 clan_tag: jsonData.tag
             })
+
+            this._getEveryTowmLvOfClan(jsonData.memberList);
         }, function (error) {
             self.setState({isError: true})
         });
     };
 
+
+    _getEveryTowmLvOfClan = (memberList) => {
+        for(let member of memberList){
+            HttpUtil.get('https://api.clashofclans.com/v1/players/' + member.tag.replace(/#/, '%23'), '', function (jsonData) {
+                
+            });
+        }
+    };
 
     render() {
 
@@ -185,13 +200,13 @@ export default class ControlUI extends Component {
                                 <View style={styles.text_rund_bg}>
                                     <View style={styles.bg_cir_town_12}/>
                                     <Text style={styles.text_white_12}>12本数量</Text>
-                                    <Text style={styles.text_num_inner_12}>加载中...</Text>
+                                    <Text style={styles.text_num_inner_12}>{this.state.num_of_town12}</Text>
                                 </View>
 
                                 <View style={styles.text_rund_bg}>
                                     <View style={styles.bg_cir_town_11}/>
                                     <Text style={styles.text_white_11}>11本数量</Text>
-                                    <Text style={styles.text_num_inner_11}>加载中...</Text>
+                                    <Text style={styles.text_num_inner_11}>{this.state.num_of_town11}</Text>
                                 </View>
                             </View>
 
@@ -199,13 +214,13 @@ export default class ControlUI extends Component {
                                 <View style={styles.text_rund_bg}>
                                     <View style={styles.bg_cir_town_10}/>
                                     <Text style={styles.text_white_10}>10本数量</Text>
-                                    <Text style={styles.text_num_inner_10}>加载中...</Text>
+                                    <Text style={styles.text_num_inner_10}>{this.state.num_of_town10}</Text>
                                 </View>
 
                                 <View style={styles.text_rund_bg}>
                                     <View style={styles.bg_cir_town_9}/>
                                     <Text style={styles.text_white_9}>9本数量</Text>
-                                    <Text style={styles.text_num_inner_9}>加载中...</Text>
+                                    <Text style={styles.text_num_inner_9}>{this.state.num_of_town9}</Text>
                                 </View>
                             </View>
 
