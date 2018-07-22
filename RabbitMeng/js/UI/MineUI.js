@@ -87,7 +87,7 @@ export default class MineUI extends Component {
                                 }}/>
                             }}
                             data={listArr}
-                            keyExtractor={(item, index) => item.index}
+                            keyExtractor={(item, index) => index}
                             renderItem={(item) => {
                                 return this._ItemMine(this, item.item)
                             }}

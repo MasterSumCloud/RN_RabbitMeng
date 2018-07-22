@@ -105,7 +105,7 @@ export default class ControlUI extends Component {
 
     }
 
-    _getWarAttactList = (memberList, tag) => {
+    _getWarAttactList = (memberList, tag,self) => {
         let [...memberAcctList] = this.state.dataAry;
         SPUtil.getAsyncStorage(Constant.CollectWarTime + tag, (listClan) => {
             if (listClan !== null && listClan !== undefined) {
@@ -117,7 +117,7 @@ export default class ControlUI extends Component {
                         }
                     }
                 }
-                this.setState({
+                self.setState({
                         dataAry: memberAcctList
                     }
                 );
@@ -126,7 +126,7 @@ export default class ControlUI extends Component {
 
     };
 
-    _getClanGameList = (memberList, tag) => {
+    _getClanGameList = (memberList, tag,self) => {
         let [...memberAcctList] = this.state.dataAry;
         SPUtil.getAsyncStorage(Constant.Clan_games + tag, (lastClanGameInfo) => {
             if (lastClanGameInfo !== null && lastClanGameInfo !== undefined) {
@@ -174,60 +174,57 @@ export default class ControlUI extends Component {
                 clan_tag: jsonData.tag
             });
 
-            this._getEveryTowmLvOfClan(jsonData.memberList);
-            this._getWarAttactList(jsonData.memberList, tag);
-            this._getClanGameList(jsonData.memberList), tag;
+            self._getEveryTowmLvOfClan(jsonData.memberList,self);
+            self._getWarAttactList(jsonData.memberList, tag,self);
+            self._getClanGameList(jsonData.memberList,tag,self);
         }, function (error) {
             self.setState({isError: true})
         });
     };
 
 
-    _getEveryTowmLvOfClan = (memberList) => {
-
-        for (let member of memberList) {
-            HttpUtil.get('https://api.clashofclans.com/v1/players/' + member.tag.replace(/#/, '%23'), '', function (jsonData) {
-                this._setTownHallNum(jsonData);
-            });
-        }
-    };
-
-
-    _setTownHallNum = (jsonData) => {
+    _getEveryTowmLvOfClan = (memberList,self) => {
+        console.log('统计村庄登记信息');
         let townHallLeve12 = 0;
         let townHallLeve11 = 0;
         let townHallLeve10 = 0;
         let townHallLeve9 = 0;
         let other = 0;
-
-        switch (jsonData.townHallLevel) {
-            case 12:
-                townHallLeve12++;
-                break;
-            case 11:
-                townHallLeve11++;
-                break;
-            case 10:
-                townHallLeve10++;
-                break;
-            case 9:
-                townHallLeve9++;
-                break;
-            default:
-                other++;
-                break
-        }
-
-        if ((townHallLeve9 + townHallLeve10 + townHallLeve11 + townHallLeve12 + other) === this.state.dataAry.length) {
-            this.setState({
-                    num_of_town12: townHallLeve12,
-                    num_of_town11: townHallLeve11,
-                    num_of_town10: townHallLeve10,
-                    num_of_town9: townHallLeve9
+        for (let member of memberList) {
+            HttpUtil.get('https://api.clashofclans.com/v1/players/' + member.tag.replace(/#/, '%23'), '', function (jsonData) {
+                switch (jsonData.townHallLevel) {
+                    case 12:
+                        townHallLeve12++;
+                        break;
+                    case 11:
+                        townHallLeve11++;
+                        break;
+                    case 10:
+                        townHallLeve10++;
+                        break;
+                    case 9:
+                        townHallLeve9++;
+                        break;
+                    default:
+                        other++;
+                        break
                 }
-            );
+                console.log('ceshi'+(townHallLeve9 + townHallLeve10 + townHallLeve11 + townHallLeve12 + other));
+                console.log('ceshi'+self.state.dataAry.length);
+                if ((townHallLeve9 + townHallLeve10 + townHallLeve11 + townHallLeve12 + other) === self.state.dataAry.length) {
+                    self.setState({
+                            num_of_town12: townHallLeve12,
+                            num_of_town11: townHallLeve11,
+                            num_of_town10: townHallLeve10,
+                            num_of_town9: townHallLeve9
+                        }
+                    );
+                    console.log('townHallLeve12:'+townHallLeve12)
+                }
+            });
         }
     };
+    
 
     render() {
 
