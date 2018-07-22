@@ -38,7 +38,9 @@ export default class ClanGameUI extends Component {
             currentControlClanName: '无',
             clanGameMemberInfos: [],
             delete_tag_success: false,
-            isOnerror:false
+            isOnerror: false,
+            lastClanGameStartInfo: [],
+            lastClanGameEndInfo: [],
         };
     }
 
@@ -49,9 +51,12 @@ export default class ClanGameUI extends Component {
                 <View style={styles.container}>
 
                     {this.state.isOnerror ?
-                        <Text style={{marginTop: ScreenUtil.scaleSize(15), color: 'red'}}>{this.state.errorMsg}</Text> : null}
+                        <Text style={{
+                            marginTop: ScreenUtil.scaleSize(15),
+                            color: 'red'
+                        }}>{this.state.errorMsg}</Text> : null}
 
-                    <Text style={{marginTop:ScreenUtil.scaleSize(20)}}>使用说明：请在竞赛开始前进行开始登记，这时候会记录当前部落的所有成员积分，兵在赛季竞赛结束后进行结束登记，系统会计算两次登记时间中成员的竞赛积分差来算出对应成员在本次竞赛中所得积分！</Text>
+                    <Text style={{marginTop: ScreenUtil.scaleSize(20)}}>使用说明：请在竞赛开始前进行开始登记，这时候会记录当前部落的所有成员积分，兵在赛季竞赛结束后进行结束登记，系统会计算两次登记时间中成员的竞赛积分差来算出对应成员在本次竞赛中所得积分！</Text>
 
                     <Text style={{
                         marginTop: ScreenUtil.scaleSize(15),
@@ -134,7 +139,7 @@ export default class ClanGameUI extends Component {
                 delete_tag_success: true,
                 clanGameStartTime: '无',
                 clanGameEndTime: '无',
-                isOnerror:false
+                isOnerror: false
             });
             console.log('删除成功');
         }, () => {
@@ -214,7 +219,7 @@ export default class ClanGameUI extends Component {
 
     //获取上次统计信息
     _getLastClanGameData = (controlTag) => {
-        SPUtil.getAsyncStorage(Constant.Clan_games + controlTag, (lastClanGameInfo) => {
+        SPUtil.getAsyncStorage(Constant.Clan_games_START + controlTag, (lastClanGameInfo) => {
 
             if (lastClanGameInfo != null && lastClanGameInfo !== undefined) {
                 let clangame = JSON.parse(lastClanGameInfo);
@@ -262,25 +267,25 @@ export default class ClanGameUI extends Component {
                         }
                     }
 
-                    if (needGetClanGameNewMember.length>0){
+                    if (needGetClanGameNewMember.length > 0) {
                         for (let item of needGetClanGameNewMember) {
                             HttpUtil.get('https://api.clashofclans.com/v1/players/' + item.tag.replace(/#/, '%23'), '', function (jsonData) {
                                 self._handleNewMemberDetailData(jsonData, newPushList);
                             });
                         }
-                    }else {
+                    } else {
                         this.setState({
-                            errorMsg:'提示：没有新成员需要更新',
-                            isOnerror:true,
-                            isCollectting:false
+                            errorMsg: '提示：没有新成员需要更新',
+                            isOnerror: true,
+                            isCollectting: false
                         });
                     }
 
-                }else {
+                } else {
                     this.setState({
-                        errorMsg:'错误：请先完成所有成员登记',
-                        isOnerror:true,
-                        isCollectting:false
+                        errorMsg: '错误：请先完成所有成员登记',
+                        isOnerror: true,
+                        isCollectting: false
                     });
                 }
             } else {//更新全部
@@ -313,12 +318,16 @@ export default class ClanGameUI extends Component {
             });
 
             //保存统计的信息
-            SPUtil.saveAsyncStorage(Constant.Clan_games + this.state.clan_tag, JSON.stringify(this.state.clanGameMemberInfos.concat(newPushList)), () => {
+            SPUtil.saveAsyncStorage(Constant.Clan_games_START + this.state.clan_tag, JSON.stringify(this.state.clanGameMemberInfos.concat(newPushList)), () => {
+                this.setState({
+                        lastClanGameStartInfo:this.state.clanGameMemberInfos.concat(newPushList)
+                    }
+                );
                 console.log('储存竞赛积分成功');
             }, () => {
                 console.log('储存竞赛积分失败');
             });
-            console.log(JSON.stringify(this.state.clanGameMemberInfos.concat(newPushList)))
+            console.log('竞赛积分更新后的信息'+JSON.stringify(this.state.clanGameMemberInfos.concat(newPushList)))
         }
     };
 
@@ -339,12 +348,16 @@ export default class ClanGameUI extends Component {
             });
 
             //保存统计的信息
-            SPUtil.saveAsyncStorage(Constant.Clan_games + this.state.clan_tag, JSON.stringify(pushList), () => {
+            SPUtil.saveAsyncStorage(Constant.Clan_games_START + this.state.clan_tag, JSON.stringify(pushList), () => {
+                this.setState({
+                        lastClanGameStartInfo:pushList
+                    }
+                );
                 console.log('储存竞赛积分成功');
             }, () => {
                 console.log('储存竞赛积分失败');
             });
-            console.log(JSON.stringify(this.state.clanGameMemberInfos))
+            console.log('竞赛登记开始的信息'+JSON.stringify(this.state.clanGameMemberInfos))
         }
 
     };
@@ -365,40 +378,76 @@ export default class ClanGameUI extends Component {
             });
 
             //保存统计的信息
-            SPUtil.saveAsyncStorage(Constant.Clan_games_END + this.state.clan_tag, JSON.stringify(pushList), () => {
-                console.log('储存竞赛结束积分成功');
+            // SPUtil.saveAsyncStorage(Constant.Clan_games_END + this.state.clan_tag, JSON.stringify(pushList), () => {
+            //     console.log('储存竞赛结束积分成功');
+            //     this.setState({
+            //             lastClanGameEndInfo:pushList
+            //         }
+            //     );
+            // }, () => {
+            //     console.log('储存竞赛结束积分失败');
+            // });
+            let clanGameValueList = [];
+            for (let start of this.state.lastClanGameStartInfo) {
+                for (let end of pushList) {
+                    if (start.tag === end.tag) {
+                        let pustData = {tag: start.tag, clanGameValue: (end.clanGameValue - start.clanGameValue)};
+                        clanGameValueList.push(pustData);
+                    }
+                }
+            }
+            console.log('结束竞赛积分信息'+JSON.stringify(pushList));
+            SPUtil.saveAsyncStorage(Constant.Clan_games + this.state.clan_tag, JSON.stringify(clanGameValueList), () => {
+                console.log('保存竞赛信息成功');
             }, () => {
-                console.log('储存竞赛结束积分失败');
+                console.log('保存竞赛信息失败');
             });
-            console.log(JSON.stringify(this.state.clanGameMemberInfos))
+
+            console.log('计算积分信息' + JSON.stringify(clanGameValueList));
         }
 
     };
 
     _collectEndClanGameScrol = () => {
         let self = this;
-        if (this.state.memberList.length > 0) {
-            this.setState({
-                isCollectting: true
-            });
+        SPUtil.getAsyncStorage(Constant.Clan_games_START + this.state.clan_tag, (valueList) => {
+            if (valueList !== null, valueList !== undefined) {
+                if (this.state.memberList.length > 0) {
+                    this.setState({
+                        isCollectting: true,
+                        lastClanGameStartInfo:JSON.parse(valueList)
+                    });
 
-            let pushList = [];
-            for (let item of this.state.memberList) {
-                HttpUtil.get('https://api.clashofclans.com/v1/players/' + item.tag.replace(/#/, '%23'), '', function (jsonData) {
-                    self._handleEndMemberDetailData(jsonData, pushList);
+                    console.log('获取到的竞赛开始登记的信息' + valueList);
+
+                    let pushList = [];
+                    for (let item of this.state.memberList) {
+                        HttpUtil.get('https://api.clashofclans.com/v1/players/' + item.tag.replace(/#/, '%23'), '', function (jsonData) {
+                            self._handleEndMemberDetailData(jsonData, pushList);
+                        });
+                    }
+
+                }
+            } else {
+                this.setState({
+                    errorMsg: '错误：你没有登记竞赛开始的部落',
+                    isOnerror: true,
+                    isCollectting: false
                 });
             }
+        }, () => {
 
-        }
-    }
+        });
+    };
 
-    componentWillUnmount(){
-        let clawarTiem = {clanGameStartTime:this.state.clanGameStartTime,clanGameEndTime:this.state.clanGameEndTime};
-        SPUtil.saveAsyncStorage(Constant.CollectClanGameTime + this.state.clan_tag, JSON.stringify(clawarTiem),() => {
+    componentWillUnmount() {
+        let clawarTiem = {clanGameStartTime: this.state.clanGameStartTime, clanGameEndTime: this.state.clanGameEndTime};
+        SPUtil.saveAsyncStorage(Constant.CollectClanGameTime + this.state.clan_tag, JSON.stringify(clawarTiem), () => {
             console.log('保存时间成功')
-        },()=>{
+        }, () => {
             console.log('保存时间失败')
         });
+
     }
 
 }

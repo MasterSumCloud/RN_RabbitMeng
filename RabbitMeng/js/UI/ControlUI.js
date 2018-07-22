@@ -60,10 +60,10 @@ export default class ControlUI extends Component {
                 clan_game: 1000,
                 clan_war_artack: 2,
             },
-            num_of_town12:'加载中',
-            num_of_town11:'加载中',
-            num_of_town10:'加载中',
-            num_of_town9:'加载中'
+            num_of_town12: '加载中',
+            num_of_town11: '加载中',
+            num_of_town10: '加载中',
+            num_of_town9: '加载中'
 
         };
     }
@@ -99,17 +99,59 @@ export default class ControlUI extends Component {
             } else {
                 this._getConfigData(controlTag);
                 this._getData(controlTag);
+
             }
         });
 
     }
 
+    _getWarAttactList = (memberList, tag) => {
+        let [...memberAcctList] = this.state.dataAry;
+        SPUtil.getAsyncStorage(Constant.CollectWarTime + tag, (listClan) => {
+            if (listClan !== null && listClan !== undefined) {
+                for (let item of listClan) {
+                    for (let i = 0; i < memberAcctList.length; i++) {
+                        let member = memberAcctList[i];
+                        if (item.tag === member.tag) {
+                            memberAcctList[i].warAttack = item.attacks;
+                        }
+                    }
+                }
+                this.setState({
+                        dataAry: memberAcctList
+                    }
+                );
+            }
+        });
+
+    };
+
+    _getClanGameList = (memberList, tag) => {
+        let [...memberAcctList] = this.state.dataAry;
+        SPUtil.getAsyncStorage(Constant.Clan_games + tag, (lastClanGameInfo) => {
+            if (lastClanGameInfo !== null && lastClanGameInfo !== undefined) {
+                for (let item of lastClanGameInfo) {
+                    for (let i = 0; i < memberAcctList.length; i++) {
+                        let member = memberAcctList[i];
+                        if (item.tag === member.tag) {
+                            memberAcctList[i].clanGameValue = item.clanGameValue;
+                        }
+                    }
+                }
+                this.setState({
+                        dataAry: memberAcctList
+                    }
+                );
+            }
+        });
+    };
+
     _getConfigData = (clan_tag) => {
-        console.log('配置名'+Constant.ControlClan_Config + clan_tag);
+        console.log('配置名' + Constant.ControlClan_Config + clan_tag);
         SPUtil.getAsyncStorage(Constant.ControlClan_Config + clan_tag, (value) => {
             console.log('读取的配置' + value);
             let configData = JSON.parse(value);
-            if (configData != null && configData !== undefined) {
+            if (configData !== null && configData !== undefined) {
                 this.setState({
                     clan_config: configData
                 });
@@ -130,9 +172,11 @@ export default class ControlUI extends Component {
                 clan_tag_img_big: jsonData.badgeUrls.large,
                 clans_name: jsonData.name,
                 clan_tag: jsonData.tag
-            })
+            });
 
             this._getEveryTowmLvOfClan(jsonData.memberList);
+            this._getWarAttactList(jsonData.memberList, tag);
+            this._getClanGameList(jsonData.memberList), tag;
         }, function (error) {
             self.setState({isError: true})
         });
@@ -140,10 +184,48 @@ export default class ControlUI extends Component {
 
 
     _getEveryTowmLvOfClan = (memberList) => {
-        for(let member of memberList){
+
+        for (let member of memberList) {
             HttpUtil.get('https://api.clashofclans.com/v1/players/' + member.tag.replace(/#/, '%23'), '', function (jsonData) {
-                
+                this._setTownHallNum(jsonData);
             });
+        }
+    };
+
+
+    _setTownHallNum = (jsonData) => {
+        let townHallLeve12 = 0;
+        let townHallLeve11 = 0;
+        let townHallLeve10 = 0;
+        let townHallLeve9 = 0;
+        let other = 0;
+
+        switch (jsonData.townHallLevel) {
+            case 12:
+                townHallLeve12++;
+                break;
+            case 11:
+                townHallLeve11++;
+                break;
+            case 10:
+                townHallLeve10++;
+                break;
+            case 9:
+                townHallLeve9++;
+                break;
+            default:
+                other++;
+                break
+        }
+
+        if ((townHallLeve9 + townHallLeve10 + townHallLeve11 + townHallLeve12 + other) === this.state.dataAry.length) {
+            this.setState({
+                    num_of_town12: townHallLeve12,
+                    num_of_town11: townHallLeve11,
+                    num_of_town10: townHallLeve10,
+                    num_of_town9: townHallLeve9
+                }
+            );
         }
     };
 
@@ -151,7 +233,8 @@ export default class ControlUI extends Component {
 
         if (this.state.isError) {
             return (<View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                <Image source={require('../../res/imgs/error_no_control_clan.jpeg')}/>
+                <Image source={require('../../res/imgs/error_no_control_clan.jpeg')}
+                       style={{width: ScreenUtil.scaleSize(350), height: ScreenUtil.scaleSize(400)}}/>
                 <Text>诶！没有管理的部落</Text>
             </View>)
         } else if (this.state.isLoading) {

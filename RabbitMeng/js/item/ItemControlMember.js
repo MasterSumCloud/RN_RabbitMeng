@@ -9,7 +9,7 @@ import {
 
 let ScreenUtil = require('../uitl/ScreenUtil');
 
-export function ItemCocClan(self, itemData,clan_config) {
+export function ItemCocClan(self, itemData, clan_config) {
 
 
     //#BBEDC2
@@ -54,15 +54,11 @@ export function ItemCocClan(self, itemData,clan_config) {
         height: ScreenUtil.scaleSize(120),
     }} id={itemData.index}>
         <View style={styles.text_index}>
-            <Text style={styles.index_s}>{itemData.index + 1}</Text>
+            <Text style={styles.index_s}>{itemData.item.warAttack === undefined ? 0 : itemData.item.warAttack}</Text>
         </View>
 
         <View style={styles.text_center}>
-            <ImageBackground
-                source={require('../../res/imgs/lv_bg.png')}
-                resizeMode={'stretch'} style={styles.exp_lv_bg}>
-                <Text style={styles.lv_text}>{itemData.item.expLevel}</Text>
-            </ImageBackground>
+            <Text style={styles.index_s}>{itemData.item.clanGameValue === undefined ? 0 : itemData.item.clanGameValue}</Text>
         </View>
 
         <View style={styles.name_view}>
