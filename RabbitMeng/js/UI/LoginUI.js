@@ -68,11 +68,11 @@ export default class LoginUI extends Component {
 
                             {/*头像*/}
                             <Image style={styles.image_login_head} roundAsCircle={true}
-                                   source={require('../../res/imgs/head_defoult.jpg')}/>
+                                   source={require('../../res/imgs/huli_head_defult.jpeg')}/>
                             {/*登陆 - 用户输入*/}
                             <View style={styles.login_user}>
                                 <Image style={styles.login_left_icon}
-                                       source={require('../../res/imgs/login_email.png')}/>
+                                       source={require('../../res/imgs/head_defoult.jpg')}/>
                                 <TextInput placeholderTextColor={'white'} style={styles.login_textinput}
                                            maxLength={30}
                                            underlineColorAndroid='transparent'

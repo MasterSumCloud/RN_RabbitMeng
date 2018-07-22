@@ -13,11 +13,11 @@ import {
 let ScreenUtil = require('../uitl/ScreenUtil');
 
 const listArr =
-    [{index: 1, name: '黑名单', leftIcon: require('../../res/imgs/black_list_icon.png')},
-        {index: 2, name: '我的收藏', leftIcon: require('../../res/imgs/collect_icon.png')},
-        {index: 3, name: '管理部落', leftIcon: require('../../res/imgs/manage_icon.png')},
-        {index: 4, name: '积分登记', leftIcon: require('../../res/imgs/registration_icon.png')},
-        {index: 5, name: '设置', leftIcon: require('../../res/imgs/setting_icon.png')},
+    [{index: 1, name: '黑名单', leftIcon: require('../../res/icon/black_list_icon.png')},
+        {index: 2, name: '我的收藏', leftIcon: require('../../res/icon/collect_icon.png')},
+        {index: 3, name: '管理部落', leftIcon: require('../../res/icon/clan_control_icon.png')},
+        {index: 4, name: '对战信息', leftIcon: require('../../res/imgs/message_icon.png')},
+        {index: 5, name: '设置', leftIcon: require('../../res/icon/setting_cion.png')},
     ]
 
 export default class MineUI extends Component {
@@ -38,7 +38,7 @@ export default class MineUI extends Component {
                     >
                         {/*头像*/}
                         <Image style={styles.image_login_head} roundAsCircle={true}
-                               source={require('../../res/imgs/head_defoult.jpg')}/>
+                               source={require('../../res/imgs/huli_head_defult.jpeg')}/>
 
                         <Text style={styles.text_white}>
                             天使的守护
@@ -59,18 +59,30 @@ export default class MineUI extends Component {
                             });
                         }}>
                             <View style={styles.center_lay}>
-                                <Image style={styles.top_icon} source={require('../../res/imgs/vip_icon.png')}/>
+                                <Image style={styles.top_icon} source={require('../../res/icon/clan_game_icon.png')}/>
                                 <Text>竞赛登记</Text>
                             </View></TouchableWithoutFeedback>
                         <TouchableWithoutFeedback onPress={()=>{
-                            this.props.navigator.push({
-                                screen: 'ClanWarUI',
-                                title: '部落战登记',
+                            this.props.navigator.showModal({
+                                screen: 'MumberDetailUI',
+                                title: '积分登记',
                             });
                         }}>
                             <View style={styles.center_lay}>
-                                <Image style={styles.top_icon} source={require('../../res/imgs/tongji.png')}/>
-                                <Text>部落战登记</Text>
+                                <Image style={styles.top_icon} source={require('../../res/icon/war_scorl_icon.png')}/>
+                                <Text>积分登记</Text>
+                            </View>
+                        </TouchableWithoutFeedback>
+
+                        <TouchableWithoutFeedback onPress={()=>{
+                            this.props.navigator.push({
+                                screen: 'ClanWarUI',
+                                title: '战争登记',
+                            });
+                        }}>
+                            <View style={styles.center_lay}>
+                                <Image style={styles.top_icon} source={require('../../res/icon/clan_war_icon.png')}/>
+                                <Text>战争登记</Text>
                             </View>
                         </TouchableWithoutFeedback>
                     </View>
@@ -113,10 +125,7 @@ export default class MineUI extends Component {
                         });
                         break;
                     case 4:
-                        this.props.navigator.showModal({
-                            screen: 'MumberDetailUI',
-                            title: '积分管理',
-                        });
+
                         break;
                     case 5:
                         this.props.navigator.push({
@@ -140,8 +149,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#EDF1F4',
-        justifyContent: 'center',
-        alignItems: 'center',
     },
     mine_top: {
         alignItems: 'center',
