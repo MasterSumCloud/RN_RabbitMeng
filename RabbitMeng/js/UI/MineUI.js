@@ -52,7 +52,7 @@ export default class MineUI extends Component {
 
 
                     <View style={styles.top_importent}>
-                        <TouchableWithoutFeedback onPress={()=>{
+                        <TouchableWithoutFeedback onPress={() => {
                             this.props.navigator.push({
                                 screen: 'ClanGameUI',
                                 title: '竞赛登记',
@@ -62,7 +62,7 @@ export default class MineUI extends Component {
                                 <Image style={styles.top_icon} source={require('../../res/icon/clan_game_icon.png')}/>
                                 <Text>竞赛登记</Text>
                             </View></TouchableWithoutFeedback>
-                        <TouchableWithoutFeedback onPress={()=>{
+                        <TouchableWithoutFeedback onPress={() => {
                             this.props.navigator.showModal({
                                 screen: 'MumberDetailUI',
                                 title: '积分登记',
@@ -74,7 +74,7 @@ export default class MineUI extends Component {
                             </View>
                         </TouchableWithoutFeedback>
 
-                        <TouchableWithoutFeedback onPress={()=>{
+                        <TouchableWithoutFeedback onPress={() => {
                             this.props.navigator.push({
                                 screen: 'ClanWarUI',
                                 title: '战争登记',
