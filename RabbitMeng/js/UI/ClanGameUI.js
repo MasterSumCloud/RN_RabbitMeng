@@ -47,7 +47,7 @@ export default class ClanGameUI extends Component {
     render() {
         return (
 
-            <ScrollView>
+            <ScrollView style={{backgroundColor:'white'}}>
                 <View style={styles.container}>
 
                     {this.state.isOnerror ?

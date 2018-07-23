@@ -107,9 +107,10 @@ export default class ControlUI extends Component {
 
     _getWarAttactList = (memberList, tag,self) => {
         let [...memberAcctList] = this.state.dataAry;
-        SPUtil.getAsyncStorage(Constant.CollectWarTime + tag, (listClan) => {
+        SPUtil.getAsyncStorage(Constant.War_Attacts + tag, (listClan) => {
             if (listClan !== null && listClan !== undefined) {
-                for (let item of listClan) {
+                let attacksList = JSON.parse(listClan);
+                for (let item of attacksList) {
                     for (let i = 0; i < memberAcctList.length; i++) {
                         let member = memberAcctList[i];
                         if (item.tag === member.tag) {
@@ -130,7 +131,8 @@ export default class ControlUI extends Component {
         let [...memberAcctList] = this.state.dataAry;
         SPUtil.getAsyncStorage(Constant.Clan_games + tag, (lastClanGameInfo) => {
             if (lastClanGameInfo !== null && lastClanGameInfo !== undefined) {
-                for (let item of lastClanGameInfo) {
+                let clanGameList = JSON.parse(lastClanGameInfo);
+                for (let item of clanGameList) {
                     for (let i = 0; i < memberAcctList.length; i++) {
                         let member = memberAcctList[i];
                         if (item.tag === member.tag) {
@@ -138,7 +140,7 @@ export default class ControlUI extends Component {
                         }
                     }
                 }
-                this.setState({
+                self.setState({
                         dataAry: memberAcctList
                     }
                 );
@@ -165,6 +167,7 @@ export default class ControlUI extends Component {
     _getData = (tag) => {
         let self = this;
         HttpUtil.get('https://api.clashofclans.com/v1/clans/' + tag.replace(/#/, '%23'), '', function (jsonData) {
+            console.log('部落旗子'+jsonData.badgeUrls.large);
             self.setState({
                 dataAry: jsonData.memberList,
                 isLoading: false,
@@ -229,13 +232,13 @@ export default class ControlUI extends Component {
     render() {
 
         if (this.state.isError) {
-            return (<View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            return (<View style={{flex: 1, justifyContent: 'center', alignItems: 'center',backgroundColor:'white'}}>
                 <Image source={require('../../res/imgs/error_no_control_clan.jpeg')}
                        style={{width: ScreenUtil.scaleSize(350), height: ScreenUtil.scaleSize(400)}}/>
                 <Text>诶！没有管理的部落</Text>
             </View>)
         } else if (this.state.isLoading) {
-            return <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            return <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',backgroundColor:'white'}}>
                 <Image source={require('../../res/imgs/ali_dance.gif')}/>
                 <Text>数据加载中...</Text>
             </View>

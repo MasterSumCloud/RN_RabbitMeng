@@ -5,7 +5,7 @@ import {
     Image,
     Text
 } from 'react-native';
-
+let ScreenUtil = require('../uitl/ScreenUtil');
 
 export default class HomeUI extends Component {
 
@@ -27,7 +27,8 @@ export default class HomeUI extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>待开发，有好建议，找Summer</Text>
+                <Text>APP使用说明：到我的界面，选择部落管理，选择你要管理的部落，回来刷新界面！</Text>
+                <Text>本页面还没开发，因为不知道写啥，有想法私聊我</Text>
             </View>
         );
     }
@@ -39,5 +40,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
+        padding:ScreenUtil.scaleSize(30)
     }
 });
