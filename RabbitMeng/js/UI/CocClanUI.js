@@ -17,6 +17,7 @@ import * as Constant from "../uitl/Constant";
 let ItemCocClan = require('../item/ItemCocClan');
 let SPUtil = require('../uitl/SPUtil')
 import ModalDropdown from 'react-native-modal-dropdown';
+import * as TextUtil from '../uitl/TextUtil';
 
 export default class CocClanUI extends Component {
 
@@ -41,6 +42,7 @@ export default class CocClanUI extends Component {
                 {name: 'c.z.s2', tag: '#P0YJQ8UL', isControl: false},
                 {name: '我珍惜的时光 ♡ 可已不在了', tag: '#JQQYVUJJ', isControl: false},
                 {name: '天使的等待', tag: '#LQR8L9VP', isControl: false}],
+            clonListOfDataArr: []
         };
     }
 
@@ -62,10 +64,11 @@ export default class CocClanUI extends Component {
 
     _getClanData = (tag) => {
         let self = this;
-        HttpUtil.get('https://api.clashofclans.com/v1/clans/'+tag.replace(/#/, '%23'), '', function (jsonData) {
+        HttpUtil.get('https://api.clashofclans.com/v1/clans/' + tag.replace(/#/, '%23'), '', function (jsonData) {
             console.log(jsonData.items);
             self.setState({
                 dataAry: jsonData.memberList,
+                clonListOfDataArr: jsonData.memberList,
                 isLoading: false,
                 clans_img: jsonData.badgeUrls.small,
                 clans_name: jsonData.name
@@ -90,7 +93,7 @@ export default class CocClanUI extends Component {
                         {/*<Text style={styles.coc_clan_name}>{this.state.clans_name + ' ▿'}</Text>*/}
                         <ModalDropdown
                             options={this.state.control_clan_list}
-                            defaultValue={this.state.clans_name+' ▿'}
+                            defaultValue={this.state.clans_name + ' ▿'}
                             dropdownStyle={styles.dropdown}
                             renderButtonText={(rowData) => {
                                 this.setState({isLoading: true});
@@ -127,7 +130,40 @@ export default class CocClanUI extends Component {
                             <TextInput placeholderTextColor={'#999999'} style={styles.serarch}
                                        maxLength={30}
                                        underlineColorAndroid='transparent'
-                                       placeholder={'请输入要查找的村庄名称'}/>
+                                       placeholder={'请输入要查找的村庄名称'}
+                                       onChangeText={(text) => {
+                                           console.log('输入的字符' + text);
+                                           if (text === null || text === undefined || text === '') {
+                                               this.setState({
+                                                   dataAry: this.state.clonListOfDataArr
+                                               });
+                                           } else {
+                                               let searchList = [];
+                                               if (this.state.clonListOfDataArr.length > 0) {
+                                                   if (text.indexOf('#')===0) {
+                                                       for (let item of this.state.clonListOfDataArr) {
+                                                           if (item.tag.indexOf(text)!==-1) {
+                                                               searchList.push(item);
+                                                           }
+                                                       }
+                                                   } else {
+                                                       for (let item of this.state.clonListOfDataArr) {
+                                                           console.log(item.name);
+                                                           console.log(text);
+                                                           console.log(item.name.indexOf(text)!==-1);
+                                                           if (item.name.indexOf(text)!==-1) {
+                                                               searchList.push(item);
+                                                           }
+                                                       }
+                                                   }
+                                               }
+                                               this.setState({
+                                                   dataAry: searchList
+                                               });
+
+                                           }
+                                       }}
+                            />
                         </View>
                     </View>
 
@@ -179,6 +215,7 @@ export default class CocClanUI extends Component {
             </View>
         );
     }
+
 
     _viewFlatList = () => {
         if (this.state.isLoading) {

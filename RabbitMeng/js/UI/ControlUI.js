@@ -178,7 +178,7 @@ export default class ControlUI extends Component {
             self._getWarAttactList(jsonData.memberList, tag,self);
             self._getClanGameList(jsonData.memberList,tag,self);
         }, function (error) {
-            self.setState({isError: true})
+            self.setState({isLoading:false,isError: true})
         });
     };
 

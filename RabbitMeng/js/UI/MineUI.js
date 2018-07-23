@@ -125,7 +125,10 @@ export default class MineUI extends Component {
                         });
                         break;
                     case 4:
-
+                        this.props.navigator.push({
+                            screen: 'WarAgainstUI',
+                            title: '对战信息',
+                        });
                         break;
                     case 5:
                         this.props.navigator.push({
