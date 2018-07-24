@@ -31,14 +31,18 @@ export default class ControlUI extends Component {
             {
                 title: '配置',
                 id: 'setting',
-            }
-        ],
-        leftButtons: [
+            },
             {
                 title: '刷新',
                 id: 'refresh',
             }
         ],
+        /*leftButtons: [
+            {
+                title: '刷新',
+                id: 'refresh',
+            }
+        ],*/
     };
 
     constructor(props) {
