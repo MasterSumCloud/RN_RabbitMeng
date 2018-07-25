@@ -29,10 +29,33 @@ export function ItemCocClan(self, itemData, clan_config) {
     let backBgColor = itemData.index % 2 === 0 ? 'white' : '#F7F7F7';
 
     //竞赛判断
+    let clanGameTextColor = '#666';
+    if (itemData.item.clanGameValue !== undefined) {
 
+        if (itemData.item.clanGameValue >= 4000) {
+            clanGameTextColor = '#1fc32a';
+        } else if (itemData.item.clanGameValue >= clan_config.clan_game) {
+            clanGameTextColor = '#f9be3c';
+        } else {
+            clanGameTextColor = '#cc0400';
+        }
+    }else {
+        clanGameTextColor = '#666';
+    }
 
     //部落战判断
-
+    let clanWarTextColor = '#666';
+    if (itemData.item.warAttack !== undefined) {
+        if (itemData.item.warAttack === 2) {
+            clanWarTextColor = '#1fc32a';
+        } else if (itemData.item.warAttack === 1) {
+            clanWarTextColor = '#f9be3c';
+        } else {
+            clanWarTextColor = '#cc0400';
+        }
+    }else {
+        clanWarTextColor = '#666';
+    }
 
     //捐兵判断
 
@@ -54,11 +77,13 @@ export function ItemCocClan(self, itemData, clan_config) {
         height: ScreenUtil.scaleSize(120),
     }} id={itemData.index}>
         <View style={styles.text_index}>
-            <Text style={styles.index_s}>{itemData.item.warAttack === undefined ? 0 : itemData.item.warAttack}</Text>
+            <Text
+                style={{color: clanWarTextColor}}>{itemData.item.warAttack === undefined ? 0 : itemData.item.warAttack}</Text>
         </View>
 
         <View style={styles.text_center}>
-            <Text style={styles.index_s}>{itemData.item.clanGameValue === undefined ? 0 : itemData.item.clanGameValue}</Text>
+            <Text
+                style={{color: clanGameTextColor}}>{itemData.item.clanGameValue === undefined ? 0 : itemData.item.clanGameValue}</Text>
         </View>
 
         <View style={styles.name_view}>

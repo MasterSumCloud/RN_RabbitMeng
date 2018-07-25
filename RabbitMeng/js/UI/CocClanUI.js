@@ -69,7 +69,7 @@ export default class CocClanUI extends Component {
         let self = this;
 
         SPUtil.getAsyncStorage(Constant.ControlClan, (value) => {
-            if (value !== null && value !== undefined) {
+            if (value !== null && value !== undefined && value!=='') {
                 let controList = JSON.parse(value);
                 for (let clan of controList) {
                     if (clan.isControl) {
@@ -79,6 +79,8 @@ export default class CocClanUI extends Component {
                 self.setState({
                     control_clan_list: controList
                 });
+            }else {
+                this._getClanData('#G02RLVG0');
             }
         }, () => {
         })
@@ -298,11 +300,11 @@ export default class CocClanUI extends Component {
                             </View>
 
                             <View style={styles.text_tab_4}>
-                                <Text style={{color: '#666666'}}>收兵</Text>
+                                <Text style={{color: '#666666'}}>捐兵</Text>
                             </View>
 
                             <View style={styles.text_tab_5}>
-                                <Text style={{color: '#666666'}}>捐兵</Text>
+                                <Text style={{color: '#666666'}}>收兵</Text>
                             </View>
 
                             <View style={styles.text_tab_6}>

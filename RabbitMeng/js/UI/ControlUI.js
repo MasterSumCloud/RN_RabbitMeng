@@ -176,7 +176,7 @@ export default class ControlUI extends Component {
         SPUtil.getAsyncStorage(Constant.ControlClan_Config + clan_tag, (value) => {
             console.log('读取的配置' + value);
             let configData = JSON.parse(value);
-            if (configData !== null && configData !== undefined) {
+            if (configData !== null && configData !== undefined && configData!=='') {
                 this.setState({
                     clan_config: configData
                 });
@@ -366,11 +366,11 @@ export default class ControlUI extends Component {
                                 </View>
 
                                 <View style={styles.text_tab_4}>
-                                    <Text style={{color: '#666666'}}>收兵</Text>
+                                    <Text style={{color: '#666666'}}>捐兵</Text>
                                 </View>
 
                                 <View style={styles.text_tab_5}>
-                                    <Text style={{color: '#666666'}}>捐兵</Text>
+                                    <Text style={{color: '#666666'}}>收兵</Text>
                                 </View>
 
                                 <View style={styles.text_tab_6}>
