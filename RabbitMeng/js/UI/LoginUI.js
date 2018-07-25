@@ -15,6 +15,8 @@ let SPUtil = require('../uitl/SPUtil');
 import Toast, {DURATION} from 'react-native-easy-toast'
 import {Navigation} from "react-native-navigation";
 import * as Constant from "../uitl/Constant";
+import * as HttpUtil from "../uitl/HttpUtil";
+
 
 export default class LoginUI extends Component {
 
@@ -98,11 +100,14 @@ export default class LoginUI extends Component {
                                 width: ScreenUtil.scaleSize(440),
                                 height: ScreenUtil.scaleSize(100)
                             }} onPress={() => {
-                                if (this.state.username === '111' && this.state.passWord === '111') {
-                                    this._saveLoginState();
-                                } else {
-                                    this.refs.toast.show('账号或者密码错误');
-                                }
+                                this._Login(this.state.username, this.state.passWord, function (jsondata) {
+                                    console.log('返回数据' + jsondata);
+                                    if (jsondata.state) {
+                                        this._saveLoginState();
+                                    }else {
+                                        this.refs.toast.show(jsondata.msg);
+                                    }
+                                }.bind(this))
                             }}><View>
                                 <ImageBackground roundAsCircle={true}
                                                  resizeMode={'stretch'} style={styles.oval_bg}
@@ -136,6 +141,9 @@ export default class LoginUI extends Component {
         );
     }
 
+    _Login = (username, password, callback) => {
+        HttpUtil.postJSON('login', {'username': username, 'password': password}, callback)
+    };
 
     _gotoMain = () => {
         const tabs = [{

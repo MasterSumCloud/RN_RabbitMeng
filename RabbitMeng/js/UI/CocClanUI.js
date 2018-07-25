@@ -69,7 +69,7 @@ export default class CocClanUI extends Component {
         let self = this;
 
         SPUtil.getAsyncStorage(Constant.ControlClan, (value) => {
-            if (value !== null && value !== undefined && value!=='') {
+            if (value !== null && value !== undefined && value !== '') {
                 let controList = JSON.parse(value);
                 for (let clan of controList) {
                     if (clan.isControl) {
@@ -79,7 +79,7 @@ export default class CocClanUI extends Component {
                 self.setState({
                     control_clan_list: controList
                 });
-            }else {
+            } else {
                 this._getClanData('#G02RLVG0');
             }
         }, () => {
@@ -90,8 +90,7 @@ export default class CocClanUI extends Component {
 
     _getClanData = (tag) => {
         let self = this;
-        HttpUtil.get('https://api.clashofclans.com/v1/clans/' + tag.replace(/#/, '%23'), '', function (jsonData) {
-            console.log(jsonData.items);
+        HttpUtil.postJSON('clans', {'tag': tag}, function (response) {
             // let [...lvSortList] = jsonData.memberList;
             // let [...donateSortList] = jsonData.memberList;
             // let [...receiveSortList] = jsonData.memberList;
@@ -125,13 +124,16 @@ export default class CocClanUI extends Component {
             //     // ratioSortList: jsonData.memberList.sort(this._listSortConpare('expLevel')),
             // });
 
-            self.setState({
-                dataAry: jsonData.memberList,
-                clonListOfDataArr: jsonData.memberList,
-                isLoading: false,
-                clans_img: jsonData.badgeUrls.small,
-                clans_name: jsonData.name,
-            });
+            if (response.state) {
+                let jsonData = response.data;
+                self.setState({
+                    dataAry: jsonData.memberList,
+                    clonListOfDataArr: jsonData.memberList,
+                    isLoading: false,
+                    clans_img: jsonData.badgeUrls.small,
+                    clans_name: jsonData.name,
+                });
+            }
         })
     };
 

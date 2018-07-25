@@ -176,7 +176,7 @@ export default class ControlUI extends Component {
         SPUtil.getAsyncStorage(Constant.ControlClan_Config + clan_tag, (value) => {
             console.log('读取的配置' + value);
             let configData = JSON.parse(value);
-            if (configData !== null && configData !== undefined && configData!=='') {
+            if (configData !== null && configData !== undefined && configData !== '') {
                 this.setState({
                     clan_config: configData
                 });
@@ -189,20 +189,23 @@ export default class ControlUI extends Component {
 
     _getData = (tag) => {
         let self = this;
-        HttpUtil.get('https://api.clashofclans.com/v1/clans/' + tag.replace(/#/, '%23'), '', function (jsonData) {
-            console.log('部落旗子' + jsonData.badgeUrls.large);
-            self.setState({
-                dataAry: jsonData.memberList,
-                isLoading: false,
-                clans_img: jsonData.badgeUrls.small,
-                clan_tag_img_big: jsonData.badgeUrls.large,
-                clans_name: jsonData.name,
-                clan_tag: jsonData.tag
-            });
+        HttpUtil.postJSON('clans', {'tag': tag}, function (response) {
+            if (response.state) {
+                let jsonData = response.data;
+                console.log('部落旗子' + jsonData.badgeUrls.large);
+                self.setState({
+                    dataAry: jsonData.memberList,
+                    isLoading: false,
+                    clans_img: jsonData.badgeUrls.small,
+                    clan_tag_img_big: jsonData.badgeUrls.large,
+                    clans_name: jsonData.name,
+                    clan_tag: jsonData.tag
+                });
 
-            self._getEveryTowmLvOfClan(jsonData.memberList, self);
-            self._getWarAttactList(jsonData.memberList, tag, self);
-            self._getClanGameList(jsonData.memberList, tag, self);
+                self._getEveryTowmLvOfClan(jsonData.memberList, self);
+                self._getWarAttactList(jsonData.memberList, tag, self);
+                self._getClanGameList(jsonData.memberList, tag, self);
+            }
         }, function (error) {
             self.setState({isLoading: false, isError: true})
         });
@@ -217,35 +220,38 @@ export default class ControlUI extends Component {
         let townHallLeve9 = 0;
         let other = 0;
         for (let member of memberList) {
-            HttpUtil.get('https://api.clashofclans.com/v1/players/' + member.tag.replace(/#/, '%23'), '', function (jsonData) {
-                switch (jsonData.townHallLevel) {
-                    case 12:
-                        townHallLeve12++;
-                        break;
-                    case 11:
-                        townHallLeve11++;
-                        break;
-                    case 10:
-                        townHallLeve10++;
-                        break;
-                    case 9:
-                        townHallLeve9++;
-                        break;
-                    default:
-                        other++;
-                        break
-                }
-                console.log('ceshi' + (townHallLeve9 + townHallLeve10 + townHallLeve11 + townHallLeve12 + other));
-                console.log('ceshi' + self.state.dataAry.length);
-                if ((townHallLeve9 + townHallLeve10 + townHallLeve11 + townHallLeve12 + other) === self.state.dataAry.length) {
-                    self.setState({
-                            num_of_town12: townHallLeve12,
-                            num_of_town11: townHallLeve11,
-                            num_of_town10: townHallLeve10,
-                            num_of_town9: townHallLeve9
-                        }
-                    );
-                    console.log('townHallLeve12:' + townHallLeve12)
+            HttpUtil.postJSON('players', {'tag': member.tag}, function (response) {
+                if (response.state) {
+                    let jsonData = response.data;
+                    switch (jsonData.townHallLevel) {
+                        case 12:
+                            townHallLeve12++;
+                            break;
+                        case 11:
+                            townHallLeve11++;
+                            break;
+                        case 10:
+                            townHallLeve10++;
+                            break;
+                        case 9:
+                            townHallLeve9++;
+                            break;
+                        default:
+                            other++;
+                            break
+                    }
+                    console.log('ceshi' + (townHallLeve9 + townHallLeve10 + townHallLeve11 + townHallLeve12 + other));
+                    console.log('ceshi' + self.state.dataAry.length);
+                    if ((townHallLeve9 + townHallLeve10 + townHallLeve11 + townHallLeve12 + other) === self.state.dataAry.length) {
+                        self.setState({
+                                num_of_town12: townHallLeve12,
+                                num_of_town11: townHallLeve11,
+                                num_of_town10: townHallLeve10,
+                                num_of_town9: townHallLeve9
+                            }
+                        );
+                        console.log('townHallLeve12:' + townHallLeve12)
+                    }
                 }
             });
         }

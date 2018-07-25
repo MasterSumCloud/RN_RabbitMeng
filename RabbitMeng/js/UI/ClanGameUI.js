@@ -47,7 +47,7 @@ export default class ClanGameUI extends Component {
     render() {
         return (
 
-            <ScrollView style={{backgroundColor:'white'}}>
+            <ScrollView style={{backgroundColor: 'white'}}>
                 <View style={styles.container}>
 
                     {this.state.isOnerror ?
@@ -56,7 +56,8 @@ export default class ClanGameUI extends Component {
                             color: 'red'
                         }}>{this.state.errorMsg}</Text> : null}
 
-                    <Text style={{marginTop: ScreenUtil.scaleSize(20)}}>使用说明：请在竞赛开始前进行开始登记，这时候会记录当前部落的所有成员积分，兵在赛季竞赛结束后进行结束登记，系统会计算两次登记时间中成员的竞赛积分差来算出对应成员在本次竞赛中所得积分！</Text>
+                    <Text
+                        style={{marginTop: ScreenUtil.scaleSize(20)}}>使用说明：请在竞赛开始前进行开始登记，这时候会记录当前部落的所有成员积分，兵在赛季竞赛结束后进行结束登记，系统会计算两次登记时间中成员的竞赛积分差来算出对应成员在本次竞赛中所得积分！</Text>
 
                     <Text style={{
                         marginTop: ScreenUtil.scaleSize(15),
@@ -233,9 +234,12 @@ export default class ClanGameUI extends Component {
 
     _getMemberList = () => {
         let self = this;
-        HttpUtil.get('https://api.clashofclans.com/v1/clans/' + this.state.clan_tag.replace(/#/, '%23'), '', function (jsonData) {
-            self.setState({memberList: jsonData.memberList});
-        })
+        HttpUtil.postJSON('clans', {'tag': this.state.clan_tag}, function (jsonData) {
+            console.log('数据' + JSON.stringify(jsonData));
+            if (jsonData.state) {
+                self.setState({memberList: jsonData.data.memberList});
+            }
+        });
     };
 
 
@@ -269,8 +273,10 @@ export default class ClanGameUI extends Component {
 
                     if (needGetClanGameNewMember.length > 0) {
                         for (let item of needGetClanGameNewMember) {
-                            HttpUtil.get('https://api.clashofclans.com/v1/players/' + item.tag.replace(/#/, '%23'), '', function (jsonData) {
-                                self._handleNewMemberDetailData(jsonData, newPushList);
+                            HttpUtil.postJSON('players', {'tag': item.tag}, function (jsonData) {
+                                if (jsonData.state) {
+                                    self._handleNewMemberDetailData(jsonData.data, newPushList);
+                                }
                             });
                         }
                     } else {
@@ -292,8 +298,10 @@ export default class ClanGameUI extends Component {
 
                 let pushList = [];
                 for (let item of this.state.memberList) {
-                    HttpUtil.get('https://api.clashofclans.com/v1/players/' + item.tag.replace(/#/, '%23'), '', function (jsonData) {
-                        self._handleMemberDetailData(jsonData, pushList);
+                    HttpUtil.postJSON('players', {'tag': item.tag}, function (jsonData) {
+                        if (jsonData.state) {
+                            self._handleMemberDetailData(jsonData.data, pushList);
+                        }
                     });
                 }
             }
@@ -320,14 +328,14 @@ export default class ClanGameUI extends Component {
             //保存统计的信息
             SPUtil.saveAsyncStorage(Constant.Clan_games_START + this.state.clan_tag, JSON.stringify(this.state.clanGameMemberInfos.concat(newPushList)), () => {
                 this.setState({
-                        lastClanGameStartInfo:this.state.clanGameMemberInfos.concat(newPushList)
+                        lastClanGameStartInfo: this.state.clanGameMemberInfos.concat(newPushList)
                     }
                 );
                 console.log('储存竞赛积分成功');
             }, () => {
                 console.log('储存竞赛积分失败');
             });
-            console.log('竞赛积分更新后的信息'+JSON.stringify(this.state.clanGameMemberInfos.concat(newPushList)))
+            console.log('竞赛积分更新后的信息' + JSON.stringify(this.state.clanGameMemberInfos.concat(newPushList)))
         }
     };
 
@@ -350,14 +358,14 @@ export default class ClanGameUI extends Component {
             //保存统计的信息
             SPUtil.saveAsyncStorage(Constant.Clan_games_START + this.state.clan_tag, JSON.stringify(pushList), () => {
                 this.setState({
-                        lastClanGameStartInfo:pushList
+                        lastClanGameStartInfo: pushList
                     }
                 );
                 console.log('储存竞赛积分成功');
             }, () => {
                 console.log('储存竞赛积分失败');
             });
-            console.log('竞赛登记开始的信息'+JSON.stringify(this.state.clanGameMemberInfos))
+            console.log('竞赛登记开始的信息' + JSON.stringify(this.state.clanGameMemberInfos))
         }
 
     };
@@ -396,7 +404,7 @@ export default class ClanGameUI extends Component {
                     }
                 }
             }
-            console.log('结束竞赛积分信息'+JSON.stringify(pushList));
+            console.log('结束竞赛积分信息' + JSON.stringify(pushList));
             SPUtil.saveAsyncStorage(Constant.Clan_games + this.state.clan_tag, JSON.stringify(clanGameValueList), () => {
                 console.log('保存竞赛信息成功');
             }, () => {
@@ -415,15 +423,17 @@ export default class ClanGameUI extends Component {
                 if (this.state.memberList.length > 0) {
                     this.setState({
                         isCollectting: true,
-                        lastClanGameStartInfo:JSON.parse(valueList)
+                        lastClanGameStartInfo: JSON.parse(valueList)
                     });
 
                     console.log('获取到的竞赛开始登记的信息' + valueList);
 
                     let pushList = [];
                     for (let item of this.state.memberList) {
-                        HttpUtil.get('https://api.clashofclans.com/v1/players/' + item.tag.replace(/#/, '%23'), '', function (jsonData) {
-                            self._handleEndMemberDetailData(jsonData, pushList);
+                        HttpUtil.postJSON('players', {'tag': item.tag}, function (jsonData) {
+                            if (jsonData.state) {
+                                self._handleEndMemberDetailData(jsonData.data, pushList);
+                            }
                         });
                     }
 

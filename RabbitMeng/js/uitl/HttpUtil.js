@@ -3,6 +3,8 @@ const header = {
     // Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjlhMmEwNDMwLTFkMTEtNGQ2OC1hODA3LWY1Mjg1MzZmNGIwZSIsImlhdCI6MTUzMDk1NjQ4MSwic3ViIjoiZGV2ZWxvcGVyL2ZjMDMxNDMzLWEzNDQtZmY3NS05OGUwLTNlZjlkNmJjZjljYSIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjYxLjE2NS4xMzguMjIxIl0sInR5cGUiOiJjbGllbnQifV19.As_E8SopSM_txgi9TdFw2qWu9X_iCYGb7l3PJX-aG3BWXnMXhe_OW7luFPOiu5ylIvLhJqWj8GQ8ivP_XaA6fA'
 };
 
+const baseUrl = 'http://127.0.0.1:8000/';
+
 /**
  *  get请求
  *  url:请求地址
@@ -44,7 +46,7 @@ export function get(url, params, callback) {
  * */
 export function postJSON(url, params, callback) {
     //fetch请求
-    fetch(url, {
+    fetch(baseUrl + url, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',

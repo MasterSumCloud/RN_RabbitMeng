@@ -127,7 +127,7 @@ export default class ClanDetailUI extends Component {
             }
 
             let townHallWeaponLevel = '无';
-            if (mainData.townHallWeaponLevel!==undefined){
+            if (mainData.townHallWeaponLevel !== undefined) {
                 townHallWeaponLevel = mainData.townHallWeaponLevel;
             }
 
@@ -154,12 +154,16 @@ export default class ClanDetailUI extends Component {
                                     backgroundColor: 'rgba(255,255,255,0.7)',
                                     fontSize: 15
                                 }}>{'大本营 ' + mainData.townHallLevel}</Text>
-                                <Image style={{width: ScreenUtil.scaleSize(100), height: ScreenUtil.scaleSize(100),marginRight:ScreenUtil.scaleSize(140)}}
+                                <Image style={{
+                                    width: ScreenUtil.scaleSize(100),
+                                    height: ScreenUtil.scaleSize(100),
+                                    marginRight: ScreenUtil.scaleSize(140)
+                                }}
                                        source={townHall}/>
                                 <Text style={{
                                     backgroundColor: 'rgba(255,255,255,0.7)',
                                     fontSize: 10,
-                                    color:'#333'
+                                    color: '#333'
                                 }}> {'Weapon ' + townHallWeaponLevel}</Text>
 
                                 <Text style={{
@@ -175,10 +179,10 @@ export default class ClanDetailUI extends Component {
                                 <Image style={{
                                     width: ScreenUtil.scaleSize(65),
                                     height: ScreenUtil.scaleSize(65),
-                                    position:'absolute',
-                                    marginTop:ScreenUtil.scaleSize(109),
-                                    alignSelf:'flex-start',
-                                    marginLeft:ScreenUtil.scaleSize(15),
+                                    position: 'absolute',
+                                    marginTop: ScreenUtil.scaleSize(109),
+                                    alignSelf: 'flex-start',
+                                    marginLeft: ScreenUtil.scaleSize(15),
                                 }}
                                        source={buildHall}/>
                             </View>
@@ -498,18 +502,23 @@ export default class ClanDetailUI extends Component {
 
     componentDidMount() {
         let self = this;
-        HttpUtil.get('https://api.clashofclans.com/v1/players/' + self.props.coc_tag.replace(/#/, '%23'), '', function (jsonData) {
-            self._handle_data(self, jsonData);
+
+        HttpUtil.postJSON('players', {'tag': self.props.coc_tag}, function (jsonData) {
+            console.log('服务器返回数据' + JSON.stringify(jsonData));
+            if (jsonData.state) {
+                self._handle_data(self, jsonData.data);
+            }
         });
+
         this.props.navigator.setOnNavigatorEvent((e) => {
-            if (e.type == 'NavBarButtonPress') {
-                if (e.id == 'back') {
+            if (e.type === 'NavBarButtonPress') {
+                if (e.id === 'back') {
                     this.props.navigator.dismissModal();
                 }
-
             }
         });
     }
+
 
     _handle_data = (self, mainData) => {
         let troop_h = [];

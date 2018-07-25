@@ -47,7 +47,7 @@ export default class ClanWarUI extends Component {
             warState = '准备中'
         } else if (this.state.last_war_state === 'warEnded') {
             warState = '已结束'
-        }else {
+        } else {
             warState = '战争中'
         }
         return (
@@ -116,41 +116,44 @@ export default class ClanWarUI extends Component {
 
     _collectData = () => {
         let self = this;
-        HttpUtil.get('https://api.clashofclans.com/v1/clans/' + this.state.clan_tag.replace(/#/, '%23') + '/currentwar', '', function (jsonData) {
-            let warList = [];
-            for (let memeber of jsonData.clan.members) {
-                let memb = {tag: memeber.tag, attacks: memeber.attacks === undefined ? 0 : memeber.attacks.length};
-                warList.push(memb)
+        HttpUtil.postJSON('currentwar', {'tag': this.state.clan_tag}, function (response) {
+            if (response.state) {
+                let jsonData = response.data;
+                let warList = [];
+                for (let memeber of jsonData.clan.members) {
+                    let memb = {tag: memeber.tag, attacks: memeber.attacks === undefined ? 0 : memeber.attacks.length};
+                    warList.push(memb)
+                }
+
+                let collectTime = TimeUtil.getNowFormatDate();
+                self.setState({
+                    warData: warList,
+                    isCollect: false,
+                    last_war_clan: jsonData.clan.name,
+                    last_war_opponent: jsonData.opponent.name,
+                    last_war_start_time: TimeUtil.getFrrSerTime(jsonData.startTime),
+                    last_war_end_time: TimeUtil.getFrrSerTime(jsonData.endTime),
+                    last_war_state: jsonData.state,
+                    last_collect_time: collectTime
+                });
+                //warEnded
+                // this.refs.toast.show('统计完毕');
+
+                //保存统计的信息
+                SPUtil.saveAsyncStorage(Constant.CollectWarTime + jsonData.clan.tag, collectTime, () => {
+                    console.log('储存登记时间成功');
+                }, () => {
+                    console.log('储存登记时间失败');
+                });
+
+                SPUtil.saveAsyncStorage(Constant.War_Attacts + jsonData.clan.tag, JSON.stringify(warList), () => {
+                    console.log('储存部落进攻信息成功');
+                }, () => {
+                    console.log('储存部落进攻信息失败');
+                });
+
+                console.log('部落站信息' + JSON.stringify(warList));
             }
-
-            let collectTime = TimeUtil.getNowFormatDate();
-            self.setState({
-                warData: warList,
-                isCollect: false,
-                last_war_clan: jsonData.clan.name,
-                last_war_opponent: jsonData.opponent.name,
-                last_war_start_time: TimeUtil.getFrrSerTime(jsonData.startTime),
-                last_war_end_time: TimeUtil.getFrrSerTime(jsonData.endTime),
-                last_war_state: jsonData.state,
-                last_collect_time: collectTime
-            });
-            //warEnded
-            // this.refs.toast.show('统计完毕');
-
-            //保存统计的信息
-            SPUtil.saveAsyncStorage(Constant.CollectWarTime + jsonData.clan.tag, collectTime, () => {
-                console.log('储存登记时间成功');
-            }, () => {
-                console.log('储存登记时间失败');
-            });
-
-            SPUtil.saveAsyncStorage(Constant.War_Attacts + jsonData.clan.tag, JSON.stringify(warList), () => {
-                console.log('储存部落进攻信息成功');
-            }, () => {
-                console.log('储存部落进攻信息失败');
-            });
-
-            console.log('部落站信息' + JSON.stringify(warList));
         }, function (error) {
             // this.refs.toast.show('统计出错，请稍后再试');
         });
