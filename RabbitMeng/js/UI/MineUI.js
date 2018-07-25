@@ -34,14 +34,14 @@ export default class MineUI extends Component {
                     style={{flex: 1, flexDirection: 'column'}}
                 >
                     <ImageBackground resizeMode='stretch' style={styles.mine_top}
-                                     source={require('../../res/imgs/mine_top_bg.jpg')}
+                                     source={require('../../res/imgs/mine_topbg.jpg')}
                     >
                         {/*头像*/}
                         <Image style={styles.image_login_head} roundAsCircle={true}
-                               source={require('../../res/imgs/huli_head_defult.jpeg')}/>
+                               source={require('../../res/imgs/head_defult.jpeg')}/>
 
                         <Text style={styles.text_white}>
-                            天使的守护
+                            兔萌管理组
                         </Text>
 
                         <View style={styles.identify_bg}>

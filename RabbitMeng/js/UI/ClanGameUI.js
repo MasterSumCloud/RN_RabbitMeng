@@ -164,7 +164,7 @@ export default class ClanGameUI extends Component {
                         width: ScreenUtil.scaleSize(400),
                         height: ScreenUtil.scaleSize(200)
                     }}
-                                     source={require('../../res/imgs/wite_loading.gif')}>
+                                     source={require('../../res/imgs/dengji_loading.gif')}>
                         <Text style={{
                             marginTop: ScreenUtil.scaleSize(150),
                             marginLeft: ScreenUtil.scaleSize(30),

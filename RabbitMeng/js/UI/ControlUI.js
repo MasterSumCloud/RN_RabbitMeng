@@ -256,13 +256,13 @@ export default class ControlUI extends Component {
 
         if (this.state.isError) {
             return (<View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white'}}>
-                <Image source={require('../../res/imgs/error_no_control_clan.jpeg')}
+                <Image source={require('../../res/imgs/no_controlclan.jpeg')}
                        style={{width: ScreenUtil.scaleSize(350), height: ScreenUtil.scaleSize(400)}}/>
                 <Text>诶！没有管理的部落</Text>
             </View>)
         } else if (this.state.isLoading) {
             return <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white'}}>
-                <Image source={require('../../res/imgs/ali_dance.gif')}/>
+                <Image source={require('../../res/imgs/ali_dancee.gif')}/>
                 <Text>数据加载中...</Text>
             </View>
         } else {

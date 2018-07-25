@@ -1,8 +1,7 @@
-
 const header = {
     Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjQyYzNmNzRjLWM2Y2QtNDM4Ny1hOTAwLTE3MWY5ZDc1NzA1ZiIsImlhdCI6MTUzMDY4MjA2MSwic3ViIjoiZGV2ZWxvcGVyL2ZjMDMxNDMzLWEzNDQtZmY3NS05OGUwLTNlZjlkNmJjZjljYSIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjExNi4yMzEuMTU5LjEwOCJdLCJ0eXBlIjoiY2xpZW50In1dfQ.D4VZAid5jrPZOY-Y1FIxCqnShRpXdoxX4UsZuLzuh-aYzR8mg3ILl5ChUtAMVRJxAGFUmiDwLwVk_GtTVGP4Kg'
     // Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjlhMmEwNDMwLTFkMTEtNGQ2OC1hODA3LWY1Mjg1MzZmNGIwZSIsImlhdCI6MTUzMDk1NjQ4MSwic3ViIjoiZGV2ZWxvcGVyL2ZjMDMxNDMzLWEzNDQtZmY3NS05OGUwLTNlZjlkNmJjZjljYSIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjYxLjE2NS4xMzguMjIxIl0sInR5cGUiOiJjbGllbnQifV19.As_E8SopSM_txgi9TdFw2qWu9X_iCYGb7l3PJX-aG3BWXnMXhe_OW7luFPOiu5ylIvLhJqWj8GQ8ivP_XaA6fA'
-}
+};
 
 /**
  *  get请求
@@ -11,7 +10,7 @@ const header = {
  *  callback:回调函数
  * */
 export function get(url, params, callback) {
-    console.log('url='+url);
+    console.log('url=' + url);
     if (params) {
         let paramsArray = [];
         //拼接参数

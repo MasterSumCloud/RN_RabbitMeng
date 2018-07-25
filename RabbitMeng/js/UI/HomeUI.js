@@ -27,7 +27,7 @@ export default class HomeUI extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>APP使用说明：到我的界面，选择部落管理，选择你要管理的部落，回来刷新界面！</Text>
+                <Text>APP使用说明：第一步，到我的界面，点击部落管理，进入到部落管理页，部落都是待管理，点击待管理，再点击左上角我的，返回到我的页面。第二步，返回到手机主页，杀掉APP应用，然后再打开即可</Text>
                 <Text>本页面还没开发，因为不知道写啥，有想法私聊我</Text>
             </View>
         );

@@ -62,13 +62,13 @@ export default class LoginUI extends Component {
                         width: ScreenUtil.screenW,
                         height: ScreenUtil.screenH
                     }}
-                                     source={require('../../res/imgs/login_bg.jpg')}>
+                                     source={require('../../res/imgs/loginbg.jpg')}>
                         {/*背景透明度*/}
                         <ImageBackground resizeMode='contain' style={styles.login_bg}>
 
                             {/*头像*/}
                             <Image style={styles.image_login_head} roundAsCircle={true}
-                                   source={require('../../res/imgs/huli_head_defult.jpeg')}/>
+                                   source={require('../../res/imgs/head_defult.jpeg')}/>
                             {/*登陆 - 用户输入*/}
                             <View style={styles.login_user}>
                                 <Image style={styles.login_left_icon}

@@ -29,7 +29,7 @@ export default class SettingControlClansUI extends Component {
     render() {
         if (this.state.isLoading) {
             return (<View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white'}}>
-                <Image source={require('../../res/imgs/ali_look_around.gif')}/>
+                <Image source={require('../../res/imgs/ali_arounde.gif')}/>
             </View>);
         } else {
             return (

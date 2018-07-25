@@ -49,7 +49,7 @@ export default class ClanDetailUI extends Component {
 
         if (this.state.isLoading) {
             return <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white'}}>
-                <Image source={require('../../res/imgs/ali_look_around.gif')}/>
+                <Image source={require('../../res/imgs/ali_arounde.gif')}/>
             </View>
         } else {
             let mainData = this.state.mainData;
@@ -139,7 +139,7 @@ export default class ClanDetailUI extends Component {
                                 showsVerticalScrollIndicator={false}
                                 style={{flex: 1, flexDirection: 'column'}}>
                         <ImageBackground resizeMode='stretch' style={styles.detail_top_bg}
-                                         source={require('../../res/imgs/detail_bg_top.jpg')}
+                                         source={require('../../res/imgs/detail_bgtop.jpg')}
                         >
                             <View style={{alignItems: 'center'}}>
                                 <Text style={{

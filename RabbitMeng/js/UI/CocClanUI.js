@@ -332,7 +332,7 @@ export default class CocClanUI extends Component {
                 justifyContent: 'center',
                 alignItems: 'center'
             }}>
-                <Image style={{width: 80, height: 80}} source={require('../../res/imgs/ali_look_around.gif')}/>
+                <Image style={{width: 80, height: 80}} source={require('../../res/imgs/ali_arounde.gif')}/>
             </View>)
         } else {
             return (<FlatList
