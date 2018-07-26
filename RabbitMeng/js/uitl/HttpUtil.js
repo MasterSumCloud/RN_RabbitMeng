@@ -59,12 +59,16 @@ export function postJSON(url, params, callback, callbackErr) {
             callback(responseJSON)
         })
         .catch((error) => {
-            tryError(url, params, callback);
-            console.log(error)
+            console.log(error);
+            callbackErr(error.toString());
+            setTimeout(tryError(url, params, callback, 1), 500);
         });
 }
 
-function tryError(url, params, callback) {
+function tryError(url, params, callback, time) {
+    if (time > 3) {
+        return;
+    }
     fetch(baseUrl + url, {
         method: 'POST',
         headers: {
@@ -78,7 +82,11 @@ function tryError(url, params, callback) {
             callback(responseJSON)
         })
         .catch((error) => {
+            time++;
+            setTimeout(tryError(url, params, callback, time), 500);
         });
+
+
 }
 
 

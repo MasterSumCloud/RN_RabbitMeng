@@ -240,8 +240,8 @@ export default class ControlUI extends Component {
                             other++;
                             break
                     }
-                    console.log('ceshi' + (townHallLeve9 + townHallLeve10 + townHallLeve11 + townHallLeve12 + other));
-                    console.log('ceshi' + self.state.dataAry.length);
+                    console.log('当前' + (townHallLeve9 + townHallLeve10 + townHallLeve11 + townHallLeve12 + other));
+                    console.log('总数' + self.state.dataAry.length);
                     if ((townHallLeve9 + townHallLeve10 + townHallLeve11 + townHallLeve12 + other) === self.state.dataAry.length) {
                         self.setState({
                                 num_of_town12: townHallLeve12,

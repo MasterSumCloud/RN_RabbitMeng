@@ -30,6 +30,7 @@ export default class LoginUI extends Component {
         this.state = {
             username: '',
             passWord: '',
+            isReigst: false,
             clan_list: [
                 {name: '26部', tag: '#P2YPYLJ', isControl: false},
                 {name: 'Extreme丶神', tag: '#JOROUL9J', isControl: false},
@@ -80,7 +81,7 @@ export default class LoginUI extends Component {
                                            underlineColorAndroid='transparent'
                                            autoCapitalize={'none'}
                                            onChangeText={(text) => this.setState({username: text})}
-                                           placeholder={'E-mail address'}/>
+                                           placeholder={'手机/QQ/邮箱'}/>
 
                             </View>
                             {/*登陆 - 密码输入*/}
@@ -88,7 +89,7 @@ export default class LoginUI extends Component {
                                 <Image style={styles.login_left_icon}
                                        source={require('../../res/imgs/login_password.png')}
                                 />
-                                <TextInput placeholderTextColor={'white'} placeholder={'Your password'}
+                                <TextInput placeholderTextColor={'white'} placeholder={'请输入密码'}
                                            style={styles.login_textinput}
                                            secureTextEntry={true}
                                            underlineColorAndroid='transparent'
@@ -102,20 +103,45 @@ export default class LoginUI extends Component {
                                 width: ScreenUtil.scaleSize(440),
                                 height: ScreenUtil.scaleSize(100)
                             }} onPress={() => {
-                                this._Login(this.state.username, this.state.passWord, function (jsondata) {
-                                    console.log('返回数据' + jsondata);
-                                    if (jsondata.state) {
-                                        this._saveLoginState();
-                                    }else {
-                                        this.refs.toast.show(jsondata.msg);
+                                if (this.state.username === '' || this.state.username === null) {
+                                    this.refs.toast.show('账号不能为空');
+                                } else if (this.state.passWord === '' || this.state.passWord === null) {
+                                    this.refs.toast.show('密码不能为空');
+                                } else {
+                                    if (this.state.isReigst) {
+                                        this._Regist(this.state.username, this.state.passWord, function (jsondata) {
+                                            console.log('返回数据' + JSON.stringify(jsondata));
+                                            if (jsondata.state) {
+                                                this.setState({
+                                                    isReigst: false
+                                                });
+                                                this.refs.toast.show('注册成功');
+                                            } else {
+                                                this.refs.toast.show(jsondata.msg);
+                                            }
+                                        }.bind(this), function (error) {
+                                            this.refs.toast.show(error);
+                                        }.bind(this))
+                                    } else {
+                                        this._Login(this.state.username, this.state.passWord, function (jsondata) {
+                                            console.log('返回数据' + JSON.stringify(jsondata));
+                                            if (jsondata.state) {
+                                                this._saveLoginState();
+                                            } else {
+                                                this.refs.toast.show(jsondata.msg);
+                                            }
+                                        }.bind(this), function (error) {
+                                            this.refs.toast.show(error);
+                                        }.bind(this))
                                     }
-                                }.bind(this))
+                                }
+
                             }}><View>
                                 <ImageBackground roundAsCircle={true}
                                                  resizeMode={'stretch'} style={styles.oval_bg}
                                 >
                                     <Text style={styles.login_btn}>
-                                        登录
+                                        {this.state.isReigst ? '注册' : '登陆'}
                                     </Text>
                                 </ImageBackground>
                             </View>
@@ -130,9 +156,11 @@ export default class LoginUI extends Component {
                             <View style={styles.line}/>
                             {/*注册*/}
                             <Text style={styles.text_stl_forgot_regist} onPress={() => {
-                                this.refs.toast.show('抱歉，暂未开通注册');
+                                this.setState({
+                                    isReigst: !this.state.isReigst
+                                });
                             }}>
-                                没有账号?注册
+                                {this.state.isReigst ? '已有账号?登陆' : '没有账号?注册'}
                             </Text>
 
                         </ImageBackground>
@@ -143,8 +171,12 @@ export default class LoginUI extends Component {
         );
     }
 
-    _Login = (username, password, callback) => {
-        HttpUtil.postJSON('login', {'username': username, 'password': password}, callback)
+    _Login = (username, password, callback, errorback) => {
+        HttpUtil.postJSON('login', {'username': username, 'password': password}, callback, errorback)
+    };
+
+    _Regist = (username, password, callback, errorback) => {
+        HttpUtil.postJSON('regist', {'username': username, 'password': password}, callback, errorback)
     };
 
     _gotoMain = () => {
@@ -217,7 +249,7 @@ const styles = StyleSheet.create({
         marginTop: ScreenUtil.scaleSize(215),
         width: ScreenUtil.scaleSize(140),
         height: ScreenUtil.scaleSize(140),
-        marginLeft:ScreenUtil.scaleSize(80),
+        marginLeft: ScreenUtil.scaleSize(80),
         marginBottom: ScreenUtil.scaleSize(160),
         borderRadius: 35,
     },
