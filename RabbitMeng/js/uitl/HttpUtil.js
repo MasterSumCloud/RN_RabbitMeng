@@ -59,8 +59,25 @@ export function postJSON(url, params, callback, callbackErr) {
             callback(responseJSON)
         })
         .catch((error) => {
-            postJSON(url, params, callback);
-            callbackErr(error)
+            tryError(url, params, callback);
+            console.log(error)
+        });
+}
+
+function tryError(url, params, callback) {
+    fetch(baseUrl + url, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(params)
+    })
+        .then((response) => response.json())
+        .then((responseJSON) => {
+            callback(responseJSON)
+        })
+        .catch((error) => {
         });
 }
 

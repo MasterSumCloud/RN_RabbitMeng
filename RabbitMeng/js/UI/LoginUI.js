@@ -78,6 +78,7 @@ export default class LoginUI extends Component {
                                 <TextInput placeholderTextColor={'white'} style={styles.login_textinput}
                                            maxLength={30}
                                            underlineColorAndroid='transparent'
+                                           autoCapitalize={'none'}
                                            onChangeText={(text) => this.setState({username: text})}
                                            placeholder={'E-mail address'}/>
 
@@ -93,6 +94,7 @@ export default class LoginUI extends Component {
                                            underlineColorAndroid='transparent'
                                            onChangeText={(text) => this.setState({passWord: text})}
                                            maxLength={16}
+                                           autoCapitalize={'none'}
                                 />
                             </View>
                             {/*登陆安妞*/}
@@ -212,9 +214,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     image_login_head: {
-        marginTop: ScreenUtil.scaleSize(235),
+        marginTop: ScreenUtil.scaleSize(215),
         width: ScreenUtil.scaleSize(140),
         height: ScreenUtil.scaleSize(140),
+        marginLeft:ScreenUtil.scaleSize(80),
         marginBottom: ScreenUtil.scaleSize(160),
         borderRadius: 35,
     },
@@ -224,7 +227,7 @@ const styles = StyleSheet.create({
         width: ScreenUtil.scaleSize(535),
         height: ScreenUtil.scaleSize(100),
         backgroundColor: 'black',
-        opacity: 0.7,
+        opacity: 0.6,
         marginBottom: 20,
         padding: 10
     },
@@ -255,7 +258,7 @@ const styles = StyleSheet.create({
     }, login_bg: {
         alignItems: 'center',
         flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.6)'
+        backgroundColor: 'rgba(0,0,0,0.2)'
         //opacity: 0.6
     }, text_stl_forgot_passworld: {
         marginTop: ScreenUtil.scaleSize(40),
