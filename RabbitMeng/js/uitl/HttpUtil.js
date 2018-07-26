@@ -44,7 +44,7 @@ export function get(url, params, callback) {
  *  params:参数,这里的参数格式是：{param1: 'value1',param2: 'value2'}
  *  callback:回调函数
  * */
-export function postJSON(url, params, callback) {
+export function postJSON(url, params, callback, callbackErr) {
     //fetch请求
     fetch(baseUrl + url, {
         method: 'POST',
@@ -59,7 +59,8 @@ export function postJSON(url, params, callback) {
             callback(responseJSON)
         })
         .catch((error) => {
-            console.log('error = ' + error)
+            postJSON(url, params, callback);
+            callbackErr(error)
         });
 }
 

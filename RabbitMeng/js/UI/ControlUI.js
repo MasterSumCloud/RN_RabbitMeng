@@ -253,6 +253,8 @@ export default class ControlUI extends Component {
                         console.log('townHallLeve12:' + townHallLeve12)
                     }
                 }
+            }, function (error) {
+                console.log('错误连续请求' + error)
             });
         }
     };
