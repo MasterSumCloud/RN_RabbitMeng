@@ -5,22 +5,12 @@ import {
     Image,
     Text
 } from 'react-native';
+
 let ScreenUtil = require('../uitl/ScreenUtil');
 
 export default class HomeUI extends Component {
-
-    static navigationOptions = {
-        header: null
-    }
-
     constructor(props) {
         super(props);
-    }
-
-    _login = (result) => {
-        this.props.navigator.resetTo({
-            screen: 'LoginUI'
-        });
     }
 
 
@@ -40,6 +30,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
-        padding:ScreenUtil.scaleSize(30)
+        padding: ScreenUtil.scaleSize(30)
     }
 });

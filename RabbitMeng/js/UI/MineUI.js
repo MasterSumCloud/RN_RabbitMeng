@@ -115,6 +115,10 @@ export default class MineUI extends Component {
             <TouchableWithoutFeedback onPress={() => {
                 switch (item.index) {
                     case 1:
+                        this.props.navigator.push({
+                            screen: 'BlackListUI',
+                            title: '兔萌黑名单',
+                        });
                         break;
                     case 2:
                         break;

@@ -83,7 +83,7 @@ function tryError(url, params, callback, time) {
         })
         .catch((error) => {
             time++;
-            setTimeout(tryError(url, params, callback, time), 500);
+            tryError(url, params, callback, time)
         });
 
 
