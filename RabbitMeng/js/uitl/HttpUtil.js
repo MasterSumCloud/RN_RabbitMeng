@@ -1,9 +1,11 @@
 const header = {
-    Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjQyYzNmNzRjLWM2Y2QtNDM4Ny1hOTAwLTE3MWY5ZDc1NzA1ZiIsImlhdCI6MTUzMDY4MjA2MSwic3ViIjoiZGV2ZWxvcGVyL2ZjMDMxNDMzLWEzNDQtZmY3NS05OGUwLTNlZjlkNmJjZjljYSIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjExNi4yMzEuMTU5LjEwOCJdLCJ0eXBlIjoiY2xpZW50In1dfQ.D4VZAid5jrPZOY-Y1FIxCqnShRpXdoxX4UsZuLzuh-aYzR8mg3ILl5ChUtAMVRJxAGFUmiDwLwVk_GtTVGP4Kg'
+    // Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjQyYzNmNzRjLWM2Y2QtNDM4Ny1hOTAwLTE3MWY5ZDc1NzA1ZiIsImlhdCI6MTUzMDY4MjA2MSwic3ViIjoiZGV2ZWxvcGVyL2ZjMDMxNDMzLWEzNDQtZmY3NS05OGUwLTNlZjlkNmJjZjljYSIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjExNi4yMzEuMTU5LjEwOCJdLCJ0eXBlIjoiY2xpZW50In1dfQ.D4VZAid5jrPZOY-Y1FIxCqnShRpXdoxX4UsZuLzuh-aYzR8mg3ILl5ChUtAMVRJxAGFUmiDwLwVk_GtTVGP4Kg'
     // Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjlhMmEwNDMwLTFkMTEtNGQ2OC1hODA3LWY1Mjg1MzZmNGIwZSIsImlhdCI6MTUzMDk1NjQ4MSwic3ViIjoiZGV2ZWxvcGVyL2ZjMDMxNDMzLWEzNDQtZmY3NS05OGUwLTNlZjlkNmJjZjljYSIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjYxLjE2NS4xMzguMjIxIl0sInR5cGUiOiJjbGllbnQifV19.As_E8SopSM_txgi9TdFw2qWu9X_iCYGb7l3PJX-aG3BWXnMXhe_OW7luFPOiu5ylIvLhJqWj8GQ8ivP_XaA6fA'
+    // Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjcyY2RkZTM2LWM5Y2UtNDI3Zi1hNzhlLTgyZjA1OTExZTAyMiIsImlhdCI6MTUzMjkzOTU0Nywic3ViIjoiZGV2ZWxvcGVyL2ZjMDMxNDMzLWEzNDQtZmY3NS05OGUwLTNlZjlkNmJjZjljYSIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjQ3LjEwMC4xODkuMjM5Il0sInR5cGUiOiJjbGllbnQifV19.U_8YpKmF5BOJRFXSYvXCNkLsYqbCt66mbUIwVv4c_wOMu8lb2RiHL4IyvoztwM4z8-Be0K7L2xTsOr6Ug-BGOg'
 };
 
-const baseUrl = 'http://127.0.0.1:8000/';
+// const baseUrl = 'http://127.0.0.1:8000/';
+const baseUrl = 'http://47.100.189.239:8996/';
 
 /**
  *  get请求
@@ -45,6 +47,7 @@ export function get(url, params, callback) {
  *  callback:回调函数
  * */
 export function postJSON(url, params, callback, callbackErr) {
+    console.log('url=' + url + JSON.stringify(params));
     //fetch请求
     fetch(baseUrl + url, {
         method: 'POST',
@@ -61,33 +64,32 @@ export function postJSON(url, params, callback, callbackErr) {
         .catch((error) => {
             console.log(error);
             callbackErr(error.toString());
-            setTimeout(tryError(url, params, callback, 1), 500);
+            // setTimeout(tryError(url, params, callback, 1), 500);
         });
 }
 
-function tryError(url, params, callback, time) {
-    if (time > 3) {
-        return;
-    }
-    fetch(baseUrl + url, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(params)
-    })
-        .then((response) => response.json())
-        .then((responseJSON) => {
-            callback(responseJSON)
-        })
-        .catch((error) => {
-            time++;
-            tryError(url, params, callback, time)
-        });
-
-
-}
+// function tryError(url, params, callback, time) {
+//     if (time > 3) {
+//         return;
+//     }
+//     console.log('url=' + url + JSON.stringify(params));
+//     fetch(baseUrl + url, {
+//         method: 'POST',
+//         headers: {
+//             'Accept': 'application/json',
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify(params)
+//     })
+//         .then((response) => response.json())
+//         .then((responseJSON) => {
+//             callback(responseJSON)
+//         })
+//         .catch((error) => {
+//             time++;
+//             // setTimeout(tryError(url, params, callback, time), 500);
+//         });
+// }
 
 
 /**
