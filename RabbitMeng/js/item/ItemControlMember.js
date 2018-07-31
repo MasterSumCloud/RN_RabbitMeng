@@ -9,7 +9,7 @@ import {
 
 let ScreenUtil = require('../uitl/ScreenUtil');
 
-export function ItemCocClan(self, itemData, clan_config) {
+export function ItemCocClan(self, itemData, clan_config, isblack) {
 
 
     //#BBEDC2
@@ -39,7 +39,7 @@ export function ItemCocClan(self, itemData, clan_config) {
         } else {
             clanGameTextColor = '#cc0400';
         }
-    }else {
+    } else {
         clanGameTextColor = '#666';
     }
 
@@ -53,7 +53,7 @@ export function ItemCocClan(self, itemData, clan_config) {
         } else {
             clanWarTextColor = '#cc0400';
         }
-    }else {
+    } else {
         clanWarTextColor = '#666';
     }
 
@@ -61,7 +61,9 @@ export function ItemCocClan(self, itemData, clan_config) {
 
 
     //黑名单判断
-
+    if (isblack) {
+        backBgColor = '#696969';
+    }
 
     return <TouchableWithoutFeedback
         onPress={() => {

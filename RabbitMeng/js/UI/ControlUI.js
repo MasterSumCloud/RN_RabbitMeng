@@ -74,7 +74,8 @@ export default class ControlUI extends Component {
             num_of_town11: '加载中',
             num_of_town10: '加载中',
             num_of_town9: '加载中',
-            refreshing: true
+            refreshing: true,
+            blacklist: []
         };
     }
 
@@ -100,6 +101,14 @@ export default class ControlUI extends Component {
         });
 
         this._getMainData();
+        HttpUtil.postJSON('getblack', null, function (jsonData) {
+            console.log('服务器返回黑米单' + JSON.stringify(jsonData));
+            if (jsonData.state) {
+                this.setState({
+                    blacklist: jsonData.data
+                });
+            }
+        }.bind(this));
     }
 
 
@@ -406,7 +415,15 @@ export default class ControlUI extends Component {
                                 if (this.state.isActiveUI) {
                                     return ItemControlMemberACt.ItemCocClanAct(this, item, this.state.clan_config)
                                 } else {
-                                    return ItemControlMember.ItemCocClan(this, item, this.state.clan_config)
+                                    let isBlack = false;
+                                    if (this.state.blacklist.length > 0) {
+                                        for (let black of this.state.blacklist) {
+                                            if (black.fields.clantag === item.item.tag) {
+                                                isBlack = true;
+                                            }
+                                        }
+                                    }
+                                    return ItemControlMember.ItemCocClan(this, item, this.state.clan_config, isBlack)
                                 }
                             }}
                         />

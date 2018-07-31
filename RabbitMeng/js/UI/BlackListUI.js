@@ -17,7 +17,6 @@ export default class BlackListUI extends Component {
         super(props);
         this.state = {
             blacklist: [],
-
         };
     }
 
@@ -29,9 +28,7 @@ export default class BlackListUI extends Component {
                     ItemSeparatorComponent={() => {
                         return <View style={{
                             height: 1,
-                            backgroundColor: '#EFEFEF',
-                            marginLeft: ScreenUtil.scaleSize(30),
-                            marginRight: ScreenUtil.scaleSize(30)
+                            backgroundColor: 'white',
                         }}/>
                     }}
                     data={this.state.blacklist}
@@ -46,8 +43,8 @@ export default class BlackListUI extends Component {
 
     _ItemBlacklist = (item) => {
         return <View style={styles.item}>
-            <Text>{item.fields.clanname}</Text>
-            <Text style={{marginLeft: ScreenUtil.scaleSize(30)}}>{item.fields.clantag}</Text>
+            <Text style={{color: 'white'}}>{item.fields.clanname}</Text>
+            <Text style={{marginLeft: ScreenUtil.scaleSize(60), color: 'white'}}>{item.fields.clantag}</Text>
         </View>
     };
 
@@ -67,12 +64,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: '#F5FCFF',
-        padding: ScreenUtil.scaleSize(30)
     },
     item: {
         flexDirection: 'row',
-        height: ScreenUtil.scaleSize(100)
+        backgroundColor: 'black',
+        alignItems: 'center',
+        height: ScreenUtil.scaleSize(80),
+        paddingLeft: ScreenUtil.scaleSize(30)
     }
 });
