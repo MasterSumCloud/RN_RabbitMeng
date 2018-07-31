@@ -52,7 +52,7 @@ export default class ClanWarUI extends Component {
         }
         return (
             <View style={styles.container}>
-                <Text>使用说明：请在部落完成结束后到下次部落开战前等级，系统会记录最近一次落站所有成员的进攻次数！</Text>
+                <Text>使用说明：请在部落完成结束后到下次部落开战前等级，系统会记录最近一次落战所有成员的进攻次数！</Text>
 
                 <Text style={{
                     marginTop: ScreenUtil.scaleSize(15),
@@ -71,15 +71,15 @@ export default class ClanWarUI extends Component {
                 <Text style={{
                     marginTop: ScreenUtil.scaleSize(15),
                     color: '#33A1FF'
-                }}>{'部落站开始时间：' + this.state.last_war_start_time}</Text>
+                }}>{'部落战开始时间：' + this.state.last_war_start_time}</Text>
                 <Text style={{
                     marginTop: ScreenUtil.scaleSize(15),
                     color: '#33A1FF'
-                }}>{'部落站结束时间：' + this.state.last_war_end_time}</Text>
+                }}>{'部落战结束时间：' + this.state.last_war_end_time}</Text>
                 <Text style={{
                     marginTop: ScreenUtil.scaleSize(15),
                     color: '#FF8C00'
-                }}>{'部落站状态：' + warState}</Text>
+                }}>{'部落战状态：' + warState}</Text>
                 <Text style={styles.text_start_war} onPress={() => {
                     this.setState({isCollect: true});
                     this._collectData();
@@ -152,7 +152,7 @@ export default class ClanWarUI extends Component {
                     console.log('储存部落进攻信息失败');
                 });
 
-                console.log('部落站信息' + JSON.stringify(warList));
+                console.log('部落战信息' + JSON.stringify(warList));
             }
         }, function (error) {
             // this.refs.toast.show('统计出错，请稍后再试');
