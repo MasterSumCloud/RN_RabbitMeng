@@ -131,6 +131,11 @@ export default class ClanDetailUI extends Component {
                 townHallWeaponLevel = mainData.townHallWeaponLevel;
             }
 
+            let iconurl = '';
+            if (mainData.league !== undefined && mainData.league.iconUrls !== undefined) {
+                iconurl = mainData.league.iconUrls.small;
+            }
+
             return (
                 <View
                     style={styles.container}
@@ -212,7 +217,7 @@ export default class ClanDetailUI extends Component {
                                 <Text style={styles.text_top_f59}>奖杯</Text>
                                 <View style={styles.inner_content}>
                                     <Image style={styles.left_icon}
-                                           source={{uri: mainData.league.iconUrls.small}}></Image>
+                                           source={{uri: iconurl}}></Image>
                                     <Text style={{color: '#F5981E'}}>{mainData.trophies}</Text>
                                 </View>
                             </View>
@@ -508,6 +513,8 @@ export default class ClanDetailUI extends Component {
             if (jsonData.state) {
                 self._handle_data(self, jsonData.data);
             }
+        }, function (error) {
+            console.log(error)
         });
 
         this.props.navigator.setOnNavigatorEvent((e) => {
