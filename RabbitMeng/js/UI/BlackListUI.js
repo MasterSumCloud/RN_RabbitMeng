@@ -17,28 +17,38 @@ export default class BlackListUI extends Component {
         super(props);
         this.state = {
             blacklist: [],
+            isLoading: true,
         };
     }
 
 
     render() {
-        return (
-            <View style={styles.container}>
-                <FlatList
-                    ItemSeparatorComponent={() => {
-                        return <View style={{
-                            height: 1,
-                            backgroundColor: 'white',
-                        }}/>
-                    }}
-                    data={this.state.blacklist}
-                    keyExtractor={(item, index) => index}
-                    renderItem={(item) => {
-                        return this._ItemBlacklist(item.item)
-                    }}
-                />
+        if (this.state.isLoading) {
+            return <View style={styles.container}>
+                <Image source={require('../../res/imgs/black_loading.gif')}
+                       style={{width: ScreenUtil.scaleSize(400), height: ScreenUtil.scaleSize(300)}}/>
+                <Text>加载中。。。</Text>
             </View>
-        );
+        } else {
+            return (
+                <View style={styles.container}>
+                    <FlatList
+                        ItemSeparatorComponent={() => {
+                            return <View style={{
+                                height: 1,
+                                backgroundColor: 'white',
+                            }}/>
+                        }}
+                        data={this.state.blacklist}
+                        keyExtractor={(item, index) => index}
+                        renderItem={(item) => {
+                            return this._ItemBlacklist(item.item)
+                        }}
+                    />
+                </View>
+            );
+        }
+
     }
 
     _ItemBlacklist = (item) => {
@@ -53,7 +63,8 @@ export default class BlackListUI extends Component {
             console.log('服务器返回黑米单' + JSON.stringify(jsonData));
             if (jsonData.state) {
                 this.setState({
-                    blacklist: jsonData.data
+                    blacklist: jsonData.data,
+                    isLoading:false
                 });
             }
         }.bind(this));
@@ -64,7 +75,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: 'white',
+        alignItems:'center'
     },
     item: {
         flexDirection: 'row',
