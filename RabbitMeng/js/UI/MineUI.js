@@ -7,18 +7,19 @@ import {
     ImageBackground,
     ScrollView,
     FlatList,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    ToastAndroid
 } from 'react-native';
 
 let ScreenUtil = require('../uitl/ScreenUtil');
 
 const listArr =
     [{index: 1, name: '黑名单', leftIcon: require('../../res/icon/black_list_icon.png')},
-        {index: 2, name: '我的收藏', leftIcon: require('../../res/icon/collect_icon.png')},
+        {index: 2, name: '开战系统', leftIcon: require('../../res/icon/collect_icon.png')},
         {index: 3, name: '管理部落', leftIcon: require('../../res/icon/clan_control_icon.png')},
         {index: 4, name: '对战信息', leftIcon: require('../../res/imgs/message_icon.png')},
         {index: 5, name: '设置', leftIcon: require('../../res/icon/setting_cion.png')},
-    ]
+    ];
 
 export default class MineUI extends Component {
 
@@ -121,6 +122,7 @@ export default class MineUI extends Component {
                         });
                         break;
                     case 2:
+                        ToastAndroid.show('暂未开放', ToastAndroid.SHORT);
                         break;
                     case 3:
                         this.props.navigator.push({

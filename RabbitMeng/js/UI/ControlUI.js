@@ -75,7 +75,8 @@ export default class ControlUI extends Component {
             num_of_town10: '加载中',
             num_of_town9: '加载中',
             refreshing: true,
-            blacklist: []
+            blacklist: [],
+            errorMsg: '诶！没有管理的部落'
         };
     }
 
@@ -94,6 +95,11 @@ export default class ControlUI extends Component {
                         isLoading: true,
                         isError: false,
                         isActiveUI: false,
+                        num_of_town12: '加载中',
+                        num_of_town11: '加载中',
+                        num_of_town10: '加载中',
+                        num_of_town9: '加载中',
+                        clan_tag_img_big:''
                     });
                     this._getMainData();
                 }
@@ -125,7 +131,7 @@ export default class ControlUI extends Component {
             }
 
             if (controlTag === '') {
-                this.setState({isLoading: false, isError: true});
+                this.setState({isLoading: false, isError: true,});
             } else {
                 this._getConfigData(controlTag);
                 this._getData(controlTag);
@@ -216,7 +222,7 @@ export default class ControlUI extends Component {
                 self._getClanGameList(jsonData.memberList, tag, self);
             }
         }, function (error) {
-            self.setState({isLoading: false, isError: true})
+            self.setState({isLoading: false, isError: true, errorMsg: '网络请求失败，刷新试试波'})
         });
     };
 
@@ -275,7 +281,7 @@ export default class ControlUI extends Component {
             return (<View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white'}}>
                 <Image source={require('../../res/imgs/no_controlclan.jpeg')}
                        style={{width: ScreenUtil.scaleSize(350), height: ScreenUtil.scaleSize(400)}}/>
-                <Text>诶！没有管理的部落</Text>
+                <Text>{this.state.errorMsg}</Text>
             </View>)
         } else if (this.state.isLoading) {
             return <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white'}}>
