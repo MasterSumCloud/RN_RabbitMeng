@@ -32,9 +32,9 @@ export default class HomeUI extends Component {
                 }}>{'下次开战时间：' + this.state.nextWarTime}</Text>
                 <Text
                     style={styles.warStartTime}>APP使用说明：第一步，到我的界面，点击部落管理，进入到部落管理页，部落都是待管理，点击待管理，再点击左上角我的，返回到我的页面。第二步，返回到手机主页，杀掉APP应用，然后再打开即可</Text>
-                <Text style={styles.warStartTime}>当前版本1.0.1</Text>
-                <Text style={styles.warStartTime}>1.修复赛季初始详情打不开BUG</Text>
-                <Text style={styles.warStartTime}>2.增添黑名单判断功能</Text>
+                <Text style={styles.warStartTime}>当前版本1.1.0</Text>
+                <Text style={styles.warStartTime}>1.黑名单优化</Text>
+                <Text style={styles.warStartTime}>2.管理刷新数据初始化</Text>
             </View>
         );
     }

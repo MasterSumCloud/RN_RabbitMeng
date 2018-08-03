@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: 'black',
         alignItems: 'center',
+        width:ScreenUtil.screenW,
         height: ScreenUtil.scaleSize(80),
         paddingLeft: ScreenUtil.scaleSize(30)
     }
