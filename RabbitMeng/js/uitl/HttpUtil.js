@@ -59,7 +59,12 @@ export function postJSON(url, params, callback, callbackErr) {
     })
         .then((response) => response.json())
         .then((responseJSON) => {
-            callback(responseJSON)
+            if (responseJSON.state) {
+                callback(responseJSON)
+            } else {
+                callbackErr(responseJSON.msg);
+            }
+            console.log('Data====>' + JSON.stringify(responseJSON));
         })
         .catch((error) => {
             console.log(error);
