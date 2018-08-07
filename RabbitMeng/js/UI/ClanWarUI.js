@@ -5,7 +5,8 @@ import {
     Image,
     Text,
     ImageBackground,
-    Alert
+    Alert,
+    FlatList
 } from 'react-native';
 
 let ScreenUtil = require('../uitl/ScreenUtil');
@@ -15,6 +16,8 @@ import * as TimeUtil from '../uitl/TimeUtil'
 let SPUtil = require('../uitl/SPUtil');
 import Toast, {DURATION} from 'react-native-easy-toast'
 import * as HttpUtil from "../uitl/HttpUtil";
+
+let ItemWarMember = require('../item/ItemWarMember');
 
 
 export default class ClanWarUI extends Component {
@@ -84,7 +87,16 @@ export default class ClanWarUI extends Component {
                     this.setState({isCollect: true});
                     this._collectData();
                 }}>进行登记</Text>
-                <Text style={{marginTop: ScreenUtil.scaleSize(200), color: 'red'}}>重置会清空所有部落成员进攻次数,慎重选择！</Text>
+
+                <FlatList
+                    data={this.state.warData}
+                    keyExtractor={(item, index) => index}
+                    renderItem={(item) => {
+                        return ItemWarMember.ItemWarmember(item)
+                    }}
+                />
+
+                <Text style={{color: 'red'}}>重置会清空所有部落成员进攻次数,慎重选择！</Text>
                 <Text style={styles.text_start_war} onPress={() => {
                     this._resetWarClan(this);
                 }}>重置</Text>
@@ -121,7 +133,12 @@ export default class ClanWarUI extends Component {
                 let jsonData = response.data;
                 let warList = [];
                 for (let memeber of jsonData.clan.members) {
-                    let memb = {tag: memeber.tag, attacks: memeber.attacks === undefined ? 0 : memeber.attacks.length};
+                    let memb = {
+                        tag: memeber.tag,
+                        attacks: memeber.attacks === undefined ? 0 : memeber.attacks.length,
+                        collectTime: TimeUtil.getNowFormatDate(),
+                        name: memeber.name
+                    };
                     warList.push(memb)
                 }
 
