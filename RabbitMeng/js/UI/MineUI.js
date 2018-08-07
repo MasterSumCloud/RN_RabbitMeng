@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 
 let ScreenUtil = require('../uitl/ScreenUtil');
+import * as ToastUtil from '../uitl/ToastUitl'
 
 const listArr =
     [{index: 1, name: '黑名单', leftIcon: require('../../res/icon/black_list_icon.png')},
@@ -122,7 +123,7 @@ export default class MineUI extends Component {
                         });
                         break;
                     case 2:
-                        ToastAndroid.show('暂未开放', ToastAndroid.SHORT);
+                        ToastUtil.showToastShort("暂未开放");
                         break;
                     case 3:
                         this.props.navigator.push({
