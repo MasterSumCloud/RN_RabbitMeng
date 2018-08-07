@@ -5,7 +5,7 @@ import {
     Image,
     Text,
     ImageBackground,
-    Alert,
+    ScrollView,
     FlatList
 } from 'react-native';
 
@@ -54,57 +54,81 @@ export default class ClanWarUI extends Component {
             warState = '战争中'
         }
         return (
-            <View style={styles.container}>
-                <Text>使用说明：请在部落完成结束后到下次部落开战前等级，系统会记录最近一次落战所有成员的进攻次数！</Text>
+            <ScrollView
+                showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}
+                style={{flex: 1, flexDirection: 'column'}}
+            >
+                <View style={styles.container}>
+                    <Text>使用说明：请在部落完成结束后到下次部落开战前等级，系统会记录最近一次落战所有成员的进攻次数！</Text>
 
-                <Text style={{
-                    marginTop: ScreenUtil.scaleSize(15),
-                    color: 'purple'
-                }}>{'当前管理部落：' + this.state.currentControlClanName}</Text>
+                    <Text style={{
+                        marginTop: ScreenUtil.scaleSize(15),
+                        color: 'purple'
+                    }}>{'当前管理部落：' + this.state.currentControlClanName}</Text>
 
-                <Text style={{
-                    marginTop: ScreenUtil.scaleSize(15),
-                    color: 'red'
-                }}>{'上次登记时间：' + this.state.last_collect_time}</Text>
+                    <Text style={{
+                        marginTop: ScreenUtil.scaleSize(15),
+                        color: 'red'
+                    }}>{'上次登记时间：' + this.state.last_collect_time}</Text>
 
-                <Text style={{
-                    marginTop: ScreenUtil.scaleSize(15),
-                    color: '#33A1FF'
-                }}>{this.state.last_war_clan + '  对战  ' + this.state.last_war_opponent}</Text>
-                <Text style={{
-                    marginTop: ScreenUtil.scaleSize(15),
-                    color: '#33A1FF'
-                }}>{'部落战开始时间：' + this.state.last_war_start_time}</Text>
-                <Text style={{
-                    marginTop: ScreenUtil.scaleSize(15),
-                    color: '#33A1FF'
-                }}>{'部落战结束时间：' + this.state.last_war_end_time}</Text>
-                <Text style={{
-                    marginTop: ScreenUtil.scaleSize(15),
-                    color: '#FF8C00'
-                }}>{'部落战状态：' + warState}</Text>
-                <Text style={styles.text_start_war} onPress={() => {
-                    this.setState({isCollect: true});
-                    this._collectData();
-                }}>进行登记</Text>
+                    <Text style={{
+                        marginTop: ScreenUtil.scaleSize(15),
+                        color: '#33A1FF'
+                    }}>{this.state.last_war_clan + '  对战  ' + this.state.last_war_opponent}</Text>
+                    <Text style={{
+                        marginTop: ScreenUtil.scaleSize(15),
+                        color: '#33A1FF'
+                    }}>{'部落战开始时间：' + this.state.last_war_start_time}</Text>
+                    <Text style={{
+                        marginTop: ScreenUtil.scaleSize(15),
+                        color: '#33A1FF'
+                    }}>{'部落战结束时间：' + this.state.last_war_end_time}</Text>
+                    <Text style={{
+                        marginTop: ScreenUtil.scaleSize(15),
+                        color: '#FF8C00'
+                    }}>{'部落战状态：' + warState}</Text>
+                    <Text style={styles.text_start_war} onPress={() => {
+                        this.setState({isCollect: true});
+                        this._collectData();
+                    }}>进行登记</Text>
 
-                <FlatList
-                    data={this.state.warData}
-                    keyExtractor={(item, index) => index}
-                    renderItem={(item) => {
-                        return ItemWarMember.ItemWarmember(item)
-                    }}
-                />
+                    <View>
+                        <View style={styles.coc_sort_container}>
+                            <View style={styles.text_tab_1}>
+                                <Text style={{color: '#666666'}}> 序号</Text>
+                            </View>
+                            <View style={styles.text_tab_2}>
+                                <Text style={{color: '#666666'}}> 名 字</Text>
+                            </View>
 
-                <Text style={{color: 'red'}}>重置会清空所有部落成员进攻次数,慎重选择！</Text>
-                <Text style={styles.text_start_war} onPress={() => {
-                    this._resetWarClan(this);
-                }}>重置</Text>
-                {this.state.isCollect ? this._loadView() : null}
-                {this.state.delete_tag_success ?
-                    <Text style={{marginTop: ScreenUtil.scaleSize(15), color: 'red'}}>重置成功</Text> : null}
-                <Toast ref="toast"/>
-            </View>
+                            <View style={styles.text_tab_3}>
+                                <Text style={{color: '#666666'}}> 进攻数 </Text>
+                            </View>
+
+                            <View style={styles.text_tab_4}>
+                                <Text style={{color: '#666666'}}>统计时间</Text>
+                            </View>
+                        </View>
+                    </View>
+                    <FlatList
+                        data={this.state.warData}
+                        keyExtractor={(item, index) => index}
+                        renderItem={(item) => {
+                            return ItemWarMember.ItemWarmember(item)
+                        }}
+                    />
+
+                    <Text style={{color: 'red'}}>重置会清空所有部落成员进攻次数,慎重选择！</Text>
+                    <Text style={styles.text_start_war} onPress={() => {
+                        this._resetWarClan(this);
+                    }}>重置</Text>
+                    {this.state.isCollect ? this._loadView() : null}
+                    {this.state.delete_tag_success ?
+                        <Text style={{marginTop: ScreenUtil.scaleSize(15), color: 'red'}}>重置成功</Text> : null}
+                </View>
+            </ScrollView>
+
         );
     }
 
@@ -246,4 +270,14 @@ const styles = StyleSheet.create({
         paddingTop: ScreenUtil.scaleSize(5),
         paddingBottom: ScreenUtil.scaleSize(5)
     },
+    coc_sort_container: {
+        alignItems: 'center',
+        backgroundColor: '#F2F2F2',
+        flexDirection: 'row',
+        height: ScreenUtil.scaleSize(100),
+    },
+    text_tab_1: {flex: 3, justifyContent: 'center', alignItems: 'center'},
+    text_tab_2: {flex: 5, justifyContent: 'center', alignItems: 'center'},
+    text_tab_3: {flex: 4, justifyContent: 'center', alignItems: 'center'},
+    text_tab_4: {flex: 10, justifyContent: 'center', alignItems: 'center'},
 });
