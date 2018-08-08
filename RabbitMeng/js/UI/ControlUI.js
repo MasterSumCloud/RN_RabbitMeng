@@ -174,7 +174,7 @@ export default class ControlUI extends Component {
                     for (let i = 0; i < memberAcctList.length; i++) {
                         let member = memberAcctList[i];
                         if (item.tag === member.tag) {
-                            memberAcctList[i].clanGameValue = item.clanGameValue;
+                            memberAcctList[i].clanGameDifScrol = item.clanGameDifScrol;
                         }
                     }
                 }

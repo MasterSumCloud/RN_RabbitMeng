@@ -85,7 +85,7 @@ export function ItemCocClan(self, itemData, clan_config, isblack) {
 
         <View style={styles.text_center}>
             <Text
-                style={{color: clanGameTextColor}}>{itemData.item.clanGameValue === undefined ? 0 : itemData.item.clanGameValue}</Text>
+                style={{color: clanGameTextColor}}>{itemData.item.clanGameDifScrol === undefined ? 0 : itemData.item.clanGameDifScrol}</Text>
         </View>
 
         <View style={styles.name_view}>

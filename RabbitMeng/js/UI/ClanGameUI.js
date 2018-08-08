@@ -2,9 +2,8 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     View,
-    Image,
     Text,
-    TextInput,
+    FlatList,
     ScrollView,
     ImageBackground
 } from 'react-native';
@@ -18,6 +17,7 @@ import * as HttpUtil from "../uitl/HttpUtil";
 import * as TimeUtil from '../uitl/TimeUtil'
 import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button'
 
+let ItemClanGame = require('../item/ItemGameMember');
 
 export default class ClanGameUI extends Component {
 
@@ -41,13 +41,18 @@ export default class ClanGameUI extends Component {
             isOnerror: false,
             lastClanGameStartInfo: [],
             lastClanGameEndInfo: [],
+            clanGameMember: []
         };
     }
 
     render() {
         return (
 
-            <ScrollView style={{backgroundColor: 'white'}}>
+            <ScrollView
+                showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}
+                style={{flex: 1, backgroundColor: 'white'}}
+            >
                 <View style={styles.container}>
 
                     {this.state.isOnerror ?
@@ -107,18 +112,39 @@ export default class ClanGameUI extends Component {
                     <Text style={styles.text_start_clangame} onPress={() => {
                         this._collectEndClanGameScrol();
                     }}>竞赛结束</Text>
+                    <Text
+                        style={{marginTop: ScreenUtil.scaleSize(15)}}>S：开始、E：结束、D：差值</Text>
+                    <View>
+                        <View style={styles.coc_sort_container}>
+                            <View style={styles.text_tab_1}>
+                                <Text style={{color: '#666666'}}> 序号</Text>
+                            </View>
+                            <View style={styles.text_tab_2}>
+                                <Text style={{color: '#666666'}}>名 字</Text>
+                            </View>
 
-                    {/*<Text style={{marginTop: ScreenUtil.scaleSize(15)}}>如果部落成员出现变动，也可以进行单个成员竞赛登记</Text>
+                            <View style={styles.text_tab_3}>
+                                <Text style={{color: '#666666'}}>竞赛S积分</Text>
+                            </View>
 
-                    <TextInput placeholderTextColor={'#CCCCCC'} placeholder={'村庄标签'}
-                               style={styles.clan_input_tag}
-                               underlineColorAndroid='transparent'
-                               onChangeText={(value) => {
-                               }}
-                               maxLength={9}
+                            <View style={styles.text_tab_3}>
+                                <Text style={{color: '#666666'}}>竞赛E积分</Text>
+                            </View>
+
+                            <View style={styles.text_tab_3}>
+                                <Text style={{color: '#666666'}}>竞赛D积分</Text>
+                            </View>
+
+                        </View>
+                    </View>
+
+                    <FlatList
+                        data={this.state.clanGameMember}
+                        keyExtractor={(item, index) => index}
+                        renderItem={(item) => {
+                            return ItemClanGame.ItemClanmember(item)
+                        }}
                     />
-                    <Text style={styles.text_start_clangame}>竞赛单个记录</Text>*/}
-
 
                     <Text style={{marginTop: ScreenUtil.scaleSize(100), color: 'red'}}>重置会清空部落成员所有积分，慎重选择！</Text>
                     <Text style={styles.text_start_clangame} onPress={() => {
@@ -225,7 +251,8 @@ export default class ClanGameUI extends Component {
             if (lastClanGameInfo != null && lastClanGameInfo !== undefined) {
                 let clangame = JSON.parse(lastClanGameInfo);
                 this.setState({
-                    clanGameMemberInfos: clangame
+                    clanGameMemberInfos: clangame,
+                    clanGameMember: clangame
                 });
             }
         });
@@ -314,7 +341,10 @@ export default class ClanGameUI extends Component {
         let chievementList = jsonData.achievements;
         for (let chieve of chievementList) {
             if (chieve.name === 'Games Champion') {
-                let memberClanGame = {tag: jsonData.tag, clanGameValue: chieve.value};
+                let memberClanGame = {
+                    tag: jsonData.tag,
+                    clanGameStartScrol: chieve.value
+                };
                 newPushList.push(memberClanGame);
             }
         }
@@ -344,7 +374,10 @@ export default class ClanGameUI extends Component {
         let chievementList = jsonData.achievements;
         for (let chieve of chievementList) {
             if (chieve.name === 'Games Champion') {
-                let memberClanGame = {tag: jsonData.tag, clanGameValue: chieve.value};
+                let memberClanGame = {
+                    tag: jsonData.tag,
+                    clanGameStartScrol: chieve.value
+                };
                 pushList.push(memberClanGame);
             }
         }
@@ -352,7 +385,8 @@ export default class ClanGameUI extends Component {
             this.setState({
                 isCollectting: false,
                 clanGameStartTime: TimeUtil.getNowFormatDate(),
-                clanGameMemberInfos: pushList
+                clanGameMemberInfos: pushList,
+                clanGameMember: pushList
             });
 
             //保存统计的信息
@@ -375,7 +409,7 @@ export default class ClanGameUI extends Component {
         let chievementList = jsonData.achievements;
         for (let chieve of chievementList) {
             if (chieve.name === 'Games Champion') {
-                let memberClanGame = {tag: jsonData.tag, clanGameValue: chieve.value};
+                let memberClanGame = {tag: jsonData.tag, clanGameEndScrol: chieve.value};
                 pushList.push(memberClanGame);
             }
         }
@@ -399,11 +433,21 @@ export default class ClanGameUI extends Component {
             for (let start of this.state.lastClanGameStartInfo) {
                 for (let end of pushList) {
                     if (start.tag === end.tag) {
-                        let pustData = {tag: start.tag, clanGameValue: (end.clanGameValue - start.clanGameValue)};
+                        let pustData = {
+                            tag: start.tag,
+                            clanGameStartScrol: start.clanGameStartScrol,
+                            clanGameEndScrol: end.clanGameValue,
+                            clanGameDifScrol: (end.clanGameValue - start.clanGameStartScrol)
+                        };
                         clanGameValueList.push(pustData);
                     }
                 }
             }
+
+
+            this.setData({
+                clanGameMember: clanGameValueList
+            });
             console.log('结束竞赛积分信息' + JSON.stringify(pushList));
             SPUtil.saveAsyncStorage(Constant.Clan_games + this.state.clan_tag, JSON.stringify(clanGameValueList), () => {
                 console.log('保存竞赛信息成功');
@@ -493,4 +537,13 @@ const styles = StyleSheet.create({
         height: ScreenUtil.scaleSize(50),
         marginTop: ScreenUtil.scaleSize(15)
     },
+    coc_sort_container: {
+        alignItems: 'center',
+        backgroundColor: '#F2F2F2',
+        flexDirection: 'row',
+        height: ScreenUtil.scaleSize(100),
+    },
+    text_tab_1: {flex: 5, justifyContent: 'center', alignItems: 'center'},
+    text_tab_2: {flex: 12, justifyContent: 'center', alignItems: 'center'},
+    text_tab_3: {flex: 10, justifyContent: 'center', alignItems: 'center'},
 });
