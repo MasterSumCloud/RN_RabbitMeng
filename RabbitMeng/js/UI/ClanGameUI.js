@@ -437,7 +437,8 @@ export default class ClanGameUI extends Component {
                             tag: start.tag,
                             clanGameStartScrol: start.clanGameStartScrol,
                             clanGameEndScrol: end.clanGameValue,
-                            clanGameDifScrol: (end.clanGameValue - start.clanGameStartScrol)
+                            clanGameDifScrol: (end.clanGameEndScrol - start.clanGameStartScrol),
+                            name:start.name
                         };
                         clanGameValueList.push(pustData);
                     }
