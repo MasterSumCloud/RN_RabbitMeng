@@ -18,6 +18,7 @@ import * as TimeUtil from '../uitl/TimeUtil'
 import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button'
 
 let ItemClanGame = require('../item/ItemGameMember');
+import * as ToastUtil from '../uitl/ToastUitl'
 
 export default class ClanGameUI extends Component {
 
@@ -219,7 +220,7 @@ export default class ClanGameUI extends Component {
             }
 
             if (controlTag === '') {
-                // this.refs.toast.show('没有管理中的部落');
+                ToastUtil.showToastShort("没有管理的部落")
             } else {
 
                 this.setState({
@@ -239,7 +240,7 @@ export default class ClanGameUI extends Component {
                 });
 
                 this._getMemberList(controlTag);
-                this._getLastClanGameData();
+                this._getLastClanGameData(controlTag);
             }
         });
     }
@@ -247,7 +248,7 @@ export default class ClanGameUI extends Component {
     //获取上次统计信息
     _getLastClanGameData = (controlTag) => {
         SPUtil.getAsyncStorage(Constant.Clan_games_START + controlTag, (lastClanGameInfo) => {
-
+            console.log('获取上次统计竞赛信息成功' + lastClanGameInfo);
             if (lastClanGameInfo != null && lastClanGameInfo !== undefined) {
                 let clangame = JSON.parse(lastClanGameInfo);
                 this.setState({
@@ -255,6 +256,8 @@ export default class ClanGameUI extends Component {
                     clanGameMember: clangame
                 });
             }
+        }, function (error) {
+            console.log('获取上次竞赛信息出错');
         });
     };
 
@@ -304,6 +307,8 @@ export default class ClanGameUI extends Component {
                                 if (jsonData.state) {
                                     self._handleNewMemberDetailData(jsonData.data, newPushList);
                                 }
+                            }, function (error) {
+                                console.log('请求成员出错');
                             });
                         }
                     } else {
@@ -376,7 +381,8 @@ export default class ClanGameUI extends Component {
             if (chieve.name === 'Games Champion') {
                 let memberClanGame = {
                     tag: jsonData.tag,
-                    clanGameStartScrol: chieve.value
+                    clanGameStartScrol: chieve.value,
+                    name: pushList.name
                 };
                 pushList.push(memberClanGame);
             }
@@ -413,7 +419,7 @@ export default class ClanGameUI extends Component {
                 pushList.push(memberClanGame);
             }
         }
-        if (pushList.length === chievementList.length) {
+        if (pushList.length === this.state.memberList.length) {
             this.setState({
                 isCollectting: false,
                 clanGameEndTime: TimeUtil.getNowFormatDate(),
@@ -436,9 +442,9 @@ export default class ClanGameUI extends Component {
                         let pustData = {
                             tag: start.tag,
                             clanGameStartScrol: start.clanGameStartScrol,
-                            clanGameEndScrol: end.clanGameValue,
+                            clanGameEndScrol: end.clanGameEndScrol,
                             clanGameDifScrol: (end.clanGameEndScrol - start.clanGameStartScrol),
-                            name:start.name
+                            name: start.name
                         };
                         clanGameValueList.push(pustData);
                     }
@@ -446,7 +452,7 @@ export default class ClanGameUI extends Component {
             }
 
 
-            this.setData({
+            this.setState({
                 clanGameMember: clanGameValueList
             });
             console.log('结束竞赛积分信息' + JSON.stringify(pushList));
@@ -464,7 +470,7 @@ export default class ClanGameUI extends Component {
     _collectEndClanGameScrol = () => {
         let self = this;
         SPUtil.getAsyncStorage(Constant.Clan_games_START + this.state.clan_tag, (valueList) => {
-            if (valueList !== null, valueList !== undefined) {
+            if (valueList !== null && valueList !== undefined) {
                 if (this.state.memberList.length > 0) {
                     this.setState({
                         isCollectting: true,
@@ -474,11 +480,14 @@ export default class ClanGameUI extends Component {
                     console.log('获取到的竞赛开始登记的信息' + valueList);
 
                     let pushList = [];
+                    let errorList = [];
                     for (let item of this.state.memberList) {
                         HttpUtil.postJSON('players', {'tag': item.tag}, function (jsonData) {
                             if (jsonData.state) {
                                 self._handleEndMemberDetailData(jsonData.data, pushList);
                             }
+                        }, function (error) {
+                            errorList.push(item.tag);
                         });
                     }
 
@@ -490,8 +499,8 @@ export default class ClanGameUI extends Component {
                     isCollectting: false
                 });
             }
-        }, () => {
-
+        }, function (error) {
+            console.log('获取上次竞赛信息出错' + error);
         });
     };
 

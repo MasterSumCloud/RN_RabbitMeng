@@ -33,10 +33,10 @@ export function ItemClanmember(itemData) {
                 <Text>{itemData.item.clanGameStartScrol===undefined?"未统计":itemData.item.clanGameStartScrol}</Text>
             </View>
             <View style={styles.text_clangame}>
-                <Text>{itemData.item.clanGameEndScrol===undefined?"未统计":itemData.item.clanGameStartScrol}</Text>
+                <Text>{itemData.item.clanGameEndScrol===undefined?"未统计":itemData.item.clanGameEndScrol}</Text>
             </View>
             <View style={styles.text_clangame}>
-                <Text>{itemData.item.clanGameDifScrol===undefined?"未统计":itemData.item.clanGameStartScrol}</Text>
+                <Text>{itemData.item.clanGameDifScrol===undefined?"未统计":itemData.item.clanGameDifScrol}</Text>
             </View>
 
         </View>
