@@ -255,6 +255,7 @@ export default class ClanGameUI extends Component {
                     clanGameMemberInfos: clangame,
                     clanGameMember: clangame
                 });
+                console.log('集合长度' + clangame.length)
             }
         }, function (error) {
             console.log('获取上次竞赛信息出错');
@@ -348,12 +349,13 @@ export default class ClanGameUI extends Component {
             if (chieve.name === 'Games Champion') {
                 let memberClanGame = {
                     tag: jsonData.tag,
-                    clanGameStartScrol: chieve.value
+                    clanGameStartScrol: chieve.value,
+                    name: jsonData.name
                 };
                 newPushList.push(memberClanGame);
             }
         }
-        if (newPushList.length === chievementList.length) {
+        if (newPushList.length === this.state.memberList.length) {
             this.setState({
                 isCollectting: false,
                 clanGameStartTime: TimeUtil.getNowFormatDate(),
@@ -382,12 +384,12 @@ export default class ClanGameUI extends Component {
                 let memberClanGame = {
                     tag: jsonData.tag,
                     clanGameStartScrol: chieve.value,
-                    name: pushList.name
+                    name: jsonData.name
                 };
                 pushList.push(memberClanGame);
             }
         }
-        if (pushList.length === chievementList.length) {
+        if (pushList.length === this.state.memberList.length) {
             this.setState({
                 isCollectting: false,
                 clanGameStartTime: TimeUtil.getNowFormatDate(),
