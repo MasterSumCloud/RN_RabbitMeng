@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
  * Created by master-sum on 13/08/2018.
  */
@@ -24,14 +26,26 @@ public class WarStartManage extends Activity implements View.OnClickListener {
 
     private long warStartPlanCuo;//开战的时间戳
 
+    private ArrayList<WarStartBean> mWarStartBeanArrayList;
+
+    private long warStartTiemc;
+    private String warStartTimeshow;
+    private int warStartDif;
+    private String warPlanform;
+    private WarStartAdapter mWarStartAdapter;
+
+    private int[] rongcuo = new int[]{2,4,6,8,10};
+    private String[] plantPlantorm = new String[]{};
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_war_start_manage);
+        mWarStartBeanArrayList = new ArrayList<>();
 
-
-//        mRlvWarStart.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-//        mRlvWarStart.setAdapter(new WarStartAdapter(this, null));
+        mRlvWarStart.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mWarStartAdapter = new WarStartAdapter(this, mWarStartBeanArrayList);
+        mRlvWarStart.setAdapter(mWarStartAdapter);
 
         initView();
         initListener();
@@ -50,6 +64,7 @@ public class WarStartManage extends Activity implements View.OnClickListener {
         mTvSelectData.setOnClickListener(this);
         mTvSelectRongc.setOnClickListener(this);
         mTvSelectrPlatform.setOnClickListener(this);
+        mBtnAddWarStartPlan.setOnClickListener(this);
     }
 
 
@@ -59,6 +74,22 @@ public class WarStartManage extends Activity implements View.OnClickListener {
             case R.id.tv_select_date:
 
                 break;
+            case R.id.tv_select_fault_tolerant:
+
+                break;
+            case R.id.tv_select_platform:
+
+                break;
+            case R.id.btn_add_war_start_plan:
+                WarStartBean warStartBean = new WarStartBean();
+//                warStartBean.setShowWarStartTime();
+//                warStartBean.setWarStartTime();
+//                warStartBean.setRongCuo();
+//                warStartBean.setPlatform();
+                mWarStartBeanArrayList.add(warStartBean);
+                mWarStartAdapter.notifyDataSetChanged();
+                break;
         }
     }
+
 }
