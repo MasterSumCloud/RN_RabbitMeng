@@ -8,7 +8,8 @@ import {
     ScrollView,
     FlatList,
     TouchableWithoutFeedback,
-    ToastAndroid
+    NativeModules,
+    Platform
 } from 'react-native';
 
 let ScreenUtil = require('../uitl/ScreenUtil');
@@ -123,7 +124,11 @@ export default class MineUI extends Component {
                         });
                         break;
                     case 2:
-                        ToastUtil.showToastShort("暂未开放");
+                        if (Platform.OS == 'ios') {
+                            ToastUtil.showToastShort("仅限安卓可用");
+                        } else {
+                            NativeModules.StartActivityModule.startWarStartActivity();
+                        }
                         break;
                     case 3:
                         this.props.navigator.push({

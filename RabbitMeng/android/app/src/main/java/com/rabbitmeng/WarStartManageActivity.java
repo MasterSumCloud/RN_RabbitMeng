@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Created by master-sum on 13/08/2018.
  */
 
-public class WarStartManage extends Activity implements View.OnClickListener {
+public class WarStartManageActivity extends Activity implements View.OnClickListener {
 
     private RecyclerView mRlvWarStart;
     private Button mBtnAddWarStartPlan;//添加开战计划
@@ -42,12 +42,12 @@ public class WarStartManage extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_war_start_manage);
         mWarStartBeanArrayList = new ArrayList<>();
+        initView();
 
         mRlvWarStart.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mWarStartAdapter = new WarStartAdapter(this, mWarStartBeanArrayList);
         mRlvWarStart.setAdapter(mWarStartAdapter);
 
-        initView();
         initListener();
     }
 
