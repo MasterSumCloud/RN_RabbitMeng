@@ -9,7 +9,25 @@ public class WarStartBean {
     private String showWarStartTime;
     private long warStartTime;
     private String platform;
+    private String platformShow;
+    private int newType = -1;//-1 未启动 （代开始）
+    private boolean isEdit;
 
+    public boolean isEdit() {
+        return isEdit;
+    }
+
+    public void setEdit(boolean edit) {
+        isEdit = edit;
+    }
+
+    public int getNewType() {
+        return newType;
+    }
+
+    public void setNewType(int newType) {
+        this.newType = newType;
+    }
 
     public int getRongCuo() {
         return rongCuo;
@@ -41,5 +59,13 @@ public class WarStartBean {
 
     public void setPlatform(String platform) {
         this.platform = platform;
+    }
+
+    public String getPlatformShow() {
+        return platformShow;
+    }
+
+    public void setPlatformShow(String platformShow) {
+        this.platformShow = platformShow;
     }
 }

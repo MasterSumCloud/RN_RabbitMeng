@@ -1,6 +1,7 @@
 package com.rabbitmeng;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.reactnativenavigation.params.StyleParams;
 
 import java.util.List;
 
@@ -35,14 +39,39 @@ public class WarStartAdapter extends RecyclerView.Adapter<WarStartAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, final int position) {
         WarStartBean warStartBean = data.get(position);
         holder.mTvSelectData.setText(warStartBean.getShowWarStartTime());
-        holder.mTvSelectPlatform.setText(warStartBean.getPlatform());
+        holder.mTvSelectPlatform.setText(warStartBean.getPlatformShow());
         holder.mTvSelectFaultTolerant.setText(String.valueOf(warStartBean.getRongCuo()));
-        holder.mDeleteStartPlan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                data.remove(position);
+
+        if (warStartBean.getNewType() == -1) {
+            holder.mDeleteStartPlan.setBackgroundColor(Color.GREEN);
+            holder.mDeleteStartPlan.setText("开始");
+            holder.mDeleteStartPlan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    data.get(position).setNewType(1);
+                    notifyDataSetChanged();
+                    Toast.makeText(context, "开启成功", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            if (warStartBean.isEdit()) {
+                holder.mDeleteStartPlan.setBackgroundColor(Color.RED);
+                holder.mDeleteStartPlan.setText("取消");
+                holder.mDeleteStartPlan.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        data.remove(position);
+                        notifyDataSetChanged();
+                        Toast.makeText(context, "取消成功", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                holder.mDeleteStartPlan.setBackgroundColor(Color.RED);
+                holder.mDeleteStartPlan.setText("进行中");
+                holder.mDeleteStartPlan.setOnClickListener(null);
             }
-        });
+
+        }
     }
 
 
