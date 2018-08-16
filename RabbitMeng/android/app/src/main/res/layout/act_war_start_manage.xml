@@ -23,7 +23,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:gravity="center"
-                android:text="< 返回"
+                android:text="返回"
                 android:textColor="#FFF" />
 
 
@@ -84,7 +84,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ll_war_start_timme"
             android:layout_marginTop="5dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -121,8 +122,8 @@
 
         <Button
             android:id="@+id/btn_add_war_start_plan"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"

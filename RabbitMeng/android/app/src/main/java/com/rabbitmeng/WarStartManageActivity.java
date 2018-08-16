@@ -1,5 +1,6 @@
 package com.rabbitmeng;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,8 +20,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by master-sum on 13/08/2018.
@@ -45,8 +52,13 @@ public class WarStartManageActivity extends Activity implements View.OnClickList
     private String warPlanformShow;
     private WarStartAdapter mWarStartAdapter;
 
-    private Integer[] rongcuo = new Integer[]{-5, -3, 0, 3, 5};
-    private String[] plantPlantorm = new String[]{"豌豆荚", "九游"};
+    private Integer[] rongcuo = new Integer[]{-5, -3, 0, 3, 5, 10};
+    private String[] plantPlatformShow = new String[]{"豌豆荚", "九游", "昆仑","百度","360"};
+    private String[] plantPlatform = new String[]{"com.supercell.clashofclans.wdj",
+            "com.supercell.clashofclans.uc",
+            "com.supercell.clashofclans.kl",
+            "com.supercell.clashofclans.baidu",
+            "com.supercell.clashofclans.qihoo"};//360
     private Spinner mSpnPlatform;
     private Spinner mSpnRongcuo;
     private int mYear;
@@ -71,12 +83,26 @@ public class WarStartManageActivity extends Activity implements View.OnClickList
         mMinute = ca.get(Calendar.MINUTE);
         mHour = ca.get(Calendar.HOUR_OF_DAY);
 
+
         initView();
 
         initAdapter();
 
         initListener();
 
+        getLastList();
+
+
+    }
+
+    private void getLastList() {
+        String lastListJson = (String) SPUtil.getParam(this, Constant.WAR_START_PLAN_LIST, "");
+        if (!TextUtils.isEmpty(lastListJson)) {
+            Log.d("获取到的json===", lastListJson);
+            List<WarStartBean> warStartBeans = GsonUtil.GsonToList(lastListJson, WarStartBean.class);
+            mWarStartBeanArrayList.addAll(warStartBeans);
+            mWarStartAdapter.notifyDataSetChanged();
+        }
     }
 
     private void initAdapter() {
@@ -84,7 +110,8 @@ public class WarStartManageActivity extends Activity implements View.OnClickList
         mWarStartAdapter = new WarStartAdapter(this, mWarStartBeanArrayList);
         mRlvWarStart.setAdapter(mWarStartAdapter);
 
-        mSpnPlatform.setAdapter(new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, plantPlantorm));
+        mSpnPlatform.setAdapter(new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, plantPlatformShow));
+        mSpnPlatform.setSelection(2);
         mSpnRongcuo.setAdapter(new ArrayAdapter<Integer>(this, R.layout.support_simple_spinner_dropdown_item, rongcuo));
     }
 
@@ -120,7 +147,7 @@ public class WarStartManageActivity extends Activity implements View.OnClickList
         mSpnPlatform.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                warPlanformShow = plantPlantorm[position];
+                warPlanformShow = plantPlatformShow[position];
             }
 
             @Override
@@ -166,16 +193,26 @@ public class WarStartManageActivity extends Activity implements View.OnClickList
     }
 
     private void addWarStartPlan() {
+        if (TextUtils.isEmpty(warStartTimeshow)) {
+            Toast.makeText(this, "开战实现必选", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(warPlanformShow)) {
+            Toast.makeText(this, "平台必选", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (mWarStartBeanArrayList.size() >= 5) {
             Toast.makeText(this, "最多只能进行5个", Toast.LENGTH_SHORT).show();
             return;
         }
         WarStartBean warStartBean = new WarStartBean();
         warStartBean.setShowWarStartTime(warStartTimeshow);
-        warStartBean.setWarStartTime(0);
+        warStartBean.setWarStartTime(stringToLong(warStartTimeshow));
         warStartBean.setRongCuo(warStartDif);
         warStartBean.setPlatform(warPlanform);
         warStartBean.setPlatformShow(warPlanformShow);
+        warStartBean.setOnlySign(UUID.randomUUID().toString());
         mWarStartBeanArrayList.add(warStartBean);
         mWarStartAdapter.notifyDataSetChanged();
     }
@@ -194,7 +231,24 @@ public class WarStartManageActivity extends Activity implements View.OnClickList
         mHour = hourOfDay;
         mMinute = minute;
         Log.d("时间选择", mHour + "时" + mMinute + "分");
-        warStartTimeshow = mYear + "年" + mMonth + "月" + mDay + "日" + mHour + "时" + mMinute + "分";
+        warStartTimeshow = mYear + "-" + mMonth + "-" + mDay + " " + mHour + ":" + mMinute;
         mTvSelectData.setText(warStartTimeshow);
+    }
+
+    public static long stringToLong(String strTime) {
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date date = null;
+        try {
+            date = formatter.parse(strTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (date == null) {
+            return 0;
+        } else {
+            Log.d("保存的时间戳", String.valueOf(date.getTime()));
+            return date.getTime();
+        }
     }
 }

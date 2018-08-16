@@ -1,7 +1,7 @@
 package com.rabbitmeng;
 
 /**
- * Created by pengyan on 13/08/2018.
+ * Created by master on 13/08/2018.
  */
 
 public class WarStartBean {
@@ -12,6 +12,16 @@ public class WarStartBean {
     private String platformShow;
     private int newType = -1;//-1 未启动 （代开始）
     private boolean isEdit;
+
+    private String onlySign;
+
+    public String getOnlySign() {
+        return onlySign;
+    }
+
+    public void setOnlySign(String onlySign) {
+        this.onlySign = onlySign;
+    }
 
     public boolean isEdit() {
         return isEdit;

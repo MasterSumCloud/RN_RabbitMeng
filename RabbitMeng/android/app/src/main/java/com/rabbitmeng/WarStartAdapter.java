@@ -1,6 +1,7 @@
 package com.rabbitmeng;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -11,12 +12,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.reactnativenavigation.params.StyleParams;
 
 import java.util.List;
 
 /**
- * Created by pengyan on 13/08/2018.
+ * Created by master on 13/08/2018.
  */
 
 public class WarStartAdapter extends RecyclerView.Adapter<WarStartAdapter.ViewHolder> {
@@ -39,8 +39,8 @@ public class WarStartAdapter extends RecyclerView.Adapter<WarStartAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, final int position) {
         WarStartBean warStartBean = data.get(position);
         holder.mTvSelectData.setText(warStartBean.getShowWarStartTime());
-        holder.mTvSelectPlatform.setText(warStartBean.getPlatformShow());
-        holder.mTvSelectFaultTolerant.setText(String.valueOf(warStartBean.getRongCuo()));
+        holder.mTvSelectPlatform.setText(warStartBean.getRongCuo());
+        holder.mTvSelectFaultTolerant.setText(String.valueOf(position+1));
 
         if (warStartBean.getNewType() == -1) {
             holder.mDeleteStartPlan.setBackgroundColor(Color.GREEN);
@@ -49,6 +49,7 @@ public class WarStartAdapter extends RecyclerView.Adapter<WarStartAdapter.ViewHo
                 @Override
                 public void onClick(View v) {
                     data.get(position).setNewType(1);
+                    putList();
                     notifyDataSetChanged();
                     Toast.makeText(context, "开启成功", Toast.LENGTH_SHORT).show();
                 }
@@ -61,6 +62,7 @@ public class WarStartAdapter extends RecyclerView.Adapter<WarStartAdapter.ViewHo
                     @Override
                     public void onClick(View v) {
                         data.remove(position);
+                        putList();
                         notifyDataSetChanged();
                         Toast.makeText(context, "取消成功", Toast.LENGTH_SHORT).show();
                     }
@@ -72,6 +74,11 @@ public class WarStartAdapter extends RecyclerView.Adapter<WarStartAdapter.ViewHo
             }
 
         }
+    }
+
+    private void putList() {
+        String listData = GsonUtil.GsonString(data);
+        SPUtil.setParam(context, Constant.WAR_START_PLAN_LIST, listData);
     }
 
 
