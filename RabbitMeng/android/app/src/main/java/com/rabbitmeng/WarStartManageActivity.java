@@ -38,8 +38,8 @@ public class WarStartManageActivity extends Activity implements View.OnClickList
     private Button mBtnAddWarStartPlan;//添加开战计划
 
     private TextView mTvSelectData;//开战日期
-//    private TextView mTvSelectRongc;//开战时的容错
-//    private TextView mTvSelectrPlatform;//开战时的平台
+    private TextView mTvSelectRongc;//开战时的容错
+    private TextView mTvSelectrPlatform;//开战时的平台
 
     private long warStartPlanCuo;//开战的时间戳
 
@@ -111,8 +111,8 @@ public class WarStartManageActivity extends Activity implements View.OnClickList
         mRlvWarStart.setAdapter(mWarStartAdapter);
 
         mSpnPlatform.setAdapter(new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, plantPlatformShow));
-        mSpnPlatform.setSelection(2);
         mSpnRongcuo.setAdapter(new ArrayAdapter<Integer>(this, R.layout.support_simple_spinner_dropdown_item, rongcuo));
+        mSpnRongcuo.setSelection(2);
     }
 
     private void initView() {
