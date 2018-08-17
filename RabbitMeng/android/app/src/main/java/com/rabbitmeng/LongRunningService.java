@@ -4,13 +4,17 @@ import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.view.WindowManager;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,7 +57,7 @@ public class LongRunningService extends Service {
 
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-        int anHour = 1 * 60 * 1000;//每隔5分钟执行一次
+        int anHour = 5 * 60 * 1000;//每隔5分钟执行一次
 
         long triggerAtTime = SystemClock.elapsedRealtime() + anHour;
         Intent i = new Intent(this, AlarmReceiver.class);
@@ -84,7 +88,7 @@ public class LongRunningService extends Service {
             if (mParpareToAccessList.size() > 0) {
 
                 for (WarStartBean warStartBean : mParpareToAccessList) {
-                    executePlan();
+                    executePlan(warStartBean);
                     hasExecute.add(warStartBean);
                 }
                 //清楚已经执行过的任务
@@ -98,16 +102,73 @@ public class LongRunningService extends Service {
         }
     }
 
-    private void executePlan() {
+
+    private void executePlan(WarStartBean warStartBean) {
+        //确定的XY坐标 720p
+        int x_cimfirm = 640;
+        int y_cimfirm = 645;
+        //部落站按钮 720P
+        int x_clanwar = 53;
+        int y_clanwar = 441;
+        //开始搜索按钮
+        int x_startclanwar = 553;
+        int y_startclanwar = 386;
+
+        int x_startclanwarSearch = 829;
+        int y_startclanwarSearch = 498;
+
+        WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();
+
+        wm.getDefaultDisplay().getMetrics(dm);
+
+        int widthCoe = dm.widthPixels / 720;// 屏幕宽度（像素）
+        int heightCoe = dm.heightPixels / 1280; // 屏幕高度（像素）
+
+        x_cimfirm = x_cimfirm * widthCoe;
+        y_cimfirm = y_cimfirm * heightCoe;
+
+        x_clanwar = x_clanwar * widthCoe;
+        y_clanwar = y_clanwar * heightCoe;
+
+        x_startclanwar = x_startclanwar * widthCoe;
+        y_startclanwar = y_startclanwar * heightCoe;
+
+        x_startclanwarSearch = x_startclanwarSearch * widthCoe;
+        y_startclanwarSearch = y_startclanwarSearch * heightCoe;
+
         Log.d("执行开战任务", "第一步杀指定游戏进程");
-        SystemClock.sleep(2000);
+        RootCmd.execRootCmdSilent("adb shell am force-stop " + warStartBean.getPlatform());
+        SystemClock.sleep(3000);
+
         Log.d("执行开战任务", "第二步进入指定COC平台");
+        RootCmd.execRootCmdSilent("adb shell am start -n " + warStartBean.getPlatform()+"/com.supercell.clashofclans.GameAppKunlun");
+        SystemClock.sleep(30000);
+
+        Log.d("执行开战任务", "第三步点击可能存在的确定按钮");
+        RootCmd.execRootCmdSilent("adb shell input tap " + x_cimfirm + " " + y_cimfirm);
         SystemClock.sleep(2000);
-        Log.d("执行开战任务", "第三步点击部落站按钮");
+
+        Log.d("执行开战任务", "第四步点击部落站按钮");
+        RootCmd.execRootCmdSilent("adb shell input tap " + x_clanwar + " " + y_clanwar);
+        SystemClock.sleep(2000);
+
+        Log.d("执行开战任务", "第五步点击开始部落站");
+        RootCmd.execRootCmdSilent("adb shell input tap " + x_startclanwar + " " + y_startclanwar);
+        SystemClock.sleep(2000);
+
+        Log.d("执行开战任务", "第六步点击确认开始部落站");
+        RootCmd.execRootCmdSilent("adb shell input tap " + x_startclanwarSearch + " " + y_startclanwarSearch);
+        SystemClock.sleep(2000);
+
+        Log.d("执行开战任务", "第七步关闭应用");
+        RootCmd.execRootCmdSilent("adb shell am force-stop " + warStartBean.getPlatform());
+        SystemClock.sleep(3000);
+
     }
 
 
-    private void putNewPlan(List<WarStartBean> data){
+    private void putNewPlan(List<WarStartBean> data) {
         String listData = GsonUtil.GsonString(data);
         SPUtil.setParam(this, Constant.WAR_START_PLAN_LIST, listData);
     }

@@ -56,7 +56,7 @@ public class WarStartManageActivity extends Activity implements View.OnClickList
     private String[] plantPlatformShow = new String[]{"豌豆荚", "九游", "昆仑","百度","360"};
     private String[] plantPlatform = new String[]{"com.supercell.clashofclans.wdj",
             "com.supercell.clashofclans.uc",
-            "com.supercell.clashofclans.kl",
+            "com.supercell.clashofclans.kunlun",
             "com.supercell.clashofclans.baidu",
             "com.supercell.clashofclans.qihoo"};//360
     private Spinner mSpnPlatform;
@@ -148,6 +148,7 @@ public class WarStartManageActivity extends Activity implements View.OnClickList
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 warPlanformShow = plantPlatformShow[position];
+                warPlanform = plantPlatform[position];
             }
 
             @Override
