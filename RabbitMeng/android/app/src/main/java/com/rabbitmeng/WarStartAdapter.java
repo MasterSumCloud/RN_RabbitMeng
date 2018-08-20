@@ -40,7 +40,7 @@ public class WarStartAdapter extends RecyclerView.Adapter<WarStartAdapter.ViewHo
         WarStartBean warStartBean = data.get(position);
         holder.mTvSelectData.setText(warStartBean.getShowWarStartTime());
         holder.mTvSelectPlatform.setText(warStartBean.getPlatformShow());
-        holder.mTvSelectFaultTolerant.setText(warStartBean.isGuaji() ? "是" : "否");
+//        holder.mTvSelectFaultTolerant.setText(warStartBean.isGuaji() ? "是" : "否");
 
         if (warStartBean.getNewType() == -1) {
             holder.mDeleteStartPlan.setBackgroundColor(Color.GREEN);

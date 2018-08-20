@@ -32,10 +32,7 @@ export default class HomeUI extends Component {
                 }}>{'下次开战时间：' + this.state.nextWarTime}</Text>
                 <Text
                     style={styles.warStartTime}>多用用吧，有问题反馈</Text>
-                <Text style={styles.warStartTime}>当前版本1.2.0</Text>
-                <Text style={styles.warStartTime}>1.部落战统计优化</Text>
-                <Text style={styles.warStartTime}>2.竞赛统计优化</Text>
-                <Text style={styles.warStartTime}>2.增加自动开战系统</Text>
+                <Text style={styles.warStartTime}>当前版本1.3.0</Text>
             </View>
         );
     }

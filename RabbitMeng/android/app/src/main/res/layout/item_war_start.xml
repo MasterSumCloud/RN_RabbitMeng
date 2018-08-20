@@ -40,14 +40,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="是否雷人挂机中进行" />
+                android:text="预留工功能位" />
 
             <TextView
                 android:id="@+id/tv_select_fault_tolerant"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:text="否" />
+                android:text="" />
         </LinearLayout>
 
         <LinearLayout
