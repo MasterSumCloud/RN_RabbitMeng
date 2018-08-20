@@ -57,7 +57,7 @@ public class LongRunningService extends Service {
 
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-        int anHour = 5 * 60 * 1000;//每隔5分钟执行一次
+        int anHour = 1 * 60 * 1000;//每隔5分钟执行一次
 
         long triggerAtTime = SystemClock.elapsedRealtime() + anHour;
         Intent i = new Intent(this, AlarmReceiver.class);
@@ -111,11 +111,26 @@ public class LongRunningService extends Service {
         int x_clanwar = 53;
         int y_clanwar = 441;
         //开始搜索按钮
-        int x_startclanwar = 553;
-        int y_startclanwar = 386;
+        int x_startclanwar = 650;
+        int y_startclanwar = 520;
 
-        int x_startclanwarSearch = 829;
-        int y_startclanwarSearch = 498;
+        int x_startclanwarSearch = 1020;
+        int y_startclanwarSearch = 650;
+
+        //挂机点开菜单
+        int x_guajiOpenMenu = 1275;
+        int y_guajiOpenMenu = 253;
+
+        //挂机停止按钮
+        int x_StopLeiren = 925;
+        int y_StopLeiren = 253;
+        //历史战争确认
+        int x_endlastwar = 920;
+        int y_endlastwar = 620;
+        //回营按钮
+        int x_gobackhome = 82;
+        int y_gobackhome = 636;
+
 
         WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
@@ -124,6 +139,10 @@ public class LongRunningService extends Service {
 
         int widthCoe = dm.widthPixels / 720;// 屏幕宽度（像素）
         int heightCoe = dm.heightPixels / 1280; // 屏幕高度（像素）
+
+        Log.d("执行开战任务", "获取屏幕像素宽==" + dm.widthPixels);
+        Log.d("执行开战任务", "获取屏幕像素高==" + dm.heightPixels);
+
 
         x_cimfirm = x_cimfirm * widthCoe;
         y_cimfirm = y_cimfirm * heightCoe;
@@ -137,33 +156,73 @@ public class LongRunningService extends Service {
         x_startclanwarSearch = x_startclanwarSearch * widthCoe;
         y_startclanwarSearch = y_startclanwarSearch * heightCoe;
 
-        Log.d("执行开战任务", "第一步杀指定游戏进程");
+        x_guajiOpenMenu = x_guajiOpenMenu * widthCoe;
+        y_guajiOpenMenu = y_guajiOpenMenu * heightCoe;
+
+        x_StopLeiren = x_StopLeiren * widthCoe;
+        y_StopLeiren = y_StopLeiren * heightCoe;
+
+        x_endlastwar = x_endlastwar * widthCoe;
+        y_endlastwar = y_endlastwar * heightCoe;
+
+        Log.d("执行开战任务", "特殊判断，是否雷人挂机" + warStartBean.isGuaji());
+        if (warStartBean.isGuaji()) {
+            Log.d("执行开战任务", "点击雷人菜单");
+            ShellUtils.execCmd("input tap " + x_guajiOpenMenu + " " + y_guajiOpenMenu, true);
+            SystemClock.sleep(2000);
+            Log.d("执行开战任务", "关闭雷人辅助");
+            ShellUtils.execCmd("input tap " + x_StopLeiren + " " + y_StopLeiren, true);
+            SystemClock.sleep(2000);
+        }
+
+        Log.d("执行开战任务", "杀指定游戏进程");
         ShellUtils.execCmd("am force-stop" + warStartBean.getPlatform(), true);
         SystemClock.sleep(3000);
 
-        Log.d("执行开战任务", "第二步进入指定COC平台");
-        ShellUtils.execCmd("am start -n " + warStartBean.getPlatform() + "/com.supercell.clashofclans.GameAppKunlun", true);
+        Log.d("执行开战任务", "进入指定COC平台");
+        if (warStartBean.getPlatformShow().contains("九游")) {
+            ShellUtils.execCmd("am start -n " + warStartBean.getPlatform() + "/.GameApp", true);
+        } else {
+            ShellUtils.execCmd("am start -n " + warStartBean.getPlatform() + "/com.supercell.clashofclans.GameAppKunlun", true);
+        }
         SystemClock.sleep(30000);
 
-        Log.d("执行开战任务", "第三步点击可能存在的确定按钮");
+        Log.d("执行开战任务", "点击可能存在的确定按钮");
         ShellUtils.execCmd("input tap " + x_cimfirm + " " + y_cimfirm, true);
         SystemClock.sleep(2000);
 
-        Log.d("执行开战任务", "第四步点击部落站按钮");
+        Log.d("执行开战任务", "点击部落站按钮");
         ShellUtils.execCmd("input tap " + x_clanwar + " " + y_clanwar, true);
         SystemClock.sleep(2000);
 
-        Log.d("执行开战任务", "第五步点击开始部落站");
+        Log.d("执行开战任务", "点击确认上次部落站");
+        ShellUtils.execCmd("input tap " + x_endlastwar + " " + y_endlastwar, true);
+        SystemClock.sleep(2000);
+
+        Log.d("执行开战任务", "点击开始部落站");
         ShellUtils.execCmd("input tap " + x_startclanwar + " " + y_startclanwar, true);
         SystemClock.sleep(2000);
 
-        Log.d("执行开战任务", "第六步点击确认开始部落站");
+        Log.d("执行开战任务", "点击确认开始部落站");
         ShellUtils.execCmd("input tap " + x_startclanwarSearch + " " + y_startclanwarSearch, true);
         SystemClock.sleep(2000);
 
-        Log.d("执行开战任务", "第七步关闭应用");
-        ShellUtils.execCmd("am force-stop " + warStartBean.getPlatform(), true);
-        SystemClock.sleep(3000);
+        if (warStartBean.isGuaji()) {
+            Log.d("执行开战任务", "点击雷人菜单");
+            ShellUtils.execCmd("input tap " + x_guajiOpenMenu + " " + y_guajiOpenMenu, true);
+            SystemClock.sleep(2000);
+            Log.d("执行开战任务", "打开雷人辅助");
+            ShellUtils.execCmd("input tap " + x_StopLeiren + " " + y_StopLeiren, true);
+            SystemClock.sleep(2000);
+            Log.d("执行开战任务", "回营 开始挂机");
+            ShellUtils.execCmd("input tap " + x_gobackhome + " " + y_gobackhome, true);
+            SystemClock.sleep(2000);
+        } else {
+            Log.d("执行开战任务", "第七步关闭应用");
+            ShellUtils.execCmd("am force-stop " + warStartBean.getPlatform(), true);
+            SystemClock.sleep(3000);
+        }
+
 
     }
 

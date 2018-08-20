@@ -4,6 +4,8 @@ package com.rabbitmeng;//
 //
 
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -18,6 +20,7 @@ public final class ShellUtils {
     }
 
     public static ShellUtils.CommandResult execCmd(String var0, boolean var1) {
+        Log.d("命令===>>", var0);
         return execCmd(new String[]{var0}, var1, true);
     }
 

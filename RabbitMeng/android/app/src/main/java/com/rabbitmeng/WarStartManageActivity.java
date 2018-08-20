@@ -47,20 +47,21 @@ public class WarStartManageActivity extends Activity implements View.OnClickList
 
     private long warStartTiemc;
     private String warStartTimeshow;
-    private int warStartDif;
     private String warPlanform;
     private String warPlanformShow;
     private WarStartAdapter mWarStartAdapter;
+    private boolean isGuaji = false;
 
-    private Integer[] rongcuo = new Integer[]{-5, -3, 0, 3, 5, 10};
-    private String[] plantPlatformShow = new String[]{"豌豆荚", "九游", "昆仑","百度","360"};
+    private String[] isLeirenGuaji = new String[]{"否", "是"};
+
+    private String[] plantPlatformShow = new String[]{"豌豆荚", "九游", "昆仑", "百度", "360"};
     private String[] plantPlatform = new String[]{"com.supercell.clashofclans.wdj",
             "com.supercell.clashofclans.uc",
             "com.supercell.clashofclans.kunlun",
             "com.supercell.clashofclans.baidu",
             "com.supercell.clashofclans.qihoo"};//360
     private Spinner mSpnPlatform;
-    private Spinner mSpnRongcuo;
+    private Spinner mSpnLeirenGJing;
     private int mYear;
     private int mMonth;
     private int mDay;
@@ -111,8 +112,7 @@ public class WarStartManageActivity extends Activity implements View.OnClickList
         mRlvWarStart.setAdapter(mWarStartAdapter);
 
         mSpnPlatform.setAdapter(new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, plantPlatformShow));
-        mSpnRongcuo.setAdapter(new ArrayAdapter<Integer>(this, R.layout.support_simple_spinner_dropdown_item, rongcuo));
-        mSpnRongcuo.setSelection(2);
+        mSpnLeirenGJing.setAdapter(new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, isLeirenGuaji));
     }
 
     private void initView() {
@@ -120,7 +120,7 @@ public class WarStartManageActivity extends Activity implements View.OnClickList
         mBtnAddWarStartPlan = (Button) findViewById(R.id.btn_add_war_start_plan);
         mTvSelectData = (TextView) findViewById(R.id.tv_select_date);
         mSpnPlatform = (Spinner) findViewById(R.id.spn_platform);
-        mSpnRongcuo = (Spinner) findViewById(R.id.spn_rongcuo);
+        mSpnLeirenGJing = (Spinner) findViewById(R.id.spn_rongcuo);
         mTvFinish = (TextView) findViewById(R.id.tv_finish);
         mTvEdit = (TextView) findViewById(R.id.tv_edit);
     }
@@ -132,10 +132,14 @@ public class WarStartManageActivity extends Activity implements View.OnClickList
         mTvFinish.setOnClickListener(this);
         mTvEdit.setOnClickListener(this);
 
-        mSpnRongcuo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mSpnLeirenGJing.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                warStartDif = rongcuo[position];
+                if (position == 0) {
+                    isGuaji = false;
+                } else {
+                    isGuaji = true;
+                }
             }
 
             @Override
@@ -210,7 +214,7 @@ public class WarStartManageActivity extends Activity implements View.OnClickList
         WarStartBean warStartBean = new WarStartBean();
         warStartBean.setShowWarStartTime(warStartTimeshow);
         warStartBean.setWarStartTime(stringToLong(warStartTimeshow));
-        warStartBean.setRongCuo(warStartDif);
+        warStartBean.setGuaji(isGuaji);
         warStartBean.setPlatform(warPlanform);
         warStartBean.setPlatformShow(warPlanformShow);
         warStartBean.setOnlySign(UUID.randomUUID().toString());

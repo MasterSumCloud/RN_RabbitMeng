@@ -5,15 +5,22 @@ package com.rabbitmeng;
  */
 
 public class WarStartBean {
-    private int rongCuo;
     private String showWarStartTime;
     private long warStartTime;
     private String platform;
     private String platformShow;
     private int newType = -1;//-1 未启动 （代开始）
     private boolean isEdit;
-
+    private boolean isGuaji;
     private String onlySign;
+
+    public boolean isGuaji() {
+        return isGuaji;
+    }
+
+    public void setGuaji(boolean guaji) {
+        isGuaji = guaji;
+    }
 
     public String getOnlySign() {
         return onlySign;
@@ -39,13 +46,6 @@ public class WarStartBean {
         this.newType = newType;
     }
 
-    public int getRongCuo() {
-        return rongCuo;
-    }
-
-    public void setRongCuo(int rongCuo) {
-        this.rongCuo = rongCuo;
-    }
 
     public String getShowWarStartTime() {
         return showWarStartTime;
