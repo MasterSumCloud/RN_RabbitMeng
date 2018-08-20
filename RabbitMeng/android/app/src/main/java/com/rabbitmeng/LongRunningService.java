@@ -138,31 +138,31 @@ public class LongRunningService extends Service {
         y_startclanwarSearch = y_startclanwarSearch * heightCoe;
 
         Log.d("执行开战任务", "第一步杀指定游戏进程");
-        RootCmd.execRootCmdSilent("adb shell am force-stop " + warStartBean.getPlatform());
+        ShellUtils.execCmd("am force-stop" + warStartBean.getPlatform(), true);
         SystemClock.sleep(3000);
 
         Log.d("执行开战任务", "第二步进入指定COC平台");
-        RootCmd.execRootCmdSilent("adb shell am start -n " + warStartBean.getPlatform()+"/com.supercell.clashofclans.GameAppKunlun");
+        ShellUtils.execCmd("am start -n " + warStartBean.getPlatform() + "/com.supercell.clashofclans.GameAppKunlun", true);
         SystemClock.sleep(30000);
 
         Log.d("执行开战任务", "第三步点击可能存在的确定按钮");
-        RootCmd.execRootCmdSilent("adb shell input tap " + x_cimfirm + " " + y_cimfirm);
+        ShellUtils.execCmd("input tap " + x_cimfirm + " " + y_cimfirm, true);
         SystemClock.sleep(2000);
 
         Log.d("执行开战任务", "第四步点击部落站按钮");
-        RootCmd.execRootCmdSilent("adb shell input tap " + x_clanwar + " " + y_clanwar);
+        ShellUtils.execCmd("input tap " + x_clanwar + " " + y_clanwar, true);
         SystemClock.sleep(2000);
 
         Log.d("执行开战任务", "第五步点击开始部落站");
-        RootCmd.execRootCmdSilent("adb shell input tap " + x_startclanwar + " " + y_startclanwar);
+        ShellUtils.execCmd("input tap " + x_startclanwar + " " + y_startclanwar, true);
         SystemClock.sleep(2000);
 
         Log.d("执行开战任务", "第六步点击确认开始部落站");
-        RootCmd.execRootCmdSilent("adb shell input tap " + x_startclanwarSearch + " " + y_startclanwarSearch);
+        ShellUtils.execCmd("input tap " + x_startclanwarSearch + " " + y_startclanwarSearch, true);
         SystemClock.sleep(2000);
 
         Log.d("执行开战任务", "第七步关闭应用");
-        RootCmd.execRootCmdSilent("adb shell am force-stop " + warStartBean.getPlatform());
+        ShellUtils.execCmd("am force-stop " + warStartBean.getPlatform(), true);
         SystemClock.sleep(3000);
 
     }

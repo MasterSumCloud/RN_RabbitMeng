@@ -24,6 +24,7 @@ public class StartActivityModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void startWarStartActivity() {
         Intent intent = new Intent(getReactApplicationContext(), WarStartManageActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
         getReactApplicationContext().startActivity(intent);
     }
 }
