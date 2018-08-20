@@ -57,7 +57,7 @@ public class LongRunningService extends Service {
 
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-        int anHour = 1 * 60 * 1000;//每隔5分钟执行一次
+        int anHour = 5 * 60 * 1000;//每隔5分钟执行一次
 
         long triggerAtTime = SystemClock.elapsedRealtime() + anHour;
         Intent i = new Intent(this, AlarmReceiver.class);
