@@ -17,6 +17,7 @@ import ClanGameUI from '../UI/ClanGameUI';
 import ClanWarUI from '../UI/ClanWarUI';
 import WarAgainstUI from '../UI/WarAgainstUI';
 import BlackListUI from '../UI/BlackListUI';
+import AboutRabbitmeng from '../UI/AboutRabbitmeng';
 
 export function registerScreens() {
     Navigation.registerComponent('MineUI', () => MineUI);
@@ -36,6 +37,7 @@ export function registerScreens() {
     Navigation.registerComponent('ClanWarUI', () => ClanWarUI);
     Navigation.registerComponent('WarAgainstUI', () => WarAgainstUI);
     Navigation.registerComponent('BlackListUI', () => BlackListUI);
+    Navigation.registerComponent('AboutRabbitmeng', () => AboutRabbitmeng);
 }
 
 export function registerScreenVisibilityListener() {

@@ -47,12 +47,18 @@ export default class SettingUI extends Component {
                         <Image style={styles.arr_right} source={require('../../res/imgs/arrow_right.png')}/>
                     </View>
 
-                    <View style={styles.item_set}>
-                        <Text style={styles.setting_text}>关于兔萌</Text>
+                    <TouchableWithoutFeedback onPress={() => {
+                        this.props.navigator.push({
+                            screen: 'AboutRabbitmeng',
+                            title: '关于兔萌'
+                        });
+                    }}>
+                        <View style={styles.item_set}>
+                            <Text style={styles.setting_text}>关于兔萌</Text>
 
-                        <Image style={styles.arr_right} source={require('../../res/imgs/arrow_right.png')}/>
-                    </View>
-
+                            <Image style={styles.arr_right} source={require('../../res/imgs/arrow_right.png')}/>
+                        </View>
+                    </TouchableWithoutFeedback>
                     <TouchableWithoutFeedback onPress={() => {
                         SPUtil.saveAsyncStorage('LoginState', 'false', () => {
                             Navigation.startSingleScreenApp({
@@ -72,7 +78,7 @@ export default class SettingUI extends Component {
                             this.refs.toast.show('状态异常，请稍后再试');
                         })
 
-                    }}  style={styles.login_out} >
+                    }} style={styles.login_out}>
                         <View style={styles.login_out_view}>
                             <Text style={{color: '#33A1FF'}}>退出登录</Text>
                         </View>
@@ -121,7 +127,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    login_out_view:{
+    login_out_view: {
         position: 'absolute',
         height: ScreenUtil.scaleSize(100),
         width: ScreenUtil.scaleSize(480),
@@ -130,6 +136,6 @@ const styles = StyleSheet.create({
         borderRadius: ScreenUtil.scaleSize(5),
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop:ScreenUtil.screenH*0.65
+        marginTop: ScreenUtil.screenH * 0.65
     }
 });
