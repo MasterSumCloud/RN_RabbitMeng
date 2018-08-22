@@ -2,6 +2,7 @@ package com.rabbitmeng;
 
 
 import com.facebook.react.ReactPackage;
+import com.rabbitmeng.android_upgrade.UpgradePackage;
 import com.rabbitmeng.reactnative.StartActivityPackage;
 import com.reactnativenavigation.NavigationApplication;
 
@@ -21,7 +22,8 @@ public class MainApplication extends NavigationApplication {
         // No need to add RnnPackage and MainReactPackage
         return Arrays.<ReactPackage>asList(
                 // eg. new VectorIconsPackage()
-                new StartActivityPackage()
+                new StartActivityPackage(),
+                new UpgradePackage()
         );
     }
 
