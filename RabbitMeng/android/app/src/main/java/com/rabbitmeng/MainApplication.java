@@ -2,6 +2,7 @@ package com.rabbitmeng;
 
 
 import com.facebook.react.ReactPackage;
+import com.rabbitmeng.reactnative.StartActivityPackage;
 import com.reactnativenavigation.NavigationApplication;
 
 import java.util.Arrays;

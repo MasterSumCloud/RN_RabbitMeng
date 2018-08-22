@@ -1,10 +1,11 @@
-package com.rabbitmeng;
+package com.rabbitmeng.reactnative;
 
 import android.content.Intent;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.rabbitmeng.activity.WarStartManageActivity;
 
 /**
  * Created by master-sum on 15/08/2018.

@@ -1,7 +1,6 @@
-package com.rabbitmeng;
+package com.rabbitmeng.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +11,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.rabbitmeng.Constant;
+import com.rabbitmeng.R;
+import com.rabbitmeng.bean.WarStartBean;
+import com.rabbitmeng.utils.GsonUtil;
+import com.rabbitmeng.utils.SPUtil;
 
 import java.util.List;
 

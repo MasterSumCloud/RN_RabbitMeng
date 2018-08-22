@@ -1,4 +1,4 @@
-package com.rabbitmeng;//
+package com.rabbitmeng.utils;//
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by Fernflower decompiler)
 //

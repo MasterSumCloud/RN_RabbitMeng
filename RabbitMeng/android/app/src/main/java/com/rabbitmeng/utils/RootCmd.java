@@ -1,4 +1,4 @@
-package com.rabbitmeng;
+package com.rabbitmeng.utils;
 
 import android.util.Log;
 

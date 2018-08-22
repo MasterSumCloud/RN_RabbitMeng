@@ -1,4 +1,4 @@
-package com.rabbitmeng;
+package com.rabbitmeng.bean;
 
 /**
  * Created by master on 13/08/2018.

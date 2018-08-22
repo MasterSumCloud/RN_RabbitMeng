@@ -13,11 +13,14 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.WindowManager;
 
+import com.rabbitmeng.bean.WarStartBean;
+import com.rabbitmeng.utils.GsonUtil;
+import com.rabbitmeng.utils.SPUtil;
+import com.rabbitmeng.utils.ShellUtils;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

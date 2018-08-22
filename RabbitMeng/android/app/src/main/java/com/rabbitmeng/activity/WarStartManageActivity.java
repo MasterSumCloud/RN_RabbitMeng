@@ -1,4 +1,4 @@
-package com.rabbitmeng;
+package com.rabbitmeng.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -19,6 +19,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.rabbitmeng.Constant;
+import com.rabbitmeng.R;
+import com.rabbitmeng.adapter.WarStartAdapter;
+import com.rabbitmeng.bean.WarStartBean;
+import com.rabbitmeng.utils.GsonUtil;
+import com.rabbitmeng.utils.SPUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -236,7 +243,7 @@ public class WarStartManageActivity extends Activity implements View.OnClickList
         mHour = hourOfDay;
         mMinute = minute;
         Log.d("时间选择", mHour + "时" + mMinute + "分");
-        warStartTimeshow = mYear + "-" + mMonth + "-" + mDay + " " + mHour + ":" + mMinute;
+        warStartTimeshow = mYear + "-" + (mMonth + 1) + "-" + mDay + " " + mHour + ":" + mMinute;
         mTvSelectData.setText(warStartTimeshow);
     }
 

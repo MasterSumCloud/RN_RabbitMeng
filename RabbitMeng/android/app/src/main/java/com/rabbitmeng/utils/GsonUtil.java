@@ -1,4 +1,4 @@
-package com.rabbitmeng;
+package com.rabbitmeng.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;

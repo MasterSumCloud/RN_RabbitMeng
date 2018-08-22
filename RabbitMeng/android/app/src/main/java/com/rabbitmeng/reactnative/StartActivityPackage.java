@@ -1,4 +1,4 @@
-package com.rabbitmeng;
+package com.rabbitmeng.reactnative;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
