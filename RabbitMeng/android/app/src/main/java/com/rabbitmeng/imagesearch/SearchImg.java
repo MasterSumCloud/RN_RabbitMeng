@@ -29,46 +29,60 @@ public class SearchImg {
     private int positionX = -1;
     private int positionY = -1;
 
-    private final int ROW = 1;
-    private final int COLOUM = 2;
+    public static final int ROW = 1;
+    public static final int COLOUM = 2;
+    private Bitmap mBi;
 
     public SearchImg(String path) {
         xSearchList = new ArrayList<>();
         ySearchLIst = new ArrayList<>();
         searchResult = new ArrayList<>();
 //        getSingleLineRGB(ROW, 0, path);
-        //TODO 搜索限制固定  需要根据分辨率修正
-        getSingleLineRGB(COLOUM, 0, path);
-
+//        getSingleLineRGB(COLOUM, 600, path);
+//        getSingleLinePicks(COLOUM,600,path);
 
     }
 
     public void getSingleLineRGB(int rowOrColoum, int xLine, String path) {
         int[] rgb = new int[3];
-        Bitmap bi = BitmapFactory.decodeFile(path);
-        int width = bi.getWidth();
-        int height = bi.getHeight();
+        mBi = BitmapFactory.decodeFile(path);
+        int width = mBi.getWidth();
+        int height = mBi.getHeight();
 
         Log.d("测量", "width=" + width + ",height=" + height + ".");
 
         if (rowOrColoum == 1) {
             int searchy = xLine;
             for (int i = 0; i < width; i++) {
-                int pixel = bi.getPixel(i, searchy);
+                int pixel = mBi.getPixel(i, searchy);
 //				System.out.println("zzz"+pixel);
                 rgb[0] = (pixel & 0xff0000) >> 16;
                 rgb[1] = (pixel & 0xff00) >> 8;
                 rgb[2] = (pixel & 0xff);
-                System.out.println("横坐标=" + i + ",纵坐标=" + searchy + ":(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")");
+//                Log.d("坐标", "横坐标=" + i + ",纵坐标=" + searchy + ":(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")");
+                //接下来10个点不搜索
+                if (putXRGB(rgb[0], rgb[1], rgb[2], i)) {
+                    if (i + 10 <= width) {
+                        i += 10;
+                    }
+                }
+
             }
         } else if (rowOrColoum == 2) {
             int searchx = xLine;
             for (int i = 0; i < height; i++) {
-                int pixel = bi.getPixel(searchx, i);
+                int pixel = mBi.getPixel(searchx, i);
                 rgb[0] = (pixel & 0xff0000) >> 16;
                 rgb[1] = (pixel & 0xff00) >> 8;
                 rgb[2] = (pixel & 0xff);
-                System.out.println("横坐标=" + searchx + ",纵坐标=" + i + ":(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")");
+//                if (i > 800 && i < 1000) {
+//                    Log.d("坐标", "横坐标=" + searchx + ",纵坐标=" + i + ":(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")");
+//                }
+                if (putYRGB(rgb[0], rgb[1], rgb[2], i)) {
+                    if (i + 10 <= height) {
+                        i += 10;
+                    }
+                }
             }
         }
     }
@@ -85,15 +99,15 @@ public class SearchImg {
             int searchy = xLine;
             for (int i = 0; i < width; i++) {
                 int pixel = bi.getPixel(i, searchy);
+                Log.d("坐标", "横坐标=" + i + ",纵坐标=" + searchy + "对应RGB的int值=" + pixel);
                 putX(pixel, i);
-                System.out.println("横坐标=" + i + ",纵坐标=" + searchy + "对应RGB的int值=" + pixel);
             }
         } else if (rowOrColoum == 2) {
             int searchx = xLine;
             for (int i = 0; i < height; i++) {
                 int pixel = bi.getPixel(searchx, i);
+                Log.d("坐标", "横坐标=" + searchx + ",纵坐标=" + i + "对应RGB的int值=" + pixel);
                 putY(pixel, i);
-                System.out.println("横坐标=" + searchx + ",纵坐标=" + i + "对应RGB的int值=" + pixel);
             }
         }
     }
@@ -103,7 +117,7 @@ public class SearchImg {
 
         if (!xSearching) {// 统计未开始
             // 验证满足开始要求
-            if (picks == 123) {
+            if (picks == -15921907) {
                 xSearching = true;
                 SearchXBean pickBean = new SearchXBean();
                 pickBean.setxStart(position);
@@ -111,12 +125,9 @@ public class SearchImg {
                 xSearchList.add(pickBean);
             }
         } else {// 开始统计中
-            if (picks == 123) {
-
-            } else {
+            if (picks == -15921907) {//再次找到  结束按钮
                 xSearching = false;
                 xSearchList.get(positionX).setxEnd(position);
-
             }
         }
     }
@@ -124,32 +135,111 @@ public class SearchImg {
     private void putY(int picks, int position) {
         if (!ySearching) {// 统计未开始
             // 验证满足开始要求
-            if (picks == 123) {
+            if (picks == -15921907) {
+                ySearching = true;
+                SearchYBean pickBean = new SearchYBean();
+                pickBean.setyStart(position);
+                position += 10;
+                positionY++;
+                ySearchLIst.add(pickBean);
+                Log.d("进入", "putY: " + position);
+            }
+        } else {// 开始统计中
+            if (picks == -15921907) {
+                ySearching = false;
+                ySearchLIst.get(positionY).setyEnd(position);
+                Log.d("退出", "putY: " + position);
+            }
+        }
+    }
+
+    private boolean juadge(int r, int g, int b) {
+        int i = 0;
+        if (r == 13) {
+            i++;
+        }
+
+        if (g == 13) {
+            i++;
+        }
+
+        if (b == 13) {
+            i++;
+        }
+
+        if (i == 3) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean putXRGB(int r, int g, int b, int position) {
+
+        if (!xSearching) {// 统计未开始
+            // 验证满足开始要求
+            if (juadge(r, g, b)) {
+                xSearching = true;
+                SearchXBean pickBean = new SearchXBean();
+                pickBean.setxStart(position);
+                positionX++;
+                xSearchList.add(pickBean);
+                return true;
+            }
+        } else {// 开始统计中
+            if (juadge(r, g, b)) {//再次找到  结束按钮
+                xSearching = false;
+                xSearchList.get(positionX).setxEnd(position);
+            }
+        }
+        return false;
+    }
+
+    private boolean putYRGB(int r, int g, int b, int position) {
+        if (!ySearching) {// 统计未开始
+            // 验证满足开始要求
+            if (juadge(r, g, b)) {
                 ySearching = true;
                 SearchYBean pickBean = new SearchYBean();
                 pickBean.setyStart(position);
                 positionY++;
                 ySearchLIst.add(pickBean);
+                Log.d("进入", "putY: " + position);
+                return true;
             }
         } else {// 开始统计中
-            if (picks == 123) {
-
-            } else {
+            if (juadge(r, g, b)) {
                 ySearching = false;
                 ySearchLIst.get(positionY).setyEnd(position);
-
+                Log.d("退出", "putY: " + position);
             }
         }
+        return false;
     }
 
 
-    public ArrayList<SearchResultXYBean> handResult(){
-        for (SearchYBean searchYBean : ySearchLIst) {
-            //TODO 直接X做好根据需要写死  根据分辨率修正
-            SearchResultXYBean searchResultXYBean = new SearchResultXYBean(0,searchYBean.getDistance()/2);
-            searchResult.add(searchResultXYBean);
+    public ArrayList<SearchResultXYBean> handResultY() {
+        if (ySearchLIst.size() > 2) {
+            for (int i = 0; i < ySearchLIst.size(); i++) {
+                if (i % 2 != 0) {
+                    SearchResultXYBean searchResultXYBean = new SearchResultXYBean();
+                    searchResultXYBean.setY(ySearchLIst.get(i-1).getyStart());
+                    searchResultXYBean.setyEnd(ySearchLIst.get(i).getyStart());
+                    searchResult.add(searchResultXYBean);
+                }
+            }
         }
         return searchResult;
+    }
+
+    public ArrayList<SearchYBean> getYList() {
+        return ySearchLIst;
+    }
+
+
+    public Bitmap getBitMap(int x, int y, int width, int height) {
+        Bitmap rectBitmap = Bitmap.createBitmap(mBi, x, y, width, height);
+        return rectBitmap;
     }
 
 }

@@ -5,12 +5,29 @@ package com.rabbitmeng.bean;
  */
 
 public class SearchResultXYBean {
-    private int x;
-    private int y;
+    private int x = -1;
+    private int y = -1;
+    private int xEnd = -1;
+    private int yEnd = -1;
 
-    public SearchResultXYBean(int x, int y) {
-        this.x = x;
-        this.y = y;
+
+    public SearchResultXYBean() {
+    }
+
+    public int getxEnd() {
+        return xEnd;
+    }
+
+    public void setxEnd(int xEnd) {
+        this.xEnd = xEnd;
+    }
+
+    public int getyEnd() {
+        return yEnd;
+    }
+
+    public void setyEnd(int yEnd) {
+        this.yEnd = yEnd;
     }
 
     public int getX() {

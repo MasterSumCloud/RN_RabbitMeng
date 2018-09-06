@@ -27,7 +27,7 @@ public class SearchYBean {
     }
 
     public int getDistance() {
-        return getyEnd()-getyStart();
+        return getyEnd()+getyStart();
     }
 
     public void setDistance(int distance) {

@@ -5,8 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.rabbitmeng.LongRunningService;
+import com.rabbitmeng.bean.SearchResultXYBean;
+import com.rabbitmeng.imagesearch.SearchImg;
+import com.rabbitmeng.utils.GsonUtil;
 import com.rabbitmeng.utils.SystemManager;
 import com.reactnativenavigation.controllers.SplashActivity;
+
+import java.util.ArrayList;
 
 public class MainActivity extends SplashActivity {
     @Override
@@ -18,5 +23,7 @@ public class MainActivity extends SplashActivity {
         //启动请示开战检测
         Intent serintent = new Intent(this, LongRunningService.class);
         startService(serintent);
+
+
     }
 }

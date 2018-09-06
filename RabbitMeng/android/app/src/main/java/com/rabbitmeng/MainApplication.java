@@ -3,14 +3,17 @@ package com.rabbitmeng;
 
 import com.facebook.react.ReactPackage;
 import com.rabbitmeng.android_upgrade.UpgradePackage;
+import com.rabbitmeng.bean.SearchResultXYBean;
+import com.rabbitmeng.imagesearch.SearchImg;
 import com.rabbitmeng.reactnative.StartActivityPackage;
+import com.rabbitmeng.utils.GsonUtil;
 import com.reactnativenavigation.NavigationApplication;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class MainApplication extends NavigationApplication {
-
     @Override
     public boolean isDebug() {
         // Make sure you are using BuildConfig from your own application

@@ -23,7 +23,9 @@ import android.widget.Toast;
 import com.rabbitmeng.Constant;
 import com.rabbitmeng.R;
 import com.rabbitmeng.adapter.WarStartAdapter;
+import com.rabbitmeng.bean.SearchResultXYBean;
 import com.rabbitmeng.bean.WarStartBean;
+import com.rabbitmeng.imagesearch.SearchImg;
 import com.rabbitmeng.utils.GsonUtil;
 import com.rabbitmeng.utils.SPUtil;
 
@@ -100,6 +102,11 @@ public class WarStartManageActivity extends Activity implements View.OnClickList
 
         getLastList();
 
+//        SearchImg searchImg = new SearchImg("/sdcard/cocl.png");
+//        SearchImg searchImg = new SearchImg("/storage/emulated/0/test28.png");
+//        ArrayList<SearchResultXYBean> searchResultXYBeans = searchImg.handResultY();
+//        System.out.println("结果=="+ GsonUtil.GsonString(searchResultXYBeans));
+//        System.out.println("结果Y=="+ GsonUtil.GsonString(searchImg.getYList()));
 
     }
 
